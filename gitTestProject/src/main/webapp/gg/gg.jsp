@@ -7,6 +7,6 @@
 <title>강근</title>
 </head>
 <body>
-	<p>분기</p>
+	<p>2분기</p>
 </body>
 </html>
