@@ -38,7 +38,7 @@
       <div class="header-link">
       <%if(m == null){%>
    		<!-- 모달 id와 target 이름 맞추기 -->
-        <button class="btn bc11 modal-open-btn" target="#login-modal">SIGN IN</button>
+        <a class="btn bc11" href="/signinFrm.do">SIGN UP</a>
         <a class="btn bc11" href="/signupFrm.do">SIGN UP</a>
       <%}else {%>
       	<!-- 로그인 성공시 회원 이름 출력 -->
@@ -50,9 +50,13 @@
       <%} %>
       </div>
     </header>
+    
+     
+    
     <!-- 로그인 안되어있을때만 모달 나오게함 -->
+    <%--
     <%if(m == null){%>
-    <!-- 모달 -->
+   	<!-- 모달 -->
     <div id="login-modal" class="modal-bg">
       <div class="modal-wrap">
         <div class="modal-head">
@@ -75,12 +79,11 @@
           </div>
         </div>
         <div class="modal-foot">
-          <button type="submit" class="btn bc11">로그인</button>
+          <button type="submit" class="btn bc11">로그인</button> 
           <!-- form태그안에 button태그는 자동으로 submit 되므로 type 설정해주기 -->
-          <button type="button" class="btn bc1 modal-close">취소</button>
+        <button type="button" class="btn bc1 modal-close">취소</button>
         </div>
         </form>
       </div>
     </div>
-    <%} %>
-    
+    <%} %>   --%>
