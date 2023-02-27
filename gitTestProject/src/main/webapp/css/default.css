@@ -25,6 +25,7 @@
     darkgray : #393E46
     lightgray : #EEEEEE
     dark-mint : #00ADB5
+    pastel blue : #0B6DB7
     mint : #08D9D6
     point-red : #FF2E63
     point-pink : #F85F73
@@ -36,7 +37,7 @@
 * {
   margin: 0;
   padding: 0;
-  color: #252a34;
+  color: #252A34;
   font-family: ns-m;
 }
 body {
@@ -49,10 +50,10 @@ a {
   text-decoration: none;
 }
 header {
-  background-color: #252a34;
   padding: 32px;
   display: flex;
   min-width: 1200px;
+  border-bottom: 2px solid  rgba(150, 150, 150);
 }
 header > *:not(.header-link) {
   float: left;
@@ -61,9 +62,9 @@ header > .site-logo {
   padding: 0px 20px;
 }
 header > .site-logo > a {
-  color: #fff;
+  color: #0B6DB7;
   font-family: ns-bold;
-  font-size: 24px;
+  font-size: 36px;
   line-height: 60px;
 }
 header > nav {
@@ -133,7 +134,7 @@ header > nav .sub-navi > li:hover {
 }
 footer {
   padding: 50px;
-  border-top: 1px solid #252a34;
+  border-top: 1px solid #252A34;
 }
 footer > .footer-content {
   width: 1200px;
@@ -174,7 +175,7 @@ footer > .footer-content > ul > li > a {
 
 /* 글씨 색 */
 .fc-1 {
-  color: #252a34;
+  color: #252A34;
 }
 .fc-2 {
   color: #393e46;
@@ -200,7 +201,7 @@ footer > .footer-content > ul > li > a {
 
 /* 배경 색*/
 .bg-1 {
-  background-color: #252a34;
+  background-color: #252A34;
 }
 .bg-2 {
   background-color: #393e46;
@@ -311,7 +312,7 @@ footer > .footer-content > ul > li > a {
 }
 .bc3 {
   background-color: rgba(238, 238, 238, 0.9);
-  color: #252a34;
+  color: #252A34;
   border: 2px solid rgba(238, 238, 238, 0.9);
 }
 .bc3:hover {
@@ -361,6 +362,15 @@ footer > .footer-content > ul > li > a {
 }
 .bc8:hover {
   background-color: rgba(137, 44, 220, 1);
+  cursor: pointer;
+}
+.bc9 {
+  background-color: rgba(11, 109, 183, 0.9);
+  color: #fff;
+  border: 2px solid rgba(11, 109, 183, 0.9);
+}
+.bc9:hover {
+  background-color: rgba(11, 109, 183, 1);
   cursor: pointer;
 }
 .bc11 {
@@ -443,6 +453,16 @@ footer > .footer-content > ul > li > a {
   color: #fff;
   cursor: pointer;
 }
+.bc99 {
+  color: rgba(11, 109, 183, 1);
+  background-color: #fff;
+  border: 2px solid rgba(11, 109, 183, 1);
+}
+.bc99:hover {
+  background-color: rgba(11, 109, 183, 1);
+  color: #fff;
+  cursor: pointer;
+}
 .bs1 {
   padding: 1rem;
 }
@@ -512,7 +532,7 @@ textarea.input-form {
   line-height: 40px;
 }
 .pagination .page-item.active-page {
-  background-color: #252a34;
+  background-color: #252A34;
   color: #fff;
 }
 /*게시물 표현*/

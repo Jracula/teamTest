@@ -20,20 +20,7 @@
         <a href="/">LITBOOKS</a>
       </div>
       <nav>
-        <ul class="navi">
-          <li><a href="/noticeList.do?reqPage=1">공지사항</a></li>
-          <li><a href="/boardList.do">자유게시판</a></li>
-          <li><a href="/ajax.do">AJAX</a></li>
-          <li><a href="/photoList.do">사진게시판</a></li>
-          <li>
-			<a href="#">API</a>
-            <ul class="sub-navi">
-              <li><a href="/email.do">email</a></li>
-              <li><a href="/map.do">Map</a></li>
-              <li><a href="/pay.do">결제</a></li>
-            </ul>
-           </li>
-        </ul>
+      	<div class="search-bar" style="text-align: center; text-indent:-100px;">Q 검색바 위치</div>
       </nav>
       <div class="header-link">
       <%if(m == null){%>
@@ -45,6 +32,7 @@
       	<!-- 마이페이지1 : /mypage1.do -->
       	<!-- <a class="btn bc11" href="/mypage1.do"><%=m.getMemberName() %></a> --> 
       	<!-- 마이페이지2 : 세션에서 꺼낸 memberId를 키값에넣어 보내줌 -->
+      	<a class="btn bc11" href="#">장바구니</a>
       	<a class="btn bc11" href="/mypage2.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
       	<a class="btn bc11" href="/logout.do">LOGOUT</a>
       <%} %>
