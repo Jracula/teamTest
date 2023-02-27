@@ -1,6 +1,7 @@
 package com.litbooks.book.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,8 +44,11 @@ public class BookDetailServlet extends HttpServlet {
 			request.setAttribute("loc", "/index.jsp");
 			view.forward(request, response);
 		} else {
+			// 시리즈물 조회를 위해서 selectSeriesBooks 함수 호출
+			ArrayList<Book> list = service.selectSeriesBooks(b.getBook1st());
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookDetail.jsp");
 			request.setAttribute("b", b);
+			request.setAttribute("seriesList", list);
 			view.forward(request, response);
 		}
 	}
