@@ -52,7 +52,13 @@
 		<div>
 			<div>
 				<p>작품 소개</p>
-				<div><%=b.getBookIntro() %></div>
+				<div>
+				<%if (b.getBookIntro()!=null){%>
+				<%=b.getBookIntro() %>
+				<%}else{ %>
+				작품 소개가 없습니다.
+				<%} %>
+				</div>
 				<a class="btn bc3">더 보기 버튼</a> <%--누르면 부모 요소의 height를 넓힘--%>
 			</div>
 		</div>
