@@ -3,34 +3,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
-    	//OrderB or = (OrderB)request.getAttribute("or");
     	ArrayList<OrderB> list = (ArrayList<OrderB>)request.getAttribute("list");
+    	String pageNavi = (String)request.getAttribute("pageNavi");
+    	int start = (int)request.getAttribute("start");
     %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.orberB-tbl a:hover{
+		text-decoration: underline;
+	}
+	.orberB-tbl tr{
+		border-bottom: 1px solid #ccc
+	}
+	.orberB-tbl tr>td:nth-child(2) {
+		text-align: left;
+	}
+	#pageNavi{
+		margin: 30px;
+	}
+</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="page-title">결제(주문)내역</div>
-			<form action="/orderList.do?memberNo=2">
+			<form action="/orderList.do?reqPage=1&memberNo=2">
 				<!-- /orderList.do?memberNo=2&bookNo=1&bookPrice=3000 -->
-				<table class="tbl">
+				<table class="tbl tbl-hober orberB-tbl">
 					<tr class="tr-2">
-						<th>주문번호</th>
-						<th>구매일</th>
-						<th>결제내역</th>
-						<th>주문금액</th>
-						<th>결제수단</th>
+						<th width="20%">주문번호</th>
+						<th width="20%">구매일</th>
+						<th width="20%">결제내역</th>
+						<th width="20%">주문금액</th>
+						<th width="20%">결제수단</th>
 					</tr>
 					
-					<tr class="tr-2">
 						<% for(int i=0; i<list.size(); i++) { %>
 							<%OrderB o = list.get(i); %>
-							<td><%=o.getOrderNo() %></td>
+					<tr class="tr-1">
+							<td><%=i+start %></td>
 							<td><%=o.getOrderRegDate() %></td>
 							<td><%=o.getBook_title() %></td>
 							<td><%=o.getOrderPrice() %></td>
@@ -38,6 +53,9 @@
 						<% } %>
 					</tr>
 				</table>
+				
+				<div id="pageNavi"><%=pageNavi %></div>
+				
 			</form>
 		</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

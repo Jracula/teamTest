@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.orderB.service.OrderBService;
 import com.litbooks.orderB.vo.OrderB;
+import com.litbooks.orderB.vo.OrderBPageData;
 
 /**
  * Servlet implementation class OrderListServlet
@@ -34,16 +35,16 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		//int bookNo = Integer.getInteger(request.getParameter("bookNo"));
-		//int bookPrice = Integer.getInteger(request.getParameter("bookPrice"));
-		int memberNo = Integer.getInteger(request.getParameter("memberNo"));
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		
 		OrderBService service = new OrderBService();
-		// 어떤 회원이 주문을 했는지 조회
-		//OrderB o = service.selectOneOrder(memberNo);
-		ArrayList<OrderB> list = service.selectAllOrder(memberNo);
+		//ArrayList<OrderB> list = service.selectAllOrder(memberNo);
+		OrderBPageData opd = service.selectAllOrder(memberNo, reqPage);
 		
-		if(list.isEmpty()) {
+		
+		//if(list.isEmpty()) {
+		if(opd == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "결제하지 않은 회원입니다.");
@@ -52,9 +53,10 @@ public class OrderListServlet extends HttpServlet {
 			view.forward(request, response);
 		} else {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/orderList.jsp");
-			//ArrayList<OrderB> list = service.selectAllOrder(memberNo);
-			//request.setAttribute("or", o);
-			request.setAttribute("list", list);
+			request.setAttribute("list", opd.getList());
+			request.setAttribute("pageNavi", opd.getPageNavi());
+			request.setAttribute("start", opd.getStart());
+			//request.setAttribute("list", list);
 			view.forward(request, response);
 		}
 		

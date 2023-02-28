@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.litbooks.orderB.service.OrderBService;
+import com.litbooks.orderB.vo.OrderB;
+
 /**
  * Servlet implementation class OrderPayMentServlet
  */
@@ -30,8 +33,23 @@ public class OrderPayMentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/orderPayMent.jsp");
-		view.forward(request, response);
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		int bookNo = Integer.parseInt(request.getParameter("bookNo"));
+		
+		OrderBService service = new OrderBService();
+		
+		OrderB order = service.selectOrderNumber(memberNo, bookNo);
+		
+		if(order == null) {
+			request.setAttribute("title", "");
+			request.setAttribute("msg", "");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/orderPayMent.do");
+		} else {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/orderPayMent.jsp");
+			request.setAttribute("order", order);
+			view.forward(request, response);
+		}
 	}
 
 	/**
