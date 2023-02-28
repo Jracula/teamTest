@@ -50,7 +50,7 @@ public class BookDao {
 		}
 		return b;
 	}
-	
+
 
 	//시리즈물인 책들의 bookNo들을 ArrayList로 넘겨주기 위한 함수
 	public ArrayList<Book> selectSeriesBooks(Connection conn, int book1st){
@@ -76,6 +76,88 @@ public class BookDao {
 				int onSale = rset.getInt("ONSALE");
 				String bookIntro = rset.getString("BOOK_INTRO");
 				int bookEpi = rset.getInt("BOOK_EPI");
+				int nonFee = rset.getInt("NONFEE");
+				String bookImage = rset.getString("BOOK_IMAGE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+
+	//책제목으로 검색
+	public ArrayList<Book> selectBooksByTitle(Connection conn, String searchTitle, int onSale){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		ArrayList<Book> list = new ArrayList<Book>();
+
+		String query = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE '%?%') AND (ONSALE=?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, searchTitle);
+			pstmt.setInt(2, onSale);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				int bookNo = rset.getInt("BOOK_NO");
+				String bookTitle = rset.getString("BOOK_TITLE");
+				String bookGenre = rset.getString("BOOK_GENRE");
+				String writer = rset.getString("WRITER");
+				String publisher = rset.getString("PUBLISHER");
+				int bookPrice = rset.getInt("BOOK_PRICE");
+				int discount = rset.getInt("DISCOUNT");
+				String bookIntro = rset.getString("BOOK_INTRO");
+				int bookEpi = rset.getInt("BOOK_EPI");
+				int book1st = rset.getInt("BOOK_1ST");
+				int nonFee = rset.getInt("NONFEE");
+				String bookImage = rset.getString("BOOK_IMAGE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+
+	//작가이름으로 검색
+	public ArrayList<Book> selectBooksByWriter(Connection conn, String searchTitle, int onSale){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		ArrayList<Book> list = new ArrayList<Book>();
+
+		String query = "SELECT * FROM BOOK WHERE (WRITER LIKE '%?%') AND (ONSALE=?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, searchTitle);
+			pstmt.setInt(2, onSale);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				int bookNo = rset.getInt("BOOK_NO");
+				String bookTitle = rset.getString("BOOK_TITLE");
+				String bookGenre = rset.getString("BOOK_GENRE");
+				String writer = rset.getString("WRITER");
+				String publisher = rset.getString("PUBLISHER");
+				int bookPrice = rset.getInt("BOOK_PRICE");
+				int discount = rset.getInt("DISCOUNT");
+				String bookIntro = rset.getString("BOOK_INTRO");
+				int bookEpi = rset.getInt("BOOK_EPI");
+				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
 				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);

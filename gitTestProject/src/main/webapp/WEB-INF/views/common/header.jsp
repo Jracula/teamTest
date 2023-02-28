@@ -1,4 +1,4 @@
-<%@page import="kr.or.iei.member.model.vo.Member"%>
+<%@page import="com.litbooks.member.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
@@ -25,8 +25,8 @@
       <div class="header-link">
       <%if(m == null){%>
    		<!-- 모달 id와 target 이름 맞추기 -->
-        <a class="btn bc11" href="/signinFrm.do">SIGN UP</a>
-        <a class="btn bc11" href="/signupFrm.do">SIGN UP</a>
+        <a class="btn bc11" href="/signinFrm.do">로그인</a>
+        <a class="btn bc11" href="/signupFrm.do">회원가입</a>
       <%}else {%>
       	<!-- 로그인 성공시 회원 이름 출력 -->
       	<!-- 마이페이지1 : /mypage1.do -->

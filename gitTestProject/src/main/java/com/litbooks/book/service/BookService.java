@@ -24,6 +24,7 @@ public class BookService {
 		return b;
 	}
 
+
 	//시리즈물인 책들의 bookNo들을 ArrayList로 넘겨주기 위한 함수
 	public ArrayList<Book> selectSeriesBooks(int book1st){
 		Connection conn = JDBCTemplate.getConnection();
@@ -32,5 +33,22 @@ public class BookService {
 		return list;
 	}
 
-	
+
+	//책제목으로 검색
+	public ArrayList<Book> selectBooksByTitle(String searchTitle, int onSale){
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Book> list = dao.selectBooksByTitle(conn, searchTitle, onSale);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+
+	//작가이름으로 검색
+	public ArrayList<Book> selectBooksByWriter(String searchTitle, int onSale){
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Book> list = dao.selectBooksByWriter(conn, searchTitle, onSale);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
 }
