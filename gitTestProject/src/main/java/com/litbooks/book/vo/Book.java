@@ -42,6 +42,21 @@ public class Book {
 		this.bookImage = bookImage;
 	}
 
+	// 신규 책 등록용 생성자
+	public Book(String bookTitle, String bookGenre, String writer, String publisher, int bookPrice, int discount, String bookIntro, int bookEpi, int book1st, int nonFee) {
+		super();
+		this.bookTitle = bookTitle;
+		this.bookGenre = bookGenre;
+		this.writer = writer;
+		this.publisher = publisher;
+		this.bookPrice = bookPrice;
+		this.discount = discount;
+		this.bookIntro = bookIntro;
+		this.bookEpi = bookEpi;
+		this.book1st = book1st;
+		this.nonFee = nonFee;
+	}
+
 	// 일부 추려낸 생성자
 	public Book(int bookNo, String bookTitle, String bookGenre, int bookPrice, int discount, int bookEpi, int book1st, int nonFee) {
 		super();

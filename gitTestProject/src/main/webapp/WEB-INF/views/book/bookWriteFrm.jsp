@@ -38,7 +38,7 @@
 					</td>
 					<th class="td-3" rowspan="2">무료 감상</th>
 					<td rowspan="2">
-						<input type="checkbox" name="nonFee" class="input-form">
+						<input type="checkbox" name="nonFee" value="1" class="input-form">
 					</td>
 				</tr>
 				<tr class="tr-1">
@@ -56,8 +56,6 @@
 					<td>
             			<select name="bookGenre">
                 			<option value="">(없음)</option>
-                			<option value="BL">BL</option>
-                			<option value="GL">GL</option>
                 			<option value="공포">공포</option>
                 			<option value="국내순정">국내순정</option>
                 			<option value="드라마">드라마</option>

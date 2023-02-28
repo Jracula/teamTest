@@ -45,7 +45,10 @@ public class BookDetailServlet extends HttpServlet {
 			view.forward(request, response);
 		} else {
 			// 시리즈물 조회를 위해서 selectSeriesBooks 함수 호출
-			ArrayList<Book> list = service.selectSeriesBooks(b.getBook1st());
+			ArrayList<Book> list = new ArrayList<Book>();
+			if(b.getBook1st()!=0) {	//book1st가 0일 때는 받지 않음
+				list = service.selectSeriesBooks(b.getBook1st());
+			}
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookDetail.jsp");
 			request.setAttribute("b", b);
 			request.setAttribute("seriesList", list);
