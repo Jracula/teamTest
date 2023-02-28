@@ -27,7 +27,7 @@
       <%if(m == null){%>
    		<!-- 모달 id와 target 이름 맞추기 -->
         <a class="btn bc11" href="/signinFrm.do">로그인</a>
-        <a class="btn bc11" href="/signupFrm.do">회원가입</a>
+        <a class="btn bc11" href="/joinFrm.do">회원가입</a>
       <%}else {%>
       	<!-- 로그인 성공시 회원 이름 출력 -->
       	<!-- 마이페이지1 : /mypage1.do -->
