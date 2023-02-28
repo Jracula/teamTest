@@ -15,7 +15,7 @@
 	<p>민경준 p태그 삽입</p>
 	<p>허샛별 p태그 삽입~</p>
 	<p>김범진 p태그 삽입^^</p>
-	<p>장형천 p태그 삽입</p>
+	<a href="/boardList.do">장형천 p태그 삽입</a>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>
