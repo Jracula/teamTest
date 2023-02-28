@@ -45,13 +45,11 @@ public class BookWriteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession(false);
-		Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {
+	//	Member m = (Member) session.getAttribute("m");
+	//	if (m.getMemberLevel() == 1) {	//관리자 계정인지 확인
 
-			// multipart/form-data형식이면 데이터를 변환 후 출력 (cos.jar을 이용)
-			// 2-1 파일이 업로드될 경로를 지정
 			String root = getServletContext().getRealPath("/"); // "/"의 절대 경로를 산출
-			String saveDirectory = root + "upload/book";
+			String saveDirectory = root + "upload/book/cover-image";
 			// 2-2 업로드 파일의 최대용량을 설정 (일반적으로 10MB)
 			int maxSize = 10 * 1024 * 1024;
 			// 2-3 multipart/form-data에서 데이터를 꺼내기 위한 객체 변환
@@ -62,40 +60,78 @@ public class BookWriteServlet extends HttpServlet {
 			String bookTitle = mRequest.getParameter("bookTitle");
 			String filepath = mRequest.getFilesystemName("imagefile");
 			int bookEpi = Integer.parseInt(mRequest.getParameter("bookEpi"));
-			int book1st = Integer.parseInt(mRequest.getParameter("book1st"));
-			int nonFee = Integer.parseInt(mRequest.getParameter("nonFee"));
+			int book1st = 0;	//book1st값을 받지 않았을 경우를 위해 0으로 초기화
+			if(mRequest.getParameter("book1st").length()!=0) {
+				book1st = Integer.parseInt(mRequest.getParameter("book1st"));
+			}
+			int nonFee = 0;	//0으로 초기화
+			if(mRequest.getParameter("nonFee")!=null) {
+				nonFee = Integer.parseInt(mRequest.getParameter("nonFee"));
+			}
 			int bookPrice = Integer.parseInt(mRequest.getParameter("bookPrice"));
 			int discount = Integer.parseInt(mRequest.getParameter("discount"));
 			String bookGenre = mRequest.getParameter("bookGenre");
-			String bookWriter = mRequest.getParameter("bookWriter");
-			String bookContent = mRequest.getParameter("bookContent");
-			Book n = new Book();
-			n.setBookTitle(bookTitle);
-			n.setBookWriter(bookWriter);
-			n.setBookContent(bookContent);
-			n.setFilepath(filepath);
+			String writer = mRequest.getParameter("writer");
+			String publisher = mRequest.getParameter("publisher");
+			String bookIntro = mRequest.getParameter("bookIntro");
+
+			Book b = new Book();
+			b.setBookTitle(bookTitle);
+			b.setBookGenre(bookGenre);
+			if(writer.length()==0) {
+				b.setWriter("작자미상");
+			}else {
+				b.setWriter(writer);
+			}
+			if(publisher.length()==0) {
+				b.setPublisher("출판사불명");
+			}else {
+				b.setPublisher(publisher);
+			}
+			b.setBookPrice(bookPrice);
+			b.setDiscount(discount);
+			b.setBookIntro(bookIntro);
+			b.setBookEpi(bookEpi);
+			b.setBook1st(book1st);
+			b.setNonFee(nonFee);
 			BookService service = new BookService();
-			int result = service.insertBook(n);
+			int result = service.insertBook(b);
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			if (result > 0) {
+				int lastestBookNo = service.getLatestBookNo();
+				if(book1st==0) {
+					//신규 도서의 book1st가 0이면, 자신의 bookNo값으로 치환해주는 service 호출
+					service.book1stToBookNo(lastestBookNo);
+				}
+				if(filepath != null) {
+					// SQL insert 후, 다시 SQL로 마지막 row의 bookNo를 얻어내고 파일명을 변경
+					String numbering = String.format("%08d", lastestBookNo);
+					String format = filepath.substring(filepath.lastIndexOf(".")); //.확장자
+					String newFilePath = numbering + format;
+					service.updateBookImage(newFilePath, lastestBookNo);
+				
+					java.io.File fullPath = new java.io.File(saveDirectory + "/" + filepath);
+					java.io.File newFullPath = new java.io.File(saveDirectory + "/" + newFilePath);
+					fullPath.renameTo(newFullPath);
+				}
 				request.setAttribute("title", "등록 성공");
-				request.setAttribute("msg", "정상적으로 새 공지사항이 등록되었습니다.");
+				request.setAttribute("msg", "정상적으로 신규 도서가 등록되었습니다.");
 				request.setAttribute("icon", "success");
 			} else {
 				request.setAttribute("title", "등록 실패");
-				request.setAttribute("msg", "알 수 없는 이유로 공지사항 등록에 실패했습니다.\n글자 수 제한을 넘겼을 수 있습니다.");
+				request.setAttribute("msg", "알 수 없는 이유로 신규 도서 등록에 실패했습니다.\n허용 글자 수 제한을 넘겼을 수 있습니다.");
 				request.setAttribute("icon", "error");
 			}
-			request.setAttribute("loc", "/booklist.do");
+			request.setAttribute("loc", "/index.jsp");
 			view.forward(request, response);
-		} else {
+	/*	} else {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "접근 제한");
-			request.setAttribute("msg", "공지사항 작성은 관리자만 가능합니다.");
+			request.setAttribute("msg", "신규 도서 등록은 관리자만 가능합니다.");
 			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/booklist.do");
+			request.setAttribute("loc", "/index.jsp");
 			view.forward(request, response);
-		}
+		}*/
 	}
 
 }
