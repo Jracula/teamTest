@@ -69,19 +69,22 @@ public class OrderBDao {
 	}
 
 	// 어떤 회원이 결제했는지 조회
-	public OrderB selectOrderNumber(Connection conn, int memberNo, int bookNo) {
+	public OrderB selectOrderNumber(Connection conn, int memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		OrderB o = null;
 		
-		String query = "select m.member_no, b.book_no, b.book_price, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no)";
+		String query = "select m.member_no, b.book_no, b.book_price, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no) where m.member_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				o = new OrderB();
 				o.setMemberNo(rset.getInt("member_no"));
+				System.out.println(o.getMemberNo());
 				o.setBookNo(rset.getInt("book_no"));
+				System.out.println(o.getBookNo());
 				o.setBookPrice(rset.getInt("book_price"));
 				o.setOrderPrice(rset.getInt("order_price"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));

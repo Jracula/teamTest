@@ -1,5 +1,9 @@
+<%@page import="com.litbooks.orderB.vo.OrderB"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+    	OrderB order = (OrderB)request.getAttribute("order");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,12 +19,16 @@
             height: 50px;
             font-size: 24px;
         }
+        
+        input {
+        	border: none;
+        }
     </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-	<form action="/orderPayMent.do?memberNo=2&bookNo=2">
+	<form action="/orderPayMent.do?memberNo=2&bookNo=1">
     <div class="order-list">
         <div class="order-title">
             <h2>주문목록</h2>
@@ -38,17 +46,21 @@
         <div class="order-content">
             <div class="order-info"><h2>결제정보</h2>
                 <table>
+                	<tr>
+                		<td><input type="hidden" name="memeberNo" value="<%=order.getMemberNo() %>"></td>
+                		<td><input type="hidden" name="bookNo" value="2"></td>
+                	</tr>
                     <tr>
-                        <th>총 주문 금액</th> <!-- orderB 총 가격(order_price) -->
-                        <td><input type="text" id="price" name="bookPrice"></td>
+                        <td>총 주문 금액 : </td> <!-- orderB 총 가격(order_price) -->
+                        <td><input type="text" id="price" readonly value="<%=order.getBookPrice()%>"></td>
                     </tr>
                     <tr>
                         <td>할인율</td>
                         <td><input type="text" id="sale"></td>
                     </tr>
                     <tr>
-                        <th>총 결제 금액</th> <!-- orderB 총 가격(order_price) -->
-                        <td><input type="text" id="Allprice" name="orderPrice"></td>
+                        <td>총 결제 금액 : </td> <!-- orderB 총 가격(order_price) -->
+                        <td><input type="text" id="Allprice" readonly value="<%=order.getOrderPrice() %>"></td>
                     </tr>
                 </table>
                 <p><h4>구매동의</h4></p>

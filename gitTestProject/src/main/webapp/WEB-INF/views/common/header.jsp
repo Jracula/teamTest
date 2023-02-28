@@ -6,6 +6,7 @@
     %> <!-- 로그인 정보 -->
 
     <!-- 구글 아이콘 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- jquery -->
     <script src="/js/jquery-3.6.0.js"></script>

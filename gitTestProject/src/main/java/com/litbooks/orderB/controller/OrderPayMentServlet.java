@@ -33,16 +33,17 @@ public class OrderPayMentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		int memberNo = Integer.parseInt(request.getParameter("memberNo")); // null??
 		int bookNo = Integer.parseInt(request.getParameter("bookNo"));
 		
 		OrderBService service = new OrderBService();
 		
-		OrderB order = service.selectOrderNumber(memberNo, bookNo);
+		// 가격을 가져오기 위해서 
+		OrderB order = service.selectOrderNumber(memberNo);
 		
 		if(order == null) {
-			request.setAttribute("title", "");
-			request.setAttribute("msg", "");
+			request.setAttribute("title", "오류");
+			request.setAttribute("msg", "에러");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/orderPayMent.do");
 		} else {

@@ -94,9 +94,9 @@ public class OrderBService {
 	}
 
 	// 어떤회원이 결제했는지 조회
-	public OrderB selectOrderNumber(int memberNo, int bookNo) {
+	public OrderB selectOrderNumber(int memberNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		OrderB o = dao.selectOrderNumber(conn, memberNo, bookNo);
+		OrderB o = dao.selectOrderNumber(conn, memberNo);
 		JDBCTemplate.close(conn);
 		return o;
 	}
