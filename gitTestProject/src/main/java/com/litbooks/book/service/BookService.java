@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.litbooks.book.dao.BookDao;
 import com.litbooks.book.vo.Book;
+import com.litbooks.book.vo.Recomm;
 
 import common.JDBCTemplate;
 
@@ -34,6 +35,57 @@ public class BookService {
 	}
 
 
+	//책 1권 신규 등록
+	public int insertBook(Book b) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.insertBook(conn, b);
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	
+	//가장 마지막으로 등록된 책의 bookNo를 알아오기 위한 함수  
+	public int getLatestBookNo() {
+		Connection conn = JDBCTemplate.getConnection();
+		int bookNo = dao.getLatestBookNo(conn);
+		JDBCTemplate.close(conn);
+		return bookNo;
+	}
+
+
+	//신규 도서의 book1st가 0이면, 자신의 bookNo값으로 치환해주는 service 호출
+	public int book1stToBookNo(int bookNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.book1stToBookNo(conn, bookNo);
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+
+	//신규 등록 도서의 이미지가 있었을 경우, 이미지 파일명 재설정 
+	public void updateBookImage(String newFilePath, int bookNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateBookImage(conn, newFilePath, bookNo);
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return;
+	}
+	
+	
 	//책제목으로 검색
 	public ArrayList<Book> selectBooksByTitle(String searchTitle, int onSale){
 		Connection conn = JDBCTemplate.getConnection();
@@ -50,5 +102,14 @@ public class BookService {
 		JDBCTemplate.close(conn);
 		return list;
 	}
+	//댓글 입력
+	public int insertRecomm(Recomm rc) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.insertRecomm(conn,rc);
+		
+		return result;
+	}
+
+	
 
 }

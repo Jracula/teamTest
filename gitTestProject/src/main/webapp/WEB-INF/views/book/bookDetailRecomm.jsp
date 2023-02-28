@@ -52,13 +52,7 @@
 		<div>
 			<div>
 				<p>작품 소개</p>
-				<div>
-				<%if (b.getBookIntro()!=null){%>
-				<%=b.getBookIntro() %>
-				<%}else{ %>
-				작품 소개가 없습니다.
-				<%} %>
-				</div>
+				<div><%=b.getBookIntro() %></div>
 				<a class="btn bc3">더 보기 버튼</a> <%--누르면 부모 요소의 height를 넓힘--%>
 			</div>
 		</div>
@@ -101,7 +95,15 @@
 		
 		<!-- 댓글 후기 노출 영역 -->
 		
-	
+		<h1 class="rating-top1">평점 & 후기</h1>
+		<div class="star">  </div>
+		<p class="rating-top2">평점을 입력해주세요</p>
+		<div class="insert-box"> 
+			<div class="insert-box top"></div>
+			<div class="insert-box content"> <input type="text" name="Write"id="Write"class="Write"></div>
+			
+		</div>
+	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>
