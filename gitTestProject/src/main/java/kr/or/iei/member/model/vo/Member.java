@@ -6,7 +6,7 @@ public class Member {
 	private String memberPw;
 	private String memberName;
 	private String memberPhone;
-	private String memberAddr;
+	private String memberEmail;
 	private int memberLevel;
 	private String enrollDate;
 
@@ -55,14 +55,6 @@ public class Member {
 		this.memberPhone = memberPhone;
 	}
 
-	public String getMemberAddr() {
-		return memberAddr;
-	}
-
-	public void setMemberAddr(String memberAddr) {
-		this.memberAddr = memberAddr;
-	}
-
 	public int getMemberLevel() {
 		return memberLevel;
 	}
@@ -79,4 +71,13 @@ public class Member {
 		this.enrollDate = enrollDate;
 	}
 
+	public String getMemberEmail() {
+		return memberEmail;
+	}
+
+	public void setMemberEmail(String memberEmail) {
+		this.memberEmail = memberEmail;
+	}
+
+	
 }
