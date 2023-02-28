@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.litbooks.book.dao.BookDao;
 import com.litbooks.book.vo.Book;
+import com.litbooks.book.vo.Recomm;
 
 import common.JDBCTemplate;
 
@@ -50,5 +51,14 @@ public class BookService {
 		JDBCTemplate.close(conn);
 		return list;
 	}
+	//댓글 입력
+	public int insertRecomm(Recomm rc) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.insertRecomm(conn,rc);
+		
+		return result;
+	}
+
+	
 
 }
