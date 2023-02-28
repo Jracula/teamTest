@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.book.vo.Book;
+import com.litbooks.book.vo.Recomm;
 
 import common.JDBCTemplate;
 
@@ -172,5 +173,29 @@ public class BookDao {
 		}
 		return list;
 	}
+
+
+	public int insertRecomm(Connection conn, com.litbooks.book.vo.Recomm rc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'))";
+		//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
+		try {
+			pstmt = conn.prepareStatement(qurey);
+	        pstmt.setInt(1, rc.getBookNo());
+	        pstmt.setString(2, rc.getMemberId());
+	        pstmt.setString(3, rc.getRecommContent());
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+	
 
 }
