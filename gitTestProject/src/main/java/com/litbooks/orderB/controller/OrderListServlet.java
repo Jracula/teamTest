@@ -34,14 +34,29 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		int orderNo = Integer.getInteger(request.getParameter("orderNo"));
+		//int bookNo = Integer.getInteger(request.getParameter("bookNo"));
+		//int bookPrice = Integer.getInteger(request.getParameter("bookPrice"));
+		int memberNo = Integer.getInteger(request.getParameter("memberNo"));
+		
 		OrderBService service = new OrderBService();
+		// 어떤 회원이 주문을 했는지 조회
+		//OrderB o = service.selectOneOrder(memberNo);
+		ArrayList<OrderB> list = service.selectAllOrder(memberNo);
 		
-		ArrayList<OrderB> list = service.selectAllOrder();
-		
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/order/orderList.jsp");
-		request.setAttribute("list", list);
-		view.forward(request, response);
+		if(list.isEmpty()) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("title", "조회 실패");
+			request.setAttribute("msg", "결제하지 않은 회원입니다.");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/index.jsp");
+			view.forward(request, response);
+		} else {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/orderList.jsp");
+			//ArrayList<OrderB> list = service.selectAllOrder(memberNo);
+			//request.setAttribute("or", o);
+			request.setAttribute("list", list);
+			view.forward(request, response);
+		}
 		
 	}
 
