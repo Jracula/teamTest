@@ -64,7 +64,7 @@ public class BookWriteServlet extends HttpServlet {
 			if(mRequest.getParameter("book1st").length()!=0) {
 				book1st = Integer.parseInt(mRequest.getParameter("book1st"));
 			}
-			int nonFee = 0;	//기본값인 무료 감상이 체크되지 않은 상태를 위해 0으로 초기화
+			int nonFee = 0;	//기본값(무료 감상이 체크되지 않은 상태)를 위해 0으로 초기화
 			if(mRequest.getParameter("nonFee")!=null) {
 				nonFee = Integer.parseInt(mRequest.getParameter("nonFee"));
 			}

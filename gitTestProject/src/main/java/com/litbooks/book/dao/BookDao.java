@@ -201,33 +201,19 @@ public class BookDao {
 	}
 
 	
-	//책제목으로 검색
-	public ArrayList<Book> selectBooksByTitle(Connection conn, String searchTitle, int onSale, String selectedGenre[]){
+	//header의 검색바에서 검색
+	public ArrayList<Book> selectBooksInHeader(Connection conn, String searchKeyword){
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
 
-		String query_head = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE '%?%') AND (ONSALE=?";
-		String query_body = "";
-		if(selectedGenre.length!=0) {
-			query_body=") AND BOOK_GENRE IN (?";
-			for(int i=1; i<selectedGenre.length; i++) {
-				query_body += ", ?";
-			}
-		}
-		String query_tail = ")";
-		String query = query_head+query_body+query_tail;
+		String query = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) OR (WRITER LIKE ?)";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, searchTitle);
-			pstmt.setInt(2, onSale);
-			if(selectedGenre.length!=0) {
-				for(int i=0; i<selectedGenre.length; i++) {
-					pstmt.setString(i+3, selectedGenre[i]);
-				}
-			}			
+			pstmt.setString(1, '%'+searchKeyword+'%');
+			pstmt.setString(2, '%'+searchKeyword+'%');
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
@@ -237,6 +223,7 @@ public class BookDao {
 				String publisher = rset.getString("PUBLISHER");
 				int bookPrice = rset.getInt("BOOK_PRICE");
 				int discount = rset.getInt("DISCOUNT");
+				int onSale = rset.getInt("ONSALE");
 				String bookIntro = rset.getString("BOOK_INTRO");
 				int bookEpi = rset.getInt("BOOK_EPI");
 				int book1st = rset.getInt("BOOK_1ST");
@@ -255,34 +242,39 @@ public class BookDao {
 		return list;
 	}
 
-
-	//작가이름으로 검색
-	public ArrayList<Book> selectBooksByWriter(Connection conn, String searchWriter, int onSale, String selectedGenre[]){
+	
+	//상세 조건으로 책 검색
+	public ArrayList<Book> selectBooksByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
 
-		String query_head = "SELECT * FROM BOOK WHERE (WRITER LIKE '%?%') AND (ONSALE=?";
-		String query_body = "";
-		if(selectedGenre.length!=0) {
-			query_body=") AND BOOK_GENRE IN (?";
+		String queryHead = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryBody = "";
+		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
+			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
 			for(int i=1; i<selectedGenre.length; i++) {
-				query_body += ", ?";
+				queryBody += ", ?";
 			}
+			queryBody += ")";
 		}
-		String query_tail = ")";
-		String query = query_head+query_body+query_tail;
+		String queryTail = ")";
+		String queryOnsale ="";
+		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
+			queryOnsale =" AND (ONSALE=1)";
+		}
+		String query = queryHead+queryBody+queryTail+queryOnsale;	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, searchWriter);
-			pstmt.setInt(2, onSale);
-			if(selectedGenre.length!=0) {
+			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+			pstmt.setString(2, '%'+searchWriter+'%');
+			if(selectedGenre!=null) {
 				for(int i=0; i<selectedGenre.length; i++) {
 					pstmt.setString(i+3, selectedGenre[i]);
 				}
-			}
+			}			
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
@@ -292,6 +284,7 @@ public class BookDao {
 				String publisher = rset.getString("PUBLISHER");
 				int bookPrice = rset.getInt("BOOK_PRICE");
 				int discount = rset.getInt("DISCOUNT");
+				int onSale = rset.getInt("ONSALE");
 				String bookIntro = rset.getString("BOOK_INTRO");
 				int bookEpi = rset.getInt("BOOK_EPI");
 				int book1st = rset.getInt("BOOK_1ST");

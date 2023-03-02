@@ -20,7 +20,9 @@
         <a href="/">LITBOOKS</a>
       </div>
       <nav>
-      	<div class="search-bar" style="text-align: center; text-indent:-100px;">Q 검색바 위치</div>
+      	<form action="/bookSearchResult.do" method="get">
+      		<div class="search-bar" style="width: 560px; margin: 0 auto;"><input style="width:460px;" type="text" name="searchKeyword" placeholder="책제목 또는 저자 이름을 입력하세요."><button type="submit">검색</button></div>
+      	</form>
       </nav>
       <div class="header-link">
       <%if(m == null){%>

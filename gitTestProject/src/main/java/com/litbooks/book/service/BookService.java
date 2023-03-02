@@ -80,25 +80,25 @@ public class BookService {
 		JDBCTemplate.close(conn);
 		return;
 	}
-	
-	
-	//책제목으로 검색
-	public ArrayList<Book> selectBooksByTitle(String searchTitle, int onSale, String selectedGenre[]){
+
+
+	//header의 검색바에서 검색
+	public ArrayList<Book> selectBooksInHeader(String searchKeyword){
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Book> list = dao.selectBooksByTitle(conn, searchTitle, onSale, selectedGenre);
+		ArrayList<Book> list = dao.selectBooksInHeader(conn, searchKeyword);
 		JDBCTemplate.close(conn);
 		return list;
 	}
 
 
-	//작가이름으로 검색
-	public ArrayList<Book> selectBooksByWriter(String searchWriter, int onSale, String selectedGenre[]){
+	//상세 조건으로 책 검색
+	public ArrayList<Book> selectBooksByWish(String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Book> list = dao.selectBooksByWriter(conn, searchWriter, onSale, selectedGenre);
+		ArrayList<Book> list = dao.selectBooksByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
 		JDBCTemplate.close(conn);
 		return list;
 	}
-	
+
 	
 	//댓글 입력
 	public int insertRecomm(Recomm rc) {
