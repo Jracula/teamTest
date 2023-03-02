@@ -99,6 +99,16 @@ public class BookService {
 		return list;
 	}
 
+
+
+	//1권인 책만 상세 조건으로 검색
+	public ArrayList<Book> selectBook1stByWish(String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Book> list = dao.selectBook1stByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
 	
 	//댓글 입력
 	public int insertRecomm(Recomm rc) {

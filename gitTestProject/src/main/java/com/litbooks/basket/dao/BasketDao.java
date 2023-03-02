@@ -41,7 +41,7 @@ public class BasketDao {
 	}
 
 
-	//특정 회원이 장바구니에 이미 몇 개를 넣어놨는지 확인하는 함수
+	//특정 회원이 장바구니에 넣어놓은 책번호들을 ArrayList로 받는 함수. 따라서 ArrayList.size() == 장바구니에 담은 수
 	public ArrayList selectNumberOfBasket(Connection conn, int memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
