@@ -55,8 +55,9 @@
 					<p><%=bs.getBookGenre() %></p>
 					<p><span><%=bs.getWriter() %></span> | <span><%=bs.getPublisher() %></span></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
+					<span style="display:none;"><%=bs.getBookPrice() %></span>
 				<%if (bs.getOnSale()==1) {%>
-					<p><span><%=bs.getBookPrice() %></span>원</p>
+					<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
 				<% if (bs.getDiscount()!=0) {%>
@@ -78,7 +79,7 @@
 	<script>
 	$(".selectBook").on("click",function(){	//클릭한 개체의 값들을 부모창으로 반환
 		const bookNo = $(this).children().first().text();
-		const bookPrice = $(this).children().eq(4).children().first().text();
+		const bookPrice = $(this).children().eq(4).text();
 		const bookGenre = $(this).children().eq(2).text();
 		const writer = $(this).children().eq(3).children().first().text();
 		const publisher = $(this).children().eq(3).children().eq(1).text();
