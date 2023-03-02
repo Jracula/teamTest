@@ -35,6 +35,16 @@ public class BookService {
 	}
 
 
+
+	//GENRE 테이블 전체를 읽어오는 함수
+	public ArrayList<String> selectGenre(){
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<String> list = dao.selectGenre(conn);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+
 	//책 1권 신규 등록
 	public int insertBook(Book b) {
 		Connection conn = JDBCTemplate.getConnection();

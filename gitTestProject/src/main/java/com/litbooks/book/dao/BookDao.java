@@ -93,6 +93,33 @@ public class BookDao {
 	}
 
 
+	//GENRE 테이블 전체를 읽어오는 함수
+	public ArrayList<String> selectGenre(Connection conn){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		ArrayList<String> list = new ArrayList<String>();
+
+		String query = "SELECT GENRE_KOR FROM GENRE";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				String genreKor = rset.getString("GENRE_KOR");
+				list.add(genreKor);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+
 	//책 1권 신규 등록
 	public int insertBook(Connection conn, Book b) {
 		PreparedStatement pstmt = null;

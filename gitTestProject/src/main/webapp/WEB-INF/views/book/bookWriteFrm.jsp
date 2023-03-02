@@ -1,5 +1,9 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+    ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,13 +59,10 @@
 					<th class="td-3">장르</th>
 					<td>
             			<select name="bookGenre">
-                			<option value="">(없음)</option>
-                			<option value="공포">공포</option>
-                			<option value="국내순정">국내순정</option>
-                			<option value="드라마">드라마</option>
-                			<option value="무협">무협</option>
-                			<option value="성인">성인</option>
-                			<option value="스포츠">스포츠</option>
+                			<option value="">(없음)</option>	<!-- 장르 미선택용. value로 null을 반환함 -->
+            			<%for(int i=0; i<genreList.size(); i++){%>
+                			<option value="<%=genreList.get(i) %>"><%=genreList.get(i) %></option>
+                		<%} %>
             			</select>
 					</td>
 					<th class="td-3">작가명</th>
