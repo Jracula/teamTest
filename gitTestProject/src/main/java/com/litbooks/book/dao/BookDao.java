@@ -277,7 +277,7 @@ public class BookDao {
 	}
 
 
-	public int insertRecomm(Connection conn, com.litbooks.book.vo.Recomm rc) {
+	public int insertRecomm(Connection conn, Recomm rc) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'))";
@@ -285,9 +285,9 @@ public class BookDao {
 		try {
 			pstmt = conn.prepareStatement(qurey);
 	        pstmt.setInt(1, rc.getBookNo());
-	        pstmt.setString(2, rc.getMemberId());
+	        pstmt.setString(2, rc.getRcWriter());
 	        pstmt.setString(3, rc.getRecommContent());
-			
+	        result= pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

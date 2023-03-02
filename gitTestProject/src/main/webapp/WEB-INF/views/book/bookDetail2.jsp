@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title><%=b.getBookTitle() %> - LITBOOKS</title>
- <link rel="stylesheet" href="/css/recomm.css" />
+<script src="jquery-3.6.3.min.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -52,7 +52,13 @@
 		<div>
 			<div>
 				<p>작품 소개</p>
-				<div><%=b.getBookIntro() %></div>
+				<div>
+				<%if (b.getBookIntro()!=null){%>
+				<%=b.getBookIntro() %>
+				<%}else{ %>
+				작품 소개가 없습니다.
+				<%} %>
+				</div>
 				<a class="btn bc3">더 보기 버튼</a> <%--누르면 부모 요소의 height를 넓힘--%>
 			</div>
 		</div>
@@ -94,16 +100,69 @@
 		<%}%>
 		
 		<!-- 댓글 후기 노출 영역 -->
-		
-		<h1 class="rating-top1">평점 & 후기</h1>
-		<div class="star">  </div>
-		<p class="rating-top2">평점을 입력해주세요</p>
-		<div class="insert-box"> 
-			<div class="insert-box top"></div>
-			<div class="insert-box content"> <input type="text" name="Write"id="Write"class="Write"></div>
-			
-		</div>
-	</div>
+		<div class="comment-input">
+        <div class="comment-form">
+          <div class="comment-input-box">
+            <textarea class="comment-textarea" placeholder="댓글을 입력하세요."></textarea>
+          </div>
+        </div>
+        <div class="comment-input-btn">
+            <button class="btn-comment-write">등록</button>
+          </div>
+
+    </div>
+    
+      <div class="comment-list">
+        
+        
+        <ul class="comment-box">
+            <li class="comment-item">
+            <div class="comment-info">
+                
+              <span class="comment-author">작성자</span>
+              <span class="comment-date">2022.02.28</span>
+            </div>
+            <div class="comment-content">정말 재미있어요</div>
+            <div class="comment-action">
+                <button class="btn-comment-reply">댓글</button>
+                <button class="btn-comment-like">좋아요</button>
+            </div>
+            <div class="comment-reply-form">
+                <textarea class="comment-reply-textarea"></textarea>
+                <button class="btn-comment-reply-submit">등록</button>
+                <button class="btn-comment-reply-cancel">취소</button>
+              </div>
+            </li>
+            <ul class="comment-reply-list">
+              <li class="comment-reply-item">
+                <div class="comment-info">
+                  <span class="comment-author">작성자</span>
+                  <span class="comment-date">2022.02.28</span>
+                </div>
+                <div class="comment-content">대댓글 내용 재미있어요</div>
+                <div class="recomment-action">
+                  <button class="btn-comment-like">좋아요</button>
+                </div>
+              </li>
+              <li class="comment-reply-item">
+                <div class="comment-info">
+                  <span class="comment-author">작성자</span>
+                  <span class="comment-date">2022.02.28</span>
+                </div>
+                <div class="comment-content">대댓글 내용</div>
+                <div class="recomment-action-">
+                  <button class="btn-comment-like">좋아요</button>
+                </div>
+              </li>
+            </ul>
+        
+          </li>
+          
+        </ul>
+      </div>
+      
+	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	<script src="recomm2.js"></script>
 </body>
 </html>
