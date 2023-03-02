@@ -131,6 +131,37 @@ public class OrderBDao {
 		return list;
 	}
 
+	// 관리자페이지 주문내역 취소
+	public int orderCancel(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update order_b set status='결제취소' where member_no=?";
+		
+		
+		return 0;
+	}
+
+	// (관리자페이지) 결제방식 변경
+	public int changePay(Connection conn, int memberNo, String orderPay) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "update order_b set status=? where member_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, orderPay);
+			pstmt.setInt(2, memberNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 
 	
 

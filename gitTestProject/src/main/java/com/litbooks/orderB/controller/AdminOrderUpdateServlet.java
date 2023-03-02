@@ -14,16 +14,16 @@ import com.litbooks.orderB.service.OrderBService;
 import com.litbooks.orderB.vo.OrderB;
 
 /**
- * Servlet implementation class AdminOrderListServlet
+ * Servlet implementation class AdminOrderUpdateServlet
  */
-@WebServlet(name = "AdminOrderList", urlPatterns = { "/adminOrderList.do" })
-public class AdminOrderListServlet extends HttpServlet {
+@WebServlet(name = "AdminOrderUpdate", urlPatterns = { "/adminOrderUpdate.do" })
+public class AdminOrderUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminOrderListServlet() {
+    public AdminOrderUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,27 +35,34 @@ public class AdminOrderListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		OrderBService service = new OrderBService();
-		
 		ArrayList<OrderB> list = service.selectAdminList();
 		
-		/*Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {
-			// 수정가능
-		} else {
-			// 수정 불가능
-		}*/
-		
+		/*Member m = (Member)session.getAttribute("m");
+		if(m.getMemberLevel() == 1) {
+			
+		}
+		*/
 		if(list.isEmpty()) {
 			request.setAttribute("title", "????");
-			request.setAttribute("msg", "관리자만 이용가능합니다.");
-			request.setAttribute("icon", "error");
+			request.setAttribute("msg", "관리자만 접근가능합니다.");
+			request.setAttribute("icon", "warning");
 			request.setAttribute("loc", "/index.jsp");
 		} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderList.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderUpdate.jsp");
 			request.setAttribute("list", list);
-			view.forward(request, response);			
+			view.forward(request, response);
+			/*int result = service.orderCancel();
+			if(result > 0 ) {
+				request.setAttribute("title", "결제수정 완료");
+				request.setAttribute("msg", "결제수정을 완료하였습니다.");
+				request.setAttribute("icon", "success");
+			} else {
+				request.setAttribute("title", "결제수정 실패");
+				request.setAttribute("msg", "알 수 없는 이유로 실패했습니다.");
+				request.setAttribute("icon", "error");
+			}
+			*/
 		}
-		
 	}
 
 	/**

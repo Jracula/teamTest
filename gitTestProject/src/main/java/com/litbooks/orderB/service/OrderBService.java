@@ -109,8 +109,25 @@ public class OrderBService {
 		return list;
 	}
 
+	// (관리자페이지) 결제방식 변경
+	public int changePay(int memberNo, String orderPay) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.changePay(conn, memberNo, orderPay);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
 
-	
+	// (관리자페이지) 주문내역 취소
+	public int orderCancel() {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.orderCancel(conn);
+		return 0;
+	}
 	
 	
 }

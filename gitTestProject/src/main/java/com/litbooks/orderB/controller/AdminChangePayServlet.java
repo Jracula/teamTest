@@ -1,7 +1,6 @@
 package com.litbooks.orderB.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,19 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.orderB.service.OrderBService;
-import com.litbooks.orderB.vo.OrderB;
 
 /**
- * Servlet implementation class AdminOrderListServlet
+ * Servlet implementation class AdminChangePayServlet
  */
-@WebServlet(name = "AdminOrderList", urlPatterns = { "/adminOrderList.do" })
-public class AdminOrderListServlet extends HttpServlet {
+@WebServlet(name = "AdminChangePay", urlPatterns = { "/adminChangePay.do" })
+public class AdminChangePayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminOrderListServlet() {
+    public AdminChangePayServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,28 +32,24 @@ public class AdminOrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		String orderPay = request.getParameter("orderPay");
+		System.out.println(memberNo);
+		System.out.println(orderPay);
+		
 		OrderBService service = new OrderBService();
+		int result = service.changePay(memberNo, orderPay);
 		
-		ArrayList<OrderB> list = service.selectAdminList();
-		
-		/*Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {
-			// 수정가능
+		if(result > 0) {
+			response.sendRedirect("/adminOrderUpdate.do"); // 관리자페이지 서블릿 주소
 		} else {
-			// 수정 불가능
-		}*/
-		
-		if(list.isEmpty()) {
-			request.setAttribute("title", "????");
-			request.setAttribute("msg", "관리자만 이용가능합니다.");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("title", "결제방식 변경 실패");
+			request.setAttribute("msg", "결제방식 변경 중 문제가 발생했습니다.");
 			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/index.jsp");
-		} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderList.jsp");
-			request.setAttribute("list", list);
-			view.forward(request, response);			
+			request.setAttribute("loc", "/adminOrderUpdate.do"); // 관리자페이지 서블릿 주소
+			view.forward(request, response);
 		}
-		
 	}
 
 	/**

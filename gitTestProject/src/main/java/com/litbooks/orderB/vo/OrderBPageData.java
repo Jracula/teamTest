@@ -2,6 +2,8 @@ package com.litbooks.orderB.vo;
 
 import java.util.ArrayList;
 
+
+
 public class OrderBPageData {
 	private ArrayList<OrderB> list;
 	private String pageNavi;
