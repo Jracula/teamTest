@@ -54,6 +54,7 @@ public class FaqDao {
 				f.setfContent(rset.getString("f_content"));
 				f.setfReadCount(rset.getInt("f_read_count"));
 				f.setfRegDate(rset.getString("f_reg_date"));
+				f.setfWriter(rset.getString("f_writer"));
 				list.add(f);
 			}
 		} catch (SQLException e) {
