@@ -64,7 +64,7 @@ public class BookWriteServlet extends HttpServlet {
 			if(mRequest.getParameter("book1st").length()!=0) {
 				book1st = Integer.parseInt(mRequest.getParameter("book1st"));
 			}
-			int nonFee = 0;	//0으로 초기화
+			int nonFee = 0;	//기본값(무료 감상이 체크되지 않은 상태)를 위해 0으로 초기화
 			if(mRequest.getParameter("nonFee")!=null) {
 				nonFee = Integer.parseInt(mRequest.getParameter("nonFee"));
 			}
@@ -78,16 +78,8 @@ public class BookWriteServlet extends HttpServlet {
 			Book b = new Book();
 			b.setBookTitle(bookTitle);
 			b.setBookGenre(bookGenre);
-			if(writer.length()==0) {
-				b.setWriter("작자미상");
-			}else {
-				b.setWriter(writer);
-			}
-			if(publisher.length()==0) {
-				b.setPublisher("출판사불명");
-			}else {
-				b.setPublisher(publisher);
-			}
+			b.setWriter(writer);
+			b.setPublisher(publisher);
 			b.setBookPrice(bookPrice);
 			b.setDiscount(discount);
 			b.setBookIntro(bookIntro);
@@ -99,10 +91,6 @@ public class BookWriteServlet extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			if (result > 0) {
 				int lastestBookNo = service.getLatestBookNo();
-				if(book1st==0) {
-					//신규 도서의 book1st가 0이면, 자신의 bookNo값으로 치환해주는 service 호출
-					service.book1stToBookNo(lastestBookNo);
-				}
 				if(filepath != null) {
 					// SQL insert 후, 다시 SQL로 마지막 row의 bookNo를 얻어내고 파일명을 변경
 					String numbering = String.format("%08d", lastestBookNo);

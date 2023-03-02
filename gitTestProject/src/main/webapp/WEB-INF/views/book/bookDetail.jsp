@@ -16,6 +16,7 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
+		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>
 		<div class="book-cover">
 		<%if (b.getBookImage()!=null){%>
 			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=400px>
@@ -33,18 +34,18 @@
 		<%if (b.getOnSale()==1) {%>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-			<% if (b.getDiscount()!=0) {%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
-			<p style="color: green;">판매가 - <%=newPrice %>원</p>
+			<% if (b.getDiscount()!=0) {%>
+			<p>판매가 - <span id="realPrice" style="color: green;"><%=newPrice %></span>원</p>
 			<%}else { %>
-			<p>&nbsp;</p>	<!-- 할인가가 표시되지 않더라도 같은 높이를 유지하기 위해 같은 태그로 공백 줘야됨 -->
+			<p>&nbsp;<span id="realPrice" style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 			<%} %>
 		<%}else if (b.getOnSale()==0) {%>
-			<p style="color: gray;">판매중지된 상품입니다.</p>
+			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">0</span></p>
 			<p>&nbsp;</p>
 		<%} %>
 		<!-- 아래 두 버튼들은 로그인했을 때만 나오도록 표시하던가, 아니면 눌렀을 때 로그인하라는 경고창을 띄우던가 -->
-			<a class="btn bc9" href="#">카트에 담기</a>
+			<button class="btn bc9" id="addCart">장바구니에 담기</button>
 			<a class="btn bc9" href="#">구매하기</a>
 		</div>
 		<div>
@@ -82,15 +83,15 @@
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 				<%if (bs.getOnSale()==1) {%>
 					<p><%=bs.getBookPrice() %>원</p>
-				<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-					<% if (bs.getDiscount()!=0) {%>
-					<%int newPrices = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-					<p style="color: green;"><%=bs.getBookPrice() %>원</p>
-					<%}else { %>
-					<p>&nbsp;</p>	<!-- 할인가가 표시되지 않더라도 같은 높이를 유지하기 위해 같은 태그로 공백 줘야됨 -->
-					<%} %>
+			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
+				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+				<% if (bs.getDiscount()!=0) {%>
+				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+				<%}else { %>
+				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+				<%} %>
 				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.</p>
+					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
 					<p>&nbsp;</p>
 				<%} %>
 				</div>
@@ -103,5 +104,27 @@
 		
 	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	<script>
+	$("#addCart").on("click", function(){
+		const memberNo = $("#memberNo").text();	//header.jsp의 Member m.getMemberNo()
+		if(memberNo!=0){ //로그인되어 있는지부터 확인
+			const bookNo = $("#bookNo").text();
+			$.ajax({
+				url: "/insertOneIntoCart.do",
+				type: "GET",
+				data: {input1 : bookNo, input2 : memberNo},
+				success: function(message){
+					alert(message);
+				},
+				error: function(){
+					console.log("알 수 없는 오류가 발생했습니다.");
+				}
+			});
+		}else{
+			console.log(memberNo);
+			alert("회원 로그인이 필요합니다.");
+		}
+	});
+	</script>
 </body>
 </html>
