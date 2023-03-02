@@ -1,6 +1,7 @@
 package com.litbooks.book.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.litbooks.member.vo.Member;
+import com.litbooks.book.service.BookService;
 
 /**
  * Servlet implementation class BookWriteFrm
@@ -33,6 +35,9 @@ public class BookWriteFrmServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		HttpSession session = request.getSession(false);
+		BookService service = new BookService();
+		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
+		request.setAttribute("genreList", list);
 	/*	Member m = (Member) session.getAttribute("m");
 		if (m.getMemberLevel() == 1) {*/
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookWriteFrm.jsp");

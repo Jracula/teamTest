@@ -37,7 +37,6 @@ public class CartServlet extends HttpServlet {
 		
 		int memberNo = 2;
 		
-		
 		BookService service = new BookService();
 		
 		//int bookNo = Integer.parseInt(request.getParameter("bookNo"));
