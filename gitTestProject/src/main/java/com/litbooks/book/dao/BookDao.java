@@ -151,28 +151,6 @@ public class BookDao {
 		return bookNo;
 	}
 
-
-	//신규 도서의 book1st가 0이면, 자신의 bookNo값으로 치환해주는 service 호출
-	public int book1stToBookNo(Connection conn, int bookNo) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-
-		String query = "UPDATE BOOK SET BOOK_1ST=? WHERE BOOK_NO=?";
-
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, bookNo);
-			pstmt.setInt(2, bookNo);
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JDBCTemplate.close(pstmt);
-		}
-		return result;
-	}
-
 	
 	//신규 등록 도서의 이미지가 있었을 경우, 이미지 파일명 재설정 
 	public int updateBookImage(Connection conn, String newFilePath, int bookNo) {
@@ -197,18 +175,32 @@ public class BookDao {
 
 	
 	//책제목으로 검색
-	public ArrayList<Book> selectBooksByTitle(Connection conn, String searchTitle, int onSale){
+	public ArrayList<Book> selectBooksByTitle(Connection conn, String searchTitle, int onSale, String selectedGenre[]){
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
 
-		String query = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE '%?%') AND (ONSALE=?)";
+		String query_head = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE '%?%') AND (ONSALE=?";
+		String query_body = "";
+		if(selectedGenre.length!=0) {
+			query_body=") AND BOOK_GENRE IN (?";
+			for(int i=1; i<selectedGenre.length; i++) {
+				query_body += ", ?";
+			}
+		}
+		String query_tail = ")";
+		String query = query_head+query_body+query_tail;
 
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, searchTitle);
 			pstmt.setInt(2, onSale);
+			if(selectedGenre.length!=0) {
+				for(int i=0; i<selectedGenre.length; i++) {
+					pstmt.setString(i+3, selectedGenre[i]);
+				}
+			}			
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
@@ -238,18 +230,32 @@ public class BookDao {
 
 
 	//작가이름으로 검색
-	public ArrayList<Book> selectBooksByWriter(Connection conn, String searchTitle, int onSale){
+	public ArrayList<Book> selectBooksByWriter(Connection conn, String searchWriter, int onSale, String selectedGenre[]){
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
 
-		String query = "SELECT * FROM BOOK WHERE (WRITER LIKE '%?%') AND (ONSALE=?)";
+		String query_head = "SELECT * FROM BOOK WHERE (WRITER LIKE '%?%') AND (ONSALE=?";
+		String query_body = "";
+		if(selectedGenre.length!=0) {
+			query_body=") AND BOOK_GENRE IN (?";
+			for(int i=1; i<selectedGenre.length; i++) {
+				query_body += ", ?";
+			}
+		}
+		String query_tail = ")";
+		String query = query_head+query_body+query_tail;
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, searchTitle);
+			pstmt.setString(1, searchWriter);
 			pstmt.setInt(2, onSale);
+			if(selectedGenre.length!=0) {
+				for(int i=0; i<selectedGenre.length; i++) {
+					pstmt.setString(i+3, selectedGenre[i]);
+				}
+			}
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
