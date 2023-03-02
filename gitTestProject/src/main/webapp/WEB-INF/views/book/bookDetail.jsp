@@ -106,9 +106,9 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 	$("#addCart").on("click", function(){
-/*수정필*/if(true){ //로그인되어 있는지부터 확인
+		const memberNo = $("#memberNo").text();	//header.jsp의 Member m.getMemberNo()
+		if(memberNo!=0){ //로그인되어 있는지부터 확인
 			const bookNo = $("#bookNo").text();
-/*수정필*/	const memberNo = 3;	//header.jsp의 Member m.getMemberNo()를 이용해서 갖고 와야 됨
 			$.ajax({
 				url: "/insertOneIntoCart.do",
 				type: "GET",
@@ -121,6 +121,7 @@
 				}
 			});
 		}else{
+			console.log(memberNo);
 			alert("회원 로그인이 필요합니다.");
 		}
 	});

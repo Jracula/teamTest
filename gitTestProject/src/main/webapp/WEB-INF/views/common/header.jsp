@@ -39,6 +39,7 @@
       	<a class="btn bc11" href="">장바구니</a>
       	<a class="btn bc11" href="/mypage2.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
       	<a class="btn bc11" href="/logout.do">LOGOUT</a>
+<!-- memberNo 가져오기용 -->	<span id="memberNo" style="display: none;"><%=m.getMemberNo() %></span>
       <%} %>
       </div>
       
