@@ -27,7 +27,9 @@ public class OrderB {
 	private int orderPrice; // 총가격
 	private String orderPay; // 결제수단
 	private String orderRegDate; // 결제날짜
-	private String book_title;
+	private String book_title; // 책 제목
+	private String memberId; // 회원 아이디
+	private String publisher; // 출판사
 	
 	public OrderB() {
 		super();
@@ -38,7 +40,7 @@ public class OrderB {
 			int bookNo5, int bookNo6, int bookNo7, int bookNo8, int bookNo9, int bookNo10, int bookPrice,
 			int bookPrice2, int bookPrice3, int bookPrice4, int bookPrice5, int bookPrice6, int bookPrice7,
 			int bookPrice8, int bookPrice9, int bookPrice10, int orderPrice, String orderPay, String orderRegDate,
-			String book_title) {
+			String book_title, String memberId, String publisher) {
 		super();
 		this.orderNo = orderNo;
 		this.status = status;
@@ -67,9 +69,9 @@ public class OrderB {
 		this.orderPay = orderPay;
 		this.orderRegDate = orderRegDate;
 		this.book_title = book_title;
+		this.memberId = memberId;
+		this.publisher = publisher;
 	}
-
-
 
 	public int getOrderNo() {
 		return orderNo;
@@ -286,6 +288,21 @@ public class OrderB {
 	public void setBook_title(String book_title) {
 		this.book_title = book_title;
 	}
-	
-	
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
+	}
+		
 }

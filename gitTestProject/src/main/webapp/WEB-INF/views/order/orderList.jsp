@@ -11,7 +11,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>결제(주문)내역</title>
 <style>
 	.orberB-tbl a:hover{
 		text-decoration: underline;

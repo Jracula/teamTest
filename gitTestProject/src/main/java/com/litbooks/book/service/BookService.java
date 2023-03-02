@@ -102,12 +102,22 @@ public class BookService {
 		JDBCTemplate.close(conn);
 		return list;
 	}
+	
 	//댓글 입력
 	public int insertRecomm(Recomm rc) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.insertRecomm(conn,rc);
 		
 		return result;
+	}
+
+	// 장바구니 조회를 위한 책 테이블 전체조회
+	public ArrayList<Book> selectAllBook(int memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Basket> list = dao.selectCart(conn, memberNo);
+		ArrayList<Book> list = dao.selectAllBook(conn, memberNo);
+		JDBCTemplate.close(conn);
+		return list;
 	}
 
 	

@@ -101,6 +101,14 @@ public class OrderBService {
 		return o;
 	}
 
+	// (관리자페이지) 주문내역 전체조회
+	public ArrayList<OrderB> selectAdminList() {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<OrderB> list = dao.selectAdminList(conn);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
 
 	
 	

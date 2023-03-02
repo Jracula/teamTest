@@ -298,6 +298,44 @@ public class BookDao {
 		
 		return result;
 	}
+
+	// 장바구니 조회를 위한 책 테이블 전체조회
+	public ArrayList<Book> selectAllBook(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Book> list = new ArrayList<>();
+		
+		String query = "select * from book";
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Book b = new Book();
+				b.setBookNo(rset.getInt("book_no"));
+				b.setBookTitle(rset.getString("book_title"));
+				b.setBookGenre(rset.getString("book_genre"));
+				b.setWriter(rset.getString("writer"));
+				b.setPublisher(rset.getString("publisher"));
+				b.setBookPrice(rset.getInt("book_price"));
+				b.setDiscount(rset.getInt("discount"));
+				b.setOnSale(rset.getInt("onsale"));
+				b.setBookIntro(rset.getString("book_intro"));
+				b.setBookEpi(rset.getInt("book_epi"));
+				b.setBook1st(rset.getInt("book_1st"));
+				b.setNonFee(rset.getInt("nonfee"));
+				b.setBookImage(rset.getString("book_image"));
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return list;
+	}
 	
 
 }
