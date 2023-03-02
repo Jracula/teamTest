@@ -21,23 +21,28 @@
         <a href="/">LITBOOKS</a>
       </div>
       <nav>
-      	<div class="search-bar" style="text-align: center; text-indent:-100px;">Q 검색바 위치</div>
+      	<form action="/bookSearchResult.do" method="get">
+      		<div class="search-bar" style="width: 560px; margin: 0 auto;"><input style="width:460px;" type="text" name="searchKeyword" placeholder="책제목 또는 저자 이름을 입력하세요."><button type="submit">검색</button></div>
+      	</form>
       </nav>
       <div class="header-link">
       <%if(m == null){%>
    		<!-- 모달 id와 target 이름 맞추기 -->
+
         <a class="btn bc11" href="/signinFrm.do">로그인</a>
         <a class="btn bc11" href="/joinFrm.do">회원가입</a>
+
       <%}else {%>
       	<!-- 로그인 성공시 회원 이름 출력 -->
       	<!-- 마이페이지1 : /mypage1.do -->
       	<!-- <a class="btn bc11" href="/mypage1.do"><%=m.getMemberName() %></a> --> 
       	<!-- 마이페이지2 : 세션에서 꺼낸 memberId를 키값에넣어 보내줌 -->
-      	<a class="btn bc11" href="#">장바구니</a>
+      	<a class="btn bc11" href="">장바구니</a>
       	<a class="btn bc11" href="/mypage2.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
       	<a class="btn bc11" href="/logout.do">LOGOUT</a>
       <%} %>
       </div>
+      
     </header>
     
      
