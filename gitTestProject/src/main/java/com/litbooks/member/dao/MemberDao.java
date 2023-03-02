@@ -46,4 +46,52 @@ public class MemberDao {
 		return member;
 	}
 
+	
+	//아이디 중복 체크
+	public Member selectOneMember(Connection conn, String memberId) {
+		PreparedStatement pstmt = null;
+		Member m = null;
+		ResultSet rset = null;
+		
+		String query = "select * from member where member_id=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, memberId);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				m = new Member();
+				m.setMemberEmail(rset.getString("member_email"));
+				m.setEnrollDate(rset.getString("enroll_date"));
+				m.setMemberId(rset.getString("member_id"));
+				m.setMemberLevel(rset.getInt("member_level"));
+				m.setMemberName(rset.getString("member_name"));
+				m.setMemberNo(rset.getInt("member_no"));
+				m.setMemberPhone(rset.getString("member_phone"));
+				m.setMemberPw(rset.getString("member_pw"));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return m;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
