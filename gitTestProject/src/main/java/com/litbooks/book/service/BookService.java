@@ -35,6 +35,16 @@ public class BookService {
 	}
 
 
+
+	//GENRE 테이블 전체를 읽어오는 함수
+	public ArrayList<String> selectGenre(){
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<String> list = dao.selectGenre(conn);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+
 	//책 1권 신규 등록
 	public int insertBook(Book b) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -58,21 +68,7 @@ public class BookService {
 	}
 
 
-	//신규 도서의 book1st가 0이면, 자신의 bookNo값으로 치환해주는 service 호출
-	public int book1stToBookNo(int bookNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.book1stToBookNo(conn, bookNo);
-		if (result > 0) {
-			JDBCTemplate.commit(conn);
-		} else {
-			JDBCTemplate.rollback(conn);
-		}
-		JDBCTemplate.close(conn);
-		return result;
-	}
-
-
-	//신규 등록 도서의 이미지가 있었을 경우, 이미지 파일명 재설정 
+	//신규 등록 도서의 커버이미지가 있었을 경우, 이미지 파일명 재설정 
 	public void updateBookImage(String newFilePath, int bookNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.updateBookImage(conn, newFilePath, bookNo);
@@ -84,24 +80,26 @@ public class BookService {
 		JDBCTemplate.close(conn);
 		return;
 	}
-	
-	
-	//책제목으로 검색
-	public ArrayList<Book> selectBooksByTitle(String searchTitle, int onSale){
+
+
+	//header의 검색바에서 검색
+	public ArrayList<Book> selectBooksInHeader(String searchKeyword){
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Book> list = dao.selectBooksByTitle(conn, searchTitle, onSale);
+		ArrayList<Book> list = dao.selectBooksInHeader(conn, searchKeyword);
 		JDBCTemplate.close(conn);
 		return list;
 	}
 
 
-	//작가이름으로 검색
-	public ArrayList<Book> selectBooksByWriter(String searchTitle, int onSale){
+	//상세 조건으로 책 검색
+	public ArrayList<Book> selectBooksByWish(String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Book> list = dao.selectBooksByWriter(conn, searchTitle, onSale);
+		ArrayList<Book> list = dao.selectBooksByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
 		JDBCTemplate.close(conn);
 		return list;
 	}
+
+	
 	//댓글 입력
 	public int insertRecomm(Recomm rc) {
 		Connection conn = JDBCTemplate.getConnection();

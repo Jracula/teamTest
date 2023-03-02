@@ -11,7 +11,7 @@
     width: 1200px;
     margin: 0 auto;
     text-align: center;
-    margin-top: 100px;
+    margin-top: 85px;
 }
 .login_title>h2{
     font-size: 30px;
@@ -95,7 +95,7 @@
         </div>
             <form action="/signin.do" method="post">
                 <div class="input-box">
-					<input type="text" name="loginId" id="loginId" class="login-form" placeholder="이메일을 입력해 주세요(litbooks@litbooks.com 형식)">
+					<input type="text" name="loginId" id="loginId" class="login-form" placeholder="아이디를 입력하세요">
 					
 				</div>
                 <!--
