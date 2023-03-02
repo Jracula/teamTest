@@ -11,12 +11,18 @@
 <head>
 <meta charset="UTF-8">
 <title>책 검색 결과</title>
+    <!-- 구글 아이콘 -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- jquery -->
+    <script src="/js/jquery-3.6.0.js"></script>
+    <!-- 기본 CSS -->
+    <link rel="stylesheet" href="/css/default.css" />
+    <!-- 기본 js -->
+    <script src="/js/default.js"></script>
 </head>
-<body>
-	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="searchEngine">
-			<form action="/bookSearchInDetail.do" method="post">
+			<form action="/book1stSearchInDetail.do" method="post">
 				<div>책제목 : <input type="text" name="searchTitle" placeholder="검색할 책 제목"></div>
 				<div>저자 : <input type="text" name="searchWriter" placeholder="검색할 저자 이름"></div>
 				<div>
@@ -43,12 +49,14 @@
 					<img src="/upload/book/cover-image/00000000.jpg" width=100px>
 				<%} %>
 				</div>
-				<div style="float: left; width: 300px;">
-					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p>
-					<p><%=bs.getWriter() %> | <%=bs.getPublisher() %></p></a>
+				<div class="selectBook" type="button" style="float: left; width: 300px; cursor: pointer;">
+					<span style="display:none;"><%=bs.getBookNo() %></span>
+					<p><%=bs.getBookTitle() %></p>
+					<p><%=bs.getBookGenre() %></p>
+					<p><span><%=bs.getWriter() %></span> | <span><%=bs.getPublisher() %></span></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 				<%if (bs.getOnSale()==1) {%>
-					<p><%=bs.getBookPrice() %>원</p>
+					<p><span><%=bs.getBookPrice() %></span>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
 				<% if (bs.getDiscount()!=0) {%>
@@ -67,6 +75,20 @@
 	<%} %>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	<script>
+	$(".selectBook").on("click",function(){	//클릭한 개체의 값들을 부모창으로 반환
+		const bookNo = $(this).children().first().text();
+		const bookPrice = $(this).children().eq(4).children().first().text();
+		const bookGenre = $(this).children().eq(2).text();
+		const writer = $(this).children().eq(3).children().first().text();
+		const publisher = $(this).children().eq(3).children().eq(1).text();
+		window.opener.document.getElementById("book1st").value = bookNo;
+		window.opener.document.getElementById("bookPrice").value = bookPrice;
+		window.opener.document.getElementById("bookGenre").value = bookGenre;
+		window.opener.document.getElementById("writer").value = writer;
+		window.opener.document.getElementById("publisher").value = publisher;
+		window.close();
+	});
+	</script>
 </body>
 </html>

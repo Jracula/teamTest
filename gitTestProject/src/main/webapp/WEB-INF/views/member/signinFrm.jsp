@@ -104,7 +104,7 @@
                 </div>
                 -->
                 <div class="input-box">
-					<input type="text" name="loginPw" id="loginPw" class="login-form" placeholder="비밀번호를 입력하세요">
+					<input type="password" name="loginPw" id="loginPw" class="login-form" placeholder="비밀번호를 입력하세요">
 				</div>
                 <!--
                 <div class="login-comment">
