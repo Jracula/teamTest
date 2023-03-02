@@ -9,22 +9,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.litbooks.member.vo.Member;
 import com.litbooks.book.service.BookService;
+import com.litbooks.book.vo.Book;
 
 /**
- * Servlet implementation class BookWriteFrm
+ * Servlet implementation class BookSearchResultServlet
  */
-@WebServlet("/bookWriteFrm.do")
-public class BookWriteFrmServlet extends HttpServlet {
+@WebServlet(name = "BookSearchResult", urlPatterns = { "/bookSearchResult.do" })
+public class BookSearchResultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BookWriteFrmServlet() {
+    public BookSearchResultServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,22 +33,14 @@ public class BookWriteFrmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession(false);
+		String searchKeyword = request.getParameter("searchKeyword");
 		BookService service = new BookService();
+		ArrayList<Book> books = service.selectBooksInHeader(searchKeyword);
+		request.setAttribute("books", books);
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
-	/*	Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {*/
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookWriteFrm.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookSearchResult.jsp");
 		view.forward(request, response);
-	/*	} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "접근 제한");
-			request.setAttribute("msg", "신규 도서 등록은 관리자만 가능합니다.");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/index.jsp");
-			view.forward(request, response);
-		}*/
 	}
 
 	/**

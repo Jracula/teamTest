@@ -33,14 +33,14 @@
 		<%if (b.getOnSale()==1) {%>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
 			<% if (b.getDiscount()!=0) {%>
-			<p>판매가 - <span id="realPrice" style="color: green;"><%=newPrice %></span>원</p>
+			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
+			<p style="color: green;">판매가 - <%=newPrice %>원</p>
 			<%}else { %>
-			<p>&nbsp;<span id="realPrice" style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+			<p>&nbsp;</p>	<!-- 할인가가 표시되지 않더라도 같은 높이를 유지하기 위해 같은 태그로 공백 줘야됨 -->
 			<%} %>
 		<%}else if (b.getOnSale()==0) {%>
-			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">0</span></p>
+			<p style="color: gray;">판매중지된 상품입니다.</p>
 			<p>&nbsp;</p>
 		<%} %>
 		<!-- 아래 두 버튼들은 로그인했을 때만 나오도록 표시하던가, 아니면 눌렀을 때 로그인하라는 경고창을 띄우던가 -->
@@ -52,13 +52,7 @@
 		<div>
 			<div>
 				<p>작품 소개</p>
-				<div>
-				<%if (b.getBookIntro()!=null){%>
-				<%=b.getBookIntro() %>
-				<%}else{ %>
-				작품 소개가 없습니다.
-				<%} %>
-				</div>
+				<div><%=b.getBookIntro() %></div>
 				<a class="btn bc3">더 보기 버튼</a> <%--누르면 부모 요소의 height를 넓힘--%>
 			</div>
 		</div>
@@ -82,15 +76,15 @@
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 				<%if (bs.getOnSale()==1) {%>
 					<p><%=bs.getBookPrice() %>원</p>
-			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-				<% if (bs.getDiscount()!=0) {%>
-				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
-				<%}else { %>
-				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
-				<%} %>
+				<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
+					<% if (bs.getDiscount()!=0) {%>
+					<%int newPrices = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+					<p style="color: green;"><%=bs.getBookPrice() %>원</p>
+					<%}else { %>
+					<p>&nbsp;</p>	<!-- 할인가가 표시되지 않더라도 같은 높이를 유지하기 위해 같은 태그로 공백 줘야됨 -->
+					<%} %>
 				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
+					<p style="color: gray;">판매중지된 상품입니다.</p>
 					<p>&nbsp;</p>
 				<%} %>
 				</div>
@@ -101,7 +95,15 @@
 		
 		<!-- 댓글 후기 노출 영역 -->
 		
-	
+		<h1 class="rating-top1">평점 & 후기</h1>
+		<div class="star">  </div>
+		<p class="rating-top2">평점을 입력해주세요</p>
+		<div class="insert-box"> 
+			<div class="insert-box top"></div>
+			<div class="insert-box content"> <input type="text" name="Write"id="Write"class="Write"></div>
+			
+		</div>
+	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

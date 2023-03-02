@@ -1,0 +1,103 @@
+.join-all-wrap{
+    width: 1200px;
+    margin: 0 auto;
+}
+.join-title{
+    text-align: center;
+}
+
+.join-box{
+    margin: 40px auto;
+    width: 650px;
+    border-top: 1px solid black;
+}
+
+tr>td:first-child{
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+
+tr>td:first-child>sup{
+color: rgb(226, 1, 1);
+}
+
+.inputBox{
+    margin-left: 40px;
+    height: 45px;
+    width: 400px;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+
+.join-box>table>tbody>tr>td{ 
+    padding: 20px 0px;
+}
+
+.join-box>table>tbody>tr>td>button{ 
+    color:rgb(32, 90, 167);
+    border: 0px;
+    height: 45px;
+    border-radius: 5px;
+    width: 85px;
+    cursor: pointer;
+    border: 1.8px solid  rgb(32, 90, 167);
+    background-color: white;
+}
+
+.btn-box{
+    width: 650px;
+    margin: 0 auto;
+}
+
+.btn-box>button{
+    width: 640px;
+    background-color: rgb(32, 90, 167);
+    border: 0px;
+    height: 60px;
+    border-radius: 5px;
+    font-size: 18px;
+    color: white;
+    font-weight: 500;
+}
+
+.agree-box>label{
+    color: rgb(95, 95, 95);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 200%;
+}
+
+
+.agree-wrap{
+    border: 1px solid rgb(197, 197, 197);
+    width: 450px;
+    margin-left: 40px;
+    padding: 20px;
+}
+
+.agree-box>span{
+    float: right;
+    font-size: 12px;
+}
+
+.agree-box>.agreeCheck{
+    padding-left: 20px;
+}
+
+#agreeBox{
+    padding-left: 23px;
+}
+
+.inputBox{
+    padding-left: 10px;
+}
+
+.join-box>table>tbody>tr>td:last-child>.comment{ 
+    padding-left: 40px;
+    font-size: 13px;
+}

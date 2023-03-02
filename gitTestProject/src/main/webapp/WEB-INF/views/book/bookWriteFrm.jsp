@@ -1,5 +1,9 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+    ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,11 +38,11 @@
 				<%-- bookEpi가 1이 아니면 활성화되도록 --%>
 					<th class="td-3">첫권(화)</th>
 					<td>
-						<input type="number" name="book1st" placeholder="1권의 bookNo" class="input-form">
+						<input type="number" name="book1st" min="0" placeholder="1권의 bookNo를 지정. 비우면 단권" class="input-form">
 					</td>
 					<th class="td-3" rowspan="2">무료 감상</th>
 					<td rowspan="2">
-						<input type="checkbox" name="nonFee" class="input-form">
+						<input type="checkbox" name="nonFee" value="1" class="input-form">
 					</td>
 				</tr>
 				<tr class="tr-1">
@@ -55,15 +59,10 @@
 					<th class="td-3">장르</th>
 					<td>
             			<select name="bookGenre">
-                			<option value="">(없음)</option>
-                			<option value="BL">BL</option>
-                			<option value="GL">GL</option>
-                			<option value="공포">공포</option>
-                			<option value="국내순정">국내순정</option>
-                			<option value="드라마">드라마</option>
-                			<option value="무협">무협</option>
-                			<option value="성인">성인</option>
-                			<option value="스포츠">스포츠</option>
+                			<option value="">(없음)</option>	<!-- 장르 미선택용. value로 null을 반환함 -->
+            			<%for(int i=0; i<genreList.size(); i++){%>
+                			<option value="<%=genreList.get(i) %>"><%=genreList.get(i) %></option>
+                		<%} %>
             			</select>
 					</td>
 					<th class="td-3">작가명</th>

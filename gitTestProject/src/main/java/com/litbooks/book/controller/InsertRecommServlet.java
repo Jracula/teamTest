@@ -1,30 +1,26 @@
 package com.litbooks.book.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.litbooks.member.vo.Member;
 import com.litbooks.book.service.BookService;
+import com.litbooks.book.vo.Recomm;
 
 /**
- * Servlet implementation class BookWriteFrm
+ * Servlet implementation class InsertRecommServlet
  */
-@WebServlet("/bookWriteFrm.do")
-public class BookWriteFrmServlet extends HttpServlet {
+@WebServlet(name = "InsertRecomm", urlPatterns = { "/insertRecomm.do" })
+public class InsertRecommServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BookWriteFrmServlet() {
+    public InsertRecommServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,23 +29,18 @@ public class BookWriteFrmServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//인코딩
 		request.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession(false);
+		//값추출
+		Recomm rc = new Recomm();
+		rc.setRecommContent(request.getParameter("recommContent"));
+		//비로직
 		BookService service = new BookService();
-		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
-		request.setAttribute("genreList", list);
-	/*	Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {*/
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookWriteFrm.jsp");
-		view.forward(request, response);
-	/*	} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "접근 제한");
-			request.setAttribute("msg", "신규 도서 등록은 관리자만 가능합니다.");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/index.jsp");
-			view.forward(request, response);
-		}*/
+		int result = service.insertRecomm(rc);
+		
+		//결처리
+		
+		
 	}
 
 	/**
