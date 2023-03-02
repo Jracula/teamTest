@@ -98,7 +98,7 @@ public class BookDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
-		String query = "INSERT INTO BOOK VALUES (BOOK_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT, ?, ?, ?, ?, '')";
+		String query = "INSERT INTO BOOK VALUES (BOOK_SEQ.NEXTVAL, ?, ?, NVL(?, '작자미상'), NVL(?, '출판사불명'), ?, ?, DEFAULT, ?, ?, CASE WHEN ?=0 THEN BOOK_SEQ.NEXTVAL ELSE ? END, ?, '')";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -112,7 +112,8 @@ public class BookDao {
 			pstmt.setString(7, b.getBookIntro());
 			pstmt.setInt(8, b.getBookEpi());
 			pstmt.setInt(9, b.getBook1st());
-			pstmt.setInt(10, b.getNonFee());
+			pstmt.setInt(10, b.getBook1st());	//book1st에 0이 아닌 특정 값을 줬다면, bookNo가 그 값인 책이 1권으로 지정됨
+			pstmt.setInt(11, b.getNonFee());
 			//bookImage 파일명은 다시 명명할 것이므로 지금 정해줄 필요 없음
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {

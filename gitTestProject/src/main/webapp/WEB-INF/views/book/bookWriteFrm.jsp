@@ -34,7 +34,7 @@
 				<%-- bookEpi가 1이 아니면 활성화되도록 --%>
 					<th class="td-3">첫권(화)</th>
 					<td>
-						<input type="number" name="book1st" placeholder="1권의 bookNo" class="input-form">
+						<input type="number" name="book1st" min="0" placeholder="1권의 bookNo를 지정. 비우면 단권" class="input-form">
 					</td>
 					<th class="td-3" rowspan="2">무료 감상</th>
 					<td rowspan="2">

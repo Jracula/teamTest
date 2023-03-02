@@ -33,14 +33,14 @@
 		<%if (b.getOnSale()==1) {%>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-			<% if (b.getDiscount()!=0) {%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
-			<p style="color: green;">판매가 - <%=newPrice %>원</p>
+			<% if (b.getDiscount()!=0) {%>
+			<p>판매가 - <span id="realPrice" style="color: green;"><%=newPrice %></span>원</p>
 			<%}else { %>
-			<p>&nbsp;</p>	<!-- 할인가가 표시되지 않더라도 같은 높이를 유지하기 위해 같은 태그로 공백 줘야됨 -->
+			<p>&nbsp;<span id="realPrice" style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 			<%} %>
 		<%}else if (b.getOnSale()==0) {%>
-			<p style="color: gray;">판매중지된 상품입니다.</p>
+			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">0</span></p>
 			<p>&nbsp;</p>
 		<%} %>
 		<!-- 아래 두 버튼들은 로그인했을 때만 나오도록 표시하던가, 아니면 눌렀을 때 로그인하라는 경고창을 띄우던가 -->
@@ -82,15 +82,15 @@
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 				<%if (bs.getOnSale()==1) {%>
 					<p><%=bs.getBookPrice() %>원</p>
-				<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-					<% if (bs.getDiscount()!=0) {%>
-					<%int newPrices = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-					<p style="color: green;"><%=bs.getBookPrice() %>원</p>
-					<%}else { %>
-					<p>&nbsp;</p>	<!-- 할인가가 표시되지 않더라도 같은 높이를 유지하기 위해 같은 태그로 공백 줘야됨 -->
-					<%} %>
+			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
+				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+				<% if (bs.getDiscount()!=0) {%>
+				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+				<%}else { %>
+				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+				<%} %>
 				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.</p>
+					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
 					<p>&nbsp;</p>
 				<%} %>
 				</div>
