@@ -236,11 +236,78 @@ public class BookService {
 
 
 	//1권인 책만 상세 조건으로 검색
-	public ArrayList<Book> selectBook1stByWish(String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
+	public SearchResultPage selectBook1stByWish(int reqPage, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
 		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Book> list = dao.selectBook1stByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
+		int numPerPage = 30;	//페이지당 검색결과물 수
+		int end = numPerPage*reqPage;
+		int start = numPerPage*(reqPage-1)+1;
+		ArrayList<Book> list = dao.selectBook1stByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre, start, end);
+		// 최대 페이지 수
+		int totalCount = dao.selectSearchResultCount(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
+		int maxPage = 0;
+		if(totalCount%numPerPage == 0) {
+			maxPage = totalCount/numPerPage;
+		} else {
+			maxPage = totalCount/numPerPage + 1;
+		}
+		
+		// 페이지 이동 버튼 표시 수
+		int pageNaviSize = 5;
+		
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
+		
+		// 페이지 네비게이션
+		String pageNavi = "<ul class='pagination'>";
+		if(pageNo != 1) {
+			pageNavi += "<li>";
+			pageNavi += "<span class='page-item' style='cursor: pointer;'>";
+			pageNavi += "<span class='reqPage' style='display: none;'>";
+			pageNavi += pageNo-1;
+			pageNavi += "</span>";
+			pageNavi += "<span class='material-icons'>chevron_left</span>";
+			pageNavi += "</span></li>";
+		}
+		
+		for(int i=0; i<pageNaviSize; i++) {
+			if(pageNo == reqPage) {
+				pageNavi += "<li>";
+				pageNavi += "<span class='page-item' style='cursor: pointer;'>";
+				pageNavi += "<span style='display: none;'>";
+				pageNavi += pageNo;
+				pageNavi += "</span>";
+				pageNavi += pageNo;
+				pageNavi += "</span></li>";
+			}else {
+				pageNavi += "<li>";
+				pageNavi += "<span class='page-item' style='cursor: pointer;'>";
+				pageNavi += "<span style='display: none;'>";
+				pageNavi += pageNo;
+				pageNavi += "</span>";
+				pageNavi += pageNo;
+				pageNavi += "</span></li>";
+			}
+			pageNo++;
+			if(pageNo > maxPage) {
+				break;
+			}
+		}
+
+		if(pageNo <= maxPage) {
+			pageNavi += "<li>";
+			pageNavi += "<span class='page-item' style='cursor: pointer;'>";
+			pageNavi += "<span style='display: none;'>";
+			pageNavi += pageNo;
+			pageNavi += "</span>";
+			pageNavi += "<span class='material-icons'>chevron_right</span>";
+			pageNavi += "</span></li>";
+		}
+		
+		pageNavi += "</ul>";
+		
+		SearchResultPage bsr = new SearchResultPage(list, pageNavi, start, numPerPage, reqPage, totalCount);
+		
 		JDBCTemplate.close(conn);
-		return list;
+		return bsr;
 	}
 
 

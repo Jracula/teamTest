@@ -22,7 +22,7 @@
 </head>
 	<div class="page-content">
 		<div class="searchEngine">
-			<form action="/book1stSearchInDetail.do" method="post">
+			<form action="/book1stSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
 				<div>책제목 : <input type="text" name="searchTitle" placeholder="검색할 책 제목"></div>
 				<div>저자 : <input type="text" name="searchWriter" placeholder="검색할 저자 이름"></div>
 				<div>
@@ -77,6 +77,21 @@
 		</div>
 	</div>
 	<script>
+	function checkKeyword() {
+		const keyword1 = $("[name=searchTitle]").val();
+		const keyword2 = $("[name=searchWriter]").val();
+		if (!keyword1 && !keyword2) {
+			alert("책제목 또는 저자 중 하나 이상은 입력 후 검색해주십시오.");
+			return false;
+		}
+		return true;
+	}
+	$(".page-item").on("click", function(){
+		const reqPage = $(this).children().first().text();
+		$("[name=reqPage]").val(reqPage);
+		$("#submitButton").click();
+	});
+	
 	$(".selectBook").on("click",function(){	//클릭한 개체의 값들을 부모창으로 반환
 		const bookNo = $(this).children().first().text();
 		const bookPrice = $(this).children().eq(4).text();

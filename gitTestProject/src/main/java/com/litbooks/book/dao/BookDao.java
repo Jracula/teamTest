@@ -385,13 +385,13 @@ public class BookDao {
 
 	
 	//1권인 책만 상세 조건으로 책 검색
-	public ArrayList<Book> selectBook1stByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
+	public ArrayList<Book> selectBook1stByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[], int start, int end){
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
 
-		String queryHead = "SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
 		String queryBody = "";
 		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
 			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
@@ -405,7 +405,7 @@ public class BookDao {
 		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
 			queryOnsale =" AND (ONSALE=1)";
 		}
-		String query = queryHead+queryBody+queryTail+queryOnsale;	//완성된 query문
+		String query = queryHead+queryBody+queryTail+queryOnsale+")RESULT) WHERE RN BETWEEN ? AND ?";	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -415,7 +415,12 @@ public class BookDao {
 				for(int i=0; i<selectedGenre.length; i++) {
 					pstmt.setString(i+3, selectedGenre[i]);
 				}
-			}			
+				pstmt.setInt(selectedGenre.length+3, start);
+				pstmt.setInt(selectedGenre.length+4, end);
+			} else {
+				pstmt.setInt(3, start);
+				pstmt.setInt(4, end);
+			}
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
