@@ -34,11 +34,18 @@ public class BookSearchResultServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String searchKeyword = request.getParameter("searchKeyword");
+		String selectedGenre[] = {};
 		BookService service = new BookService();
 		ArrayList<Book> books = service.selectBooksInHeader(searchKeyword);
 		request.setAttribute("books", books);
+		request.setAttribute("pageNavi", "");
+		request.setAttribute("start", 1);
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
+		request.setAttribute("recievedTitle", "");
+		request.setAttribute("recievedWriter", "");
+		request.setAttribute("recievedGenre", selectedGenre);
+		request.setAttribute("recievedOnSale", 0);
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookSearchResult.jsp");
 		view.forward(request, response);
 	}
