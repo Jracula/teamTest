@@ -2,8 +2,9 @@
     width: 1200px;
     margin: 0 auto;
 }
-.join-title{
+.update-title{
     text-align: center;
+    margin-top : 70px;
 }
 
 .join-box{
@@ -20,9 +21,9 @@ tr>td:first-child{
 }
 
 table{
-	margin : 0px auto;
+	margin : 0 auto;
+	padding : 45px 0;
 }
-
 
 tr>td:first-child>sup{
 color: rgb(226, 1, 1);
@@ -32,11 +33,11 @@ color: rgb(226, 1, 1);
     margin-left: 40px;
     height: 45px;
     width: 400px;
-    border: 1px solid rgb(211, 211, 211);
+    border: 0;
+    background-color: rgb(241, 241, 241);
     border-radius: 5px;
     box-sizing: border-box;
 }
-
 
 
 .join-box>table>tbody>tr>td{ 
@@ -48,27 +49,29 @@ color: rgb(226, 1, 1);
     border: 0px;
     height: 45px;
     border-radius: 5px;
-    width: 85px;
+    width: 83px;
     cursor: pointer;
     border: 1.8px solid  rgb(32, 90, 167);
     background-color: white;
+
 }
 
 .btn-box{
-    width: 650px;
+    width: 515px;
     margin: 0 auto;
 }
 
 .btn-box>button{
-    width: 640px;
+    width: 515px;
     background-color: rgb(32, 90, 167);
     border: 0px;
-    height: 60px;
+    height: 50px;
     border-radius: 5px;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
     font-weight: 500;
     cursor: pointer;
+    margin : 5px auto;   
 }
 
 .agree-box>label{
@@ -90,7 +93,6 @@ color: rgb(226, 1, 1);
     float: right;
     font-size: 12px;
     color: rgb(32, 90, 167);
-    cursor: pointer;
 }
 
 .agree-box>.agreeCheck{
@@ -110,80 +112,25 @@ color: rgb(226, 1, 1);
     font-size: 13px;
 }
 
+/**/
 .join-box>table>tbody>tr>td:last-child>#memberEmail{ 
-   width: 55%;
+width: 50%;
 }
+/**/
 
 .join-box>table>tbody>tr>td:last-child>#checkEmail{ 
-    width:20%;
+    width:25%;
     margin: 0;
- }
- 
- #email-time{
+}
+
+#email-time{
     margin-left: 300px;
 }
- 
- 
- 
- 
- 
-/*모달*/
-.agreeModal-wrap{
-	display: none;
-    width: 100vw;
-    height: 115vh;
-    background-color: rgba(0,0,0,0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    justify-content: center;
-    align-items: center;
-    /*display: flex;*/
-}
 
-.agreeModal-1{
-    background-color: #fff;
-    width: 750px;
-    min-width: 300px;
-    max-width: 500px;
-    height: 540px;
-    min-height: 350px;
-    max-height: 540px;
-    border-radius: 10px;
-}
-
-.agreeModal-top>h3{
-    margin: 0;
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 25px;
-    color: rgb(32, 90, 167);
-}
-
-.agreeModal-content{
-    margin: 0 auto;
-    width: 400px;
-    height: 350px;
-    overflow: auto;
-}
-
-.resetBtn{
-    width: 400;
-}
-
-.resetBtn>#reset{
-    display: flex;
-    margin: 25px auto;
-    border-radius: 5px;
-    border: none;
-    width: 130px;
-    height: 50px;
-    line-height : 50px;
-    justify-content: center;
+.btn-box>.delete-btn{
+    float: right;
     background-color: white;
     border: 1.8px solid rgb(32, 90, 167);
-    font-weight: 600;
     color: rgb(32, 90, 167);
-    font-size: 15px;
-    cursor: pointer;
 }
+
