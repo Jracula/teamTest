@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.litbooks.basket.vo.MultiData;
 import com.litbooks.book.service.BookService;
 import com.litbooks.book.vo.Book;
 
@@ -42,16 +43,19 @@ public class CartServlet extends HttpServlet {
 		//int bookNo = Integer.parseInt(request.getParameter("bookNo"));
 		
 		// 책 테이블 전체 조회
-		ArrayList<Book> list = service.selectAllBook(memberNo);
+		//ArrayList<Book> list = service.selectAllBook(memberNo);
+		MultiData mda = service.selectAllBook(memberNo);
 		
-		if(list.isEmpty()) {
+		
+		if(mda == null) {
 			request.setAttribute("title", "카트 조회불가");
 			request.setAttribute("msg", "에러");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/index.jsp");
 		} else {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/cart.jsp");
-			request.setAttribute("list", list);
+			request.setAttribute("baskList", mda.getBasketList());
+			request.setAttribute("bookList", mda.getBookList());
 			view.forward(request, response);			
 		}
 	}

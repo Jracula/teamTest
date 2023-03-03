@@ -1,9 +1,11 @@
+<%@page import="com.litbooks.basket.vo.Basket"%>
 <%@page import="com.litbooks.book.vo.Book"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
-    	ArrayList<Book> list = (ArrayList<Book>)request.getAttribute("list");
+    	ArrayList<Basket> baskList = (ArrayList<Basket>)request.getAttribute("baskList");
+    	ArrayList<Book> bookList = (ArrayList<Book>)request.getAttribute("bookList");
     %>
 <!DOCTYPE html>
 <html>
@@ -60,8 +62,8 @@
                 <th><button type="button" class="removeBtn">선택삭제</button></th>
             </tr>
             
-            <% for(int i=0; i<list.size(); i++) { %>
-            <% Book b = list.get(i); %>
+            <% for(int i=0; i<bookList.size(); i++) { %>
+            <% Book b = bookList.get(i); %>
             <tr>
                 <td><input type="checkbox" class="chk" name="cartNo"></td>
                 <td><img src="#" width="100px" height="100px"></td>

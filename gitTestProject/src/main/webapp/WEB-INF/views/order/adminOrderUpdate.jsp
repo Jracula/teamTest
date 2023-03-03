@@ -15,7 +15,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="page-title">(관리자페이지) 주문내역 취소</div>
-			<form action="adminOrderUpdate.do">
+			<form action="/adminOrderUpdate.do">
 			
 				<table class="tbl tbl-hover">
 					<tr class="tr-3">

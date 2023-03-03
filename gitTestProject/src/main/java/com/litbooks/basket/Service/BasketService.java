@@ -16,7 +16,6 @@ public class BasketService {
 		dao = new BasketDao();
 	}
 
-
 	//장바구니에 넣어도 되는지 검사하기
 	public String selectBasket(int bookNo, int memberNo){
 		Connection conn = JDBCTemplate.getConnection();

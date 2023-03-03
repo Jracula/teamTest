@@ -365,6 +365,34 @@ public class BookDao {
 		}
 		return list;
 	}
+
+	// 장바구니 목록 조회
+	public ArrayList<Basket> selectAllBasket(Connection conn, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Basket> list = new ArrayList<>();
+		
+		String query = "select * from basket where member_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Basket bask = new Basket();
+				bask.setBasketNo(rset.getInt("basket_no"));
+				bask.setMemberNo(rset.getInt("member_no"));
+				bask.setBookNo(rset.getInt("book_no"));
+				list.add(bask);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return list;
+	}
 	
 
 }
