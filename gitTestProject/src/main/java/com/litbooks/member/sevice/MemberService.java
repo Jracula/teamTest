@@ -14,11 +14,19 @@ public class MemberService {
 		super();
 		dao = new MemberDao();
 	}
-
+	//로그인
 	public Member selectOneMember(Member m) {
 	    Connection conn = JDBCTemplate.getConnection();
 	    Member member = dao.selectOneMember(conn, m);
 	    JDBCTemplate.close(conn);
 	    return member;
+	}
+
+	//아이디 중복체크
+	public Member selectOneMember(String memberId) {
+		Connection conn = JDBCTemplate.getConnection();
+		Member m = dao.selectOneMember(conn, memberId);
+		JDBCTemplate.close(conn);
+		return m;
 	}
 }

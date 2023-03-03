@@ -304,6 +304,67 @@ public class BookDao {
 		return list;
 	}
 
+	
+	//1권인 책만 상세 조건으로 책 검색
+	public ArrayList<Book> selectBook1stByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		ArrayList<Book> list = new ArrayList<Book>();
+
+		String queryHead = "SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryBody = "";
+		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
+			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
+			for(int i=1; i<selectedGenre.length; i++) {
+				queryBody += ", ?";
+			}
+			queryBody += ")";
+		}
+		String queryTail = ")";
+		String queryOnsale ="";
+		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
+			queryOnsale =" AND (ONSALE=1)";
+		}
+		String query = queryHead+queryBody+queryTail+queryOnsale;	//완성된 query문
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+			pstmt.setString(2, '%'+searchWriter+'%');
+			if(selectedGenre!=null) {
+				for(int i=0; i<selectedGenre.length; i++) {
+					pstmt.setString(i+3, selectedGenre[i]);
+				}
+			}			
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				int bookNo = rset.getInt("BOOK_NO");
+				String bookTitle = rset.getString("BOOK_TITLE");
+				String bookGenre = rset.getString("BOOK_GENRE");
+				String writer = rset.getString("WRITER");
+				String publisher = rset.getString("PUBLISHER");
+				int bookPrice = rset.getInt("BOOK_PRICE");
+				int discount = rset.getInt("DISCOUNT");
+				int onSale = rset.getInt("ONSALE");
+				String bookIntro = rset.getString("BOOK_INTRO");
+				int bookEpi = rset.getInt("BOOK_EPI");
+				int book1st = rset.getInt("BOOK_1ST");
+				int nonFee = rset.getInt("NONFEE");
+				String bookImage = rset.getString("BOOK_IMAGE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
 
 	public int insertRecomm(Connection conn, com.litbooks.book.vo.Recomm rc) {
 		PreparedStatement pstmt = null;
