@@ -2,7 +2,9 @@ package com.litbooks.orderB.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
+import com.litbooks.book.vo.Book;
 import com.litbooks.orderB.dao.OrderBDao;
 import com.litbooks.orderB.vo.OrderB;
 import com.litbooks.orderB.vo.OrderBPageData;
@@ -94,9 +96,9 @@ public class OrderBService {
 	}
 
 	// 어떤회원이 결제했는지 조회
-	public OrderB selectOrderNumber(int memberNo) {
+	public OrderB selectOrderNumber(int memberNo, int bookNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		OrderB o = dao.selectOrderNumber(conn, memberNo);
+		OrderB o = dao.selectOrderNumber(conn, memberNo, bookNo);
 		JDBCTemplate.close(conn);
 		return o;
 	}
@@ -110,9 +112,9 @@ public class OrderBService {
 	}
 
 	// (관리자페이지) 결제방식 변경
-	public int changePay(int memberNo, String orderPay) {
+	public int changePay(int orderNo, int orderPay) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.changePay(conn, memberNo, orderPay);
+		int result = dao.changePay(conn, orderNo, orderPay);
 		if(result > 0) {
 			JDBCTemplate.commit(conn);
 		} else {
@@ -127,6 +129,46 @@ public class OrderBService {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.orderCancel(conn);
 		return 0;
+	}
+
+	public ArrayList<Book> selectBookNo(String basketNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		String[] bNo = basketNo.split("/");
+		ArrayList<Book> list = new ArrayList<Book>();
+		for(String no : bNo) {
+			int basketOneNo = Integer.parseInt(no);
+			Book b = dao.selectBookBasketNo(conn,basketOneNo);
+			list.add(b);
+		}
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+	// 선택회원 결제상태 변경
+	public boolean checkedChange(String status, String chkStatus) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		StringTokenizer sT1 = new StringTokenizer(status, "/");
+		StringTokenizer sT2 = new StringTokenizer(chkStatus, "/");
+		boolean result = true;
+		
+		while(sT1.hasMoreTokens()) {
+			int orderNo = Integer.parseInt(sT1.nextToken());
+			int orderPay = Integer.parseInt(sT2.nextToken());
+			
+			int changeResult = dao.changePay(conn, orderNo, orderPay);
+			if(changeResult == 0) {
+				result = false;
+				break;
+			}
+		}
+		if(result) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
 	}
 	
 	

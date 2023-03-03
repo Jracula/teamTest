@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.litbooks.basket.vo.Basket;
 import com.litbooks.book.vo.Book;
 
 import common.JDBCTemplate;
@@ -68,7 +69,6 @@ public class BasketDao {
 		return baskets;	//baskets의 크기 == 장바구니에 담은 수
 	}
 
-
 	//장바구니에 1개 넣기
 	public int insertOneBasket(Connection conn, int bookNo, int memberNo) {
 		PreparedStatement pstmt = null;
@@ -89,6 +89,64 @@ public class BasketDao {
 		}
 		return result;
 	}
+
+	// 장바구니에서 책번호 조회
+	public ArrayList<Basket> selectBookNumber(Connection conn, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<Basket> baskets = new ArrayList<>();
+
+		String query = "SELECT BASKET_NO, BOOK_NO FROM BASKET WHERE MEMBER_NO=?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				Basket ba = new Basket();
+				ba.setBasketNo(rset.getInt("BASKET_NO"));
+				ba.setBookNo(rset.getInt("BOOK_NO"));				
+				baskets.add(ba);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return baskets;	//baskets의 크기 == 장바구니에 담은 수
+	}
+
+	// 장바구니에서 회원이 담은 책 제목, 책 가격 Book 테이블 JOIN
+	public ArrayList<Book> selectBookDetail(Connection conn, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Book> bask = new ArrayList<>();
+		
+		String query = "select ba.book_no, book_title, book_price from basket ba left join book b on (b.book_no=ba.basket_no) where member_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Book ba = new Book();
+				ba.setBookNo(rset.getInt("book_no"));
+				ba.setBookTitle(rset.getString("book_title"));
+				ba.setBookPrice(rset.getInt("book_price"));
+				bask.add(ba);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return bask;
+	}
+
 
 
 }

@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.basket.vo.MultiData;
-import com.litbooks.book.service.BookService;
+import com.litbooks.basket.Service.BasketService;
+import com.litbooks.basket.vo.Basket;
 import com.litbooks.book.vo.Book;
 
 /**
@@ -35,27 +35,24 @@ public class CartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
 		
-		int memberNo = 2;
+		BasketService service = new BasketService();
 		
-		BookService service = new BookService();
+		// 장바구니에서 책번호 조회
+		ArrayList<Basket> list = service.selectBookNumber(memberNo);
 		
-		//int bookNo = Integer.parseInt(request.getParameter("bookNo"));
-		
-		// 책 테이블 전체 조회
-		//ArrayList<Book> list = service.selectAllBook(memberNo);
-		MultiData mda = service.selectAllBook(memberNo);
-		
-		
-		if(mda == null) {
+		if(list.isEmpty()) {
 			request.setAttribute("title", "카트 조회불가");
-			request.setAttribute("msg", "에러");
-			request.setAttribute("icon", "error");
+			request.setAttribute("msg", "책을 담아주세요");
+			request.setAttribute("icon", "warning");
 			request.setAttribute("loc", "/index.jsp");
 		} else {
+			// 장바구니에서 회원이 담은 책 제목, 책 가격 조회
+			ArrayList<Book> bask = service.selectBookDetail(memberNo);
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/cart.jsp");
-			request.setAttribute("baskList", mda.getBasketList());
-			request.setAttribute("bookList", mda.getBookList());
+			request.setAttribute("list", list);
+			request.setAttribute("bask", bask);
 			view.forward(request, response);			
 		}
 	}

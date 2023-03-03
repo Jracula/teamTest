@@ -39,7 +39,9 @@ public class AdminOrderUpdateServlet extends HttpServlet {
 		
 		/*Member m = (Member)session.getAttribute("m");
 		if(m.getMemberLevel() == 1) {
-			
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderUpdate.jsp");
+			request.setAttribute("list", list);
+			view.forward(request, response);
 		}
 		*/
 		if(list.isEmpty()) {

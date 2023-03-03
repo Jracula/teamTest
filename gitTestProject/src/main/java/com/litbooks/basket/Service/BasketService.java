@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.litbooks.basket.dao.BasketDao;
+import com.litbooks.basket.vo.Basket;
 import com.litbooks.book.vo.Book;
 
 import common.JDBCTemplate;
@@ -32,7 +33,6 @@ public class BasketService {
 		return message;
 	}
 
-
 	//장바구니에 1개 넣기
 	public int insertOneBasket(int bookNo, int memberNo) {
 		Connection conn = JDBCTemplate.getConnection();
@@ -45,6 +45,31 @@ public class BasketService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
+
+	//특정 회원이 장바구니에 넣어놓은 책번호들을 ArrayList로 받는 함수. 따라서 ArrayList.size() == 장바구니에 담은 수
+	public ArrayList selectNumberOfBasket(int memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList list = dao.selectNumberOfBasket(conn, memberNo);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+
+	// 장바구니에서 책번호 조회
+	public ArrayList<Basket> selectBookNumber(int memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Basket> list = dao.selectBookNumber(conn, memberNo);
+		JDBCTemplate.close(conn);
+		return list;
+	}
+	
+	// 장바구니에서 회원이 담은 책 제목, 책 가격 Book 테이블 JOIN
+	public ArrayList<Book> selectBookDetail(int memberNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		ArrayList<Book> bask = dao.selectBookDetail(conn, memberNo);
+		JDBCTemplate.close(conn);
+		return bask;
+	}
+
 
 	
 }

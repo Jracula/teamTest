@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.litbooks.basket.vo.Basket;
-import com.litbooks.basket.vo.MultiData;
 import com.litbooks.book.dao.BookDao;
 import com.litbooks.book.vo.Book;
 import com.litbooks.book.vo.Recomm;
@@ -100,8 +99,6 @@ public class BookService {
 		JDBCTemplate.close(conn);
 		return list;
 	}
-<<<<<<< HEAD
-=======
 
 
 
@@ -121,16 +118,6 @@ public class BookService {
 		int result = dao.insertRecomm(conn,rc);
 		
 		return result;
-	}
-
-	// 장바구니 조회
-	public MultiData selectAllBook(int memberNo) {
-		Connection conn = JDBCTemplate.getConnection();
-		ArrayList<Basket> list = dao.selectAllBasket(conn, memberNo);
-		ArrayList<Book> list2 = dao.selectAllBook(conn, memberNo);
-		JDBCTemplate.close(conn);
-		MultiData mda = new MultiData(list, list2);
-		return mda;
 	}
 
 	

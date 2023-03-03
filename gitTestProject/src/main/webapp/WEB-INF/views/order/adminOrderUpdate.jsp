@@ -26,7 +26,7 @@
 						<th>가격</th>
 						<th>결제수단</th>
 						<th>결제날짜</th>
-						<th>결제방식</th>
+						<th>결제상태</th>
 						<th></th>
 					</tr>
 					
@@ -65,13 +65,13 @@
 		<script>
 			// 결제방식 변경
 			$(".adminChangePay").on("click", function() {
-				const memberNo = $(this).parent().parent().children().eq(1).text();				
+				const orderNo = $(this).parent().parent().children().eq(1).text();		
 				const orderPay = $(this).parent().prev().children().val();
 				
-				//console.log("memberNo : " + memberNo);
+				//console.log("orderNo : " + orderNo);
 				//console.log("orderPay : " + orderPay);
 				
-				location.href = "/adminChangePay.do?memberNo="+memberNo+"&orderPay="+orderPay;
+				location.href = "/adminChangePay.do?orderNo="+orderNo+"&orderPay="+orderPay;
 			});
 			
 			// 선택회원 주문상태 변경
@@ -89,17 +89,19 @@
 				const chkStatus = new Array();
 				
 				check.each(function(index, item) {
-					const memberNo = $(item).parent().next().text();
-					console.log("memberNo : " + memberNo);
-					status.push(memberNo);
+					const orderNo = $(item).parent().next().text();
+					console.log("orderNo : " + orderNo);
+					status.push(orderNo);
 					
 					const orderPay = $(item).parent().parent().find("select").val();
 					console.log("orderPay : " + orderPay);
 					chkStatus.push(orderPay);
 				});
 				
-				//location.href="";
+				location.href="/adminCheckChangePay.do?status="+status.join("/")+"&chkStatus="+chkStatus.join("/");
 				
+				console.log("status : " + status);
+				console.log("chkStatus : " + chkStatus);
 			});
 		</script>
 		

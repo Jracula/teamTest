@@ -6,13 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.litbooks.book.vo.Book;
 import com.litbooks.orderB.vo.OrderB;
 
 import common.JDBCTemplate;
 
 public class OrderBDao {
 
-	
 	// 전체주문 조회하기
 	public ArrayList<OrderB> selectAllOrder(Connection conn, int memberNo, int start, int end) {
 		PreparedStatement pstmt = null;
@@ -69,15 +69,16 @@ public class OrderBDao {
 	}
 
 	// 어떤 회원이 결제했는지 조회
-	public OrderB selectOrderNumber(Connection conn, int memberNo) {
+	public OrderB selectOrderNumber(Connection conn, int memberNo, int bookNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		OrderB o = null;
+		OrderB o = new OrderB();
 		
-		String query = "select m.member_no, b.book_no, b.book_price, b.publisher, b.book_title, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no) where m.member_no=?";
+		String query = "select m.member_no, b.book_no, b.book_price, b.publisher, b.book_title, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no) where m.member_no=? and book_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, bookNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				o = new OrderB();
@@ -131,6 +132,7 @@ public class OrderBDao {
 		return list;
 	}
 
+	// ↓ 수정
 	// 관리자페이지 주문내역 취소
 	public int orderCancel(Connection conn) {
 		PreparedStatement pstmt = null;
@@ -143,15 +145,15 @@ public class OrderBDao {
 	}
 
 	// (관리자페이지) 결제방식 변경
-	public int changePay(Connection conn, int memberNo, String orderPay) {
+	public int changePay(Connection conn, int orderNo, int orderPay) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "update order_b set status=? where member_no=?";
+		String query = "update order_b set status=? where order_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, orderPay);
-			pstmt.setInt(2, memberNo);
+			pstmt.setInt(1, orderPay);
+			pstmt.setInt(2, orderNo);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -160,6 +162,45 @@ public class OrderBDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	// 체크된 장바구니 책번호가 책테이블에 있는지 조회
+	public Book selectBookBasketNo(Connection conn, int basketOneNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		Book b = null;
+
+		String query = "SELECT * FROM BOOK WHERE BOOK_NO=(select book_no from basket where basket_no=?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, basketOneNo);
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				int bookNo = rset.getInt("BOOK_NO");
+				String bookTitle = rset.getString("BOOK_TITLE");
+				String bookGenre = rset.getString("BOOK_GENRE");
+				String writer = rset.getString("WRITER");
+				String publisher = rset.getString("PUBLISHER");
+				int bookPrice = rset.getInt("BOOK_PRICE");
+				int discount = rset.getInt("DISCOUNT");
+				int onSale = rset.getInt("ONSALE");
+				String bookIntro = rset.getString("BOOK_INTRO");
+				int bookEpi = rset.getInt("BOOK_EPI");
+				int book1st = rset.getInt("BOOK_1ST");
+				int nonFee = rset.getInt("NONFEE");
+				String bookImage = rset.getString("BOOK_IMAGE");
+				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return b;
 	}
 
 

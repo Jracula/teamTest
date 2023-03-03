@@ -26,7 +26,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="page-title">(관리자페이지) 주문내역 조회</div>
-		<form action="/AdminOrderList.do" method="post">
+		<form action="/adminOrderList.do" method="post">
 			<table class="tbl tbl-hober orberB-tbl">
 				<tr class="tr-2">
 					<th>주문번호</th>

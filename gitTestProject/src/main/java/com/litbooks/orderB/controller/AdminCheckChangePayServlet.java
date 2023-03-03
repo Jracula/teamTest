@@ -1,7 +1,6 @@
 package com.litbooks.orderB.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.book.vo.Book;
 import com.litbooks.orderB.service.OrderBService;
-import com.litbooks.orderB.vo.OrderB;
 
 /**
- * Servlet implementation class OrderPayMentServlet
+ * Servlet implementation class AdminCheckChangePayServlet
  */
-@WebServlet(name = "OrderPayMent", urlPatterns = { "/orderPayMent.do" })
-public class OrderPayMentServlet extends HttpServlet {
+@WebServlet(name = "AdminCheckChangePay", urlPatterns = { "/adminCheckChangePay.do" })
+public class AdminCheckChangePayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OrderPayMentServlet() {
+    public AdminCheckChangePayServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,25 +32,25 @@ public class OrderPayMentServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		//int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		String basketNo = request.getParameter("basketNo");
+		String status = request.getParameter("status");
+		String chkStatus = request.getParameter("chkStatus");
 		
 		OrderBService service = new OrderBService();
+		boolean result = service.checkedChange(status, chkStatus);
 		
-		ArrayList<Book> list = service.selectBookNo(basketNo);
-		
-		if(list.isEmpty()) {
-			request.setAttribute("title", "오류");
-			request.setAttribute("msg", "에러");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/orderPayMent.do");
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(result) {
+			request.setAttribute("title", "정보변경 성공");
+			request.setAttribute("msg", "요청이 처리되었습니다.");
+			request.setAttribute("icon", "success");
 		} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/orderPayMent.jsp");
-			request.setAttribute("list", list);
-			request.setAttribute("basketNo", basketNo);
-			view.forward(request, response);
-			
+			request.setAttribute("title", "정보변경 실패");
+			request.setAttribute("msg", "요청 처리 중 문제가 발생했습니다.");
+			request.setAttribute("icon", "error");
 		}
+		request.setAttribute("loc", "/adminOrderUpdate.do"); // adminPage.do로 변경
+		view.forward(request, response);
+		
 	}
 
 	/**
