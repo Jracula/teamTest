@@ -20,8 +20,8 @@
         <a href="/">LITBOOKS</a>
       </div>
       <nav>
-      	<form action="/bookSearchResult.do" method="get">
-      		<div class="search-bar" style="width: 560px; margin: 0 auto;"><input style="width:460px;" type="text" name="searchKeyword" placeholder="책제목 또는 저자 이름을 입력하세요."><button type="submit">검색</button></div>
+      	<form action="/bookSearchInDetail.do" method="get" onsubmit="return checkKeyword();">
+      		<div class="search-bar" style="width: 560px; margin: 0 auto;"><input style="width:460px;" type="text" name="searchKeyword" placeholder="책제목을 입력하세요."><button type="submit">검색</button></div>
       	</form>
       </nav>
       <div class="header-link">
@@ -45,7 +45,16 @@
       
     </header>
     
-     
+	<script>
+		function checkKeyword() {
+			const keyword = $("form>div>input").val();
+			if (!keyword) {
+				alert("검색어를 입력 후 검색해주십시오.");
+				return false;
+			}
+			return true;
+		}
+	</script> 
     
     <!-- 로그인 안되어있을때만 모달 나오게함 -->
     <%--
