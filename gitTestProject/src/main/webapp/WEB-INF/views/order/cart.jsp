@@ -70,7 +70,7 @@
                 <td><input type="checkbox" class="chk" value=<%=ba.getBasketNo() %>></td>
                 <td><img src="#" width="150px" height="150px"></td>
                 <td>
-                	<span style="display: block;" id="bookNo"><%=ba.getBasketNo() %></span>
+                	<span style="display: none;" id="bookNo"><%=ba.getBasketNo() %></span>
     		<% } %>
 			<% for(int j=0; j<bask.size(); j++) {%>
        		<% Book detail = bask.get(j); %>
@@ -118,13 +118,24 @@
 					chk[i].parentElement.parentElement.remove();
 				}
 			}
-			// 선택삭제 버튼 클릭 시 장바구니에 담겨져 있는 책 번호 삭제
-			location.href="/cartDelete.do";
 			
+			// 수정필요
+			const check = $(".chk:checked");
+			
+			const no = new Array();
+			
+			check.each(function(index, item) {				
+				const bookNo = $(this).parent().parent().next().children().find("span").text();
+				console.log("bookNo = " + bookNo);
+			});
+			
+			// 체크 후 선택삭제 시 장바구니 DB에 해당하는 책 번호 삭제
+			location.href="/cartDelete.do?no="+no.join("/");
 		});
 		
-		// 총 상품 금액, 합계 --> 함수처리
 		
+		
+		// 총 상품 금액, 합계 --> 함수처리
 		let sum = 0;
 		const price = $(".amountPrice");
 		//console.log(price);

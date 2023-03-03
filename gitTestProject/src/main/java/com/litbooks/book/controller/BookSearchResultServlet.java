@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.book.service.BookService;
 import com.litbooks.book.vo.Book;
+import com.litbooks.book.vo.SearchResultPage;
 
 /**
  * Servlet implementation class BookSearchResultServlet
@@ -36,7 +37,7 @@ public class BookSearchResultServlet extends HttpServlet {
 		String searchKeyword = request.getParameter("searchKeyword");
 		String selectedGenre[] = {};
 		BookService service = new BookService();
-		ArrayList<Book> books = service.selectBooksInHeader(searchKeyword);
+		SearchResultPage books = service.selectBooksInHeader(searchKeyword);
 		request.setAttribute("books", books);
 		request.setAttribute("pageNavi", "");
 		request.setAttribute("start", 1);
