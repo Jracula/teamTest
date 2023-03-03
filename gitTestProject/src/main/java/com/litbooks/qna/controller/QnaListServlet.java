@@ -1,4 +1,4 @@
-package com.litbooks.board.controller;
+package com.litbooks.qna.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,20 +10,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.board.model.service.BoardService;
-import com.litbooks.board.model.vo.Board;
+import com.litbooks.faq.model.service.FaqService;
+import com.litbooks.faq.model.vo.FaqPageData;
+import com.litbooks.qna.model.service.QnaService;
+import com.litbooks.qna.model.vo.Qna;
+import com.litbooks.qna.model.vo.QnaPageData;
 
 /**
  * Servlet implementation class BoardListServlet
  */
-@WebServlet(name = "BoardList", urlPatterns = { "/boardList.do" })
-public class BoardListServlet extends HttpServlet {
+@WebServlet(name = "QnaList", urlPatterns = { "/qnaList.do" })
+public class QnaListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListServlet() {
+    public QnaListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +38,18 @@ public class BoardListServlet extends HttpServlet {
 		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
+		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		//3. 비즈니스 로직
-		BoardService service = new BoardService();
-		ArrayList<Board> list = service.selectBoard();
-		//4. 결과출력
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp");
-		request.setAttribute("list", list);
-		view.forward(request, response);
+		QnaService service = new QnaService();
+		QnaPageData bpd = service.selectBoard(reqPage);
+		ArrayList<Qna> list = service.selectBoard();
 		
+		//4. 결과출력
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaList.jsp");
+		request.setAttribute("list", bpd.getList());
+		request.setAttribute("pageNavi", bpd.getPageNavi());
+		request.setAttribute("start", bpd.getStart());
+		view.forward(request, response);
 	}
 
 	/**

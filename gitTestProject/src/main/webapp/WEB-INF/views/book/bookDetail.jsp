@@ -26,6 +26,7 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
+		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>
 		<div class="book-cover">
 		<%if (b.getBookImage()!=null){%>
 			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=400px>
@@ -54,7 +55,7 @@
 			<p>&nbsp;</p>
 		<%} %>
 		<!-- 아래 두 버튼들은 로그인했을 때만 나오도록 표시하던가, 아니면 눌렀을 때 로그인하라는 경고창을 띄우던가 -->
-			<a class="btn bc9" href="#">카트에 담기</a>
+			<button class="btn bc9" id="addCart">장바구니에 담기</button>
 			<a class="btn bc9" href="#">구매하기</a>
 		</div>
 		<div>
@@ -110,6 +111,33 @@
 		<%}%>
 		
 		
+<<<<<<< HEAD
 	<script src="/js/recomm.js"></script>
+=======
+	
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	<script>
+	$("#addCart").on("click", function(){
+		const memberNo = $("#memberNo").text();	//header.jsp의 Member m.getMemberNo()
+		if(memberNo!=0){ //로그인되어 있는지부터 확인
+			const bookNo = $("#bookNo").text();
+			$.ajax({
+				url: "/insertOneIntoCart.do",
+				type: "GET",
+				data: {input1 : bookNo, input2 : memberNo},
+				success: function(message){
+					alert(message);
+				},
+				error: function(){
+					console.log("알 수 없는 오류가 발생했습니다.");
+				}
+			});
+		}else{
+			console.log(memberNo);
+			alert("회원 로그인이 필요합니다.");
+		}
+	});
+	</script>
+>>>>>>> main
 </body>
 </html>

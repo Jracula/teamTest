@@ -1,25 +1,26 @@
-package com.litbooks.board.controller;
+package com.litbooks.qna.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.litbooks.qna.model.service.QnaService;
+import com.litbooks.qna.model.vo.QnaViewData;
+
 /**
- * Servlet implementation class BoardWriteFrmServlet
+ * Servlet implementation class BoardViewServlet
  */
-@WebServlet(name = "BoardWriteFrm", urlPatterns = { "/boardWriteFrm.do" })
-public class BoardWriteFrmServlet extends HttpServlet {
+@WebServlet(name = "QnaView", urlPatterns = { "/qnaView.do" })
+public class QnaViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardWriteFrmServlet() {
+    public QnaViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,12 +32,13 @@ public class BoardWriteFrmServlet extends HttpServlet {
 		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
+		int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
 		//3. 비즈니스 로직
-		//4. 결과출력
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/board/boardWriteFrm.jsp");
-		view.forward(request, response);
+		QnaService service = new QnaService();
+		QnaViewData qvd = service.selectOneBoard(qnaNo);
 		
 		
+		//4. 결과 출력
 	}
 
 	/**

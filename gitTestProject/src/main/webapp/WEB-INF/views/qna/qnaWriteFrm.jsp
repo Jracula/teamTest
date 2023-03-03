@@ -14,24 +14,28 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
-		<div class="page-title">글작성</div>
-		<form action="boardWrite.do" method="post" enctype="multipart/form-data">
+		<div class="page-title">문의글 작성</div>
+		<form action="qnaWrite.do" method="post" enctype="multipart/form-data">
 			<table class="tbl" id="boardWrite">
 				<tr class="tr-1">
 					<th class="td-2">제목</th>
 					<td colspan="3">
-						<input type="text" name="boardTitle" class="input-form">
+						<input type="text" name="qTitle" class="input-form">
 					</td>
 				</tr>
 				<tr class="tr-1">
 					<th class="td-2">작성자</th>
 					<td>
-						<input type="text" name="writeName" class="input-form">
-					</td>
+					<%--
+						<%=m.getMemberNo() %>					
+					 --%>
+						<input type="text" name="qMemberNo" value="">
+					</td>					
+
 					<%--
 					<td>
 						<%=m.getMemberId() %>
-						<input type="hidden" name="boardWriter" value="<%=m.getMemberId()%>">
+						<input type="hidden" name="qWriter" value="<%=m.getMemberId()%>">
 					</td>					
 					 --%>
 					<th class="td-2">첨부파일</th>
@@ -41,13 +45,14 @@
 				</tr>
 				<tr class="tr-3">
 					<td class="td-1" colspan="4">
-						<textarea name="boardContent" class="input-form"></textarea>
+						<textarea name="qContent" class="input-form"></textarea>
 					</td>
 				</tr>
 			</table>
-			<button type="submit" class="btn bc1 bs4">작성하기</button>
+			<button type="submit" class="btn bc1 bs4">문의글 작성하기</button>
 		</form>
 	</div>
+
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 
 </body>
