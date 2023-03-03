@@ -118,6 +118,9 @@
 					chk[i].parentElement.parentElement.remove();
 				}
 			}
+			// 선택삭제 버튼 클릭 시 장바구니에 담겨져 있는 책 번호 삭제
+			location.href="/cartDelete.do";
+			
 		});
 		
 		// 총 상품 금액, 합계 --> 함수처리
