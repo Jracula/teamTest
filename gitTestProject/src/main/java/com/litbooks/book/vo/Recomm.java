@@ -8,14 +8,15 @@ public class Recomm {
 	    private String recommContent;
 	    private String recommDate;
 		private int recommRef;
+		private int bookRef;
 
 		public Recomm() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 
-		public Recomm(int recommNo, int bookNo, String rcWriter, String recommContent, String recommDate,
-				int recommRef) {
+		public Recomm(int recommNo, int bookNo, String rcWriter, String recommContent, String recommDate, int recommRef,
+				int bookRef) {
 			super();
 			this.recommNo = recommNo;
 			this.bookNo = bookNo;
@@ -23,6 +24,7 @@ public class Recomm {
 			this.recommContent = recommContent;
 			this.recommDate = recommDate;
 			this.recommRef = recommRef;
+			this.bookRef = bookRef;
 		}
 
 		public int getRecommNo() {
@@ -72,5 +74,13 @@ public class Recomm {
 		public void setRecommRef(int recommRef) {
 			this.recommRef = recommRef;
 		}
-		
+
+		public int getBookRef() {
+			return bookRef;
+		}
+
+		public void setBookRef(int bookRef) {
+			this.bookRef = bookRef;
+		}
+
 }

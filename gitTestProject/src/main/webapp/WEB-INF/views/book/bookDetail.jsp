@@ -1,3 +1,5 @@
+<%@page import="com.litbooks.book.vo.BookView"%>
+<%@page import="com.litbooks.book.vo.Recomm"%>
 <%@page import="com.litbooks.book.vo.Book"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5,13 +7,21 @@
     <%
     Book b = (Book)request.getAttribute("b");
     ArrayList<Book> seriesList = (ArrayList<Book>)request.getAttribute("seriesList");
+    
+    %>
+    <%
+    ArrayList<Recomm> recommList
+    =(ArrayList<Recomm>)request.getAttribute("recommList");
+    ArrayList<Recomm> rerecommList
+    =(ArrayList<Recomm>)request.getAttribute("rerecommList");
     %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title><%=b.getBookTitle() %> - LITBOOKS</title>
-<script src="jquery-3.6.3.min.js"></script>
+<script src="/js/jquery-3.6.3.min.js"></script>
+<link rel="stylesheet" href="/css/recomm.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -99,70 +109,7 @@
 		</div>
 		<%}%>
 		
-		<!-- 댓글 후기 노출 영역 -->
-		<div class="comment-input">
-        <div class="comment-form">
-          <div class="comment-input-box">
-            <textarea class="comment-textarea" placeholder="댓글을 입력하세요."></textarea>
-          </div>
-        </div>
-        <div class="comment-input-btn">
-            <button class="btn-comment-write">등록</button>
-          </div>
-
-    </div>
-    
-      <div class="comment-list">
-        
-        
-        <ul class="comment-box">
-            <li class="comment-item">
-            <div class="comment-info">
-                
-              <span class="comment-author">작성자</span>
-              <span class="comment-date">2022.02.28</span>
-            </div>
-            <div class="comment-content">정말 재미있어요</div>
-            <div class="comment-action">
-                <button class="btn-comment-reply">댓글</button>
-                <button class="btn-comment-like">좋아요</button>
-            </div>
-            <div class="comment-reply-form">
-                <textarea class="comment-reply-textarea"></textarea>
-                <button class="btn-comment-reply-submit">등록</button>
-                <button class="btn-comment-reply-cancel">취소</button>
-              </div>
-            </li>
-            <ul class="comment-reply-list">
-              <li class="comment-reply-item">
-                <div class="comment-info">
-                  <span class="comment-author">작성자</span>
-                  <span class="comment-date">2022.02.28</span>
-                </div>
-                <div class="comment-content">대댓글 내용 재미있어요</div>
-                <div class="recomment-action">
-                  <button class="btn-comment-like">좋아요</button>
-                </div>
-              </li>
-              <li class="comment-reply-item">
-                <div class="comment-info">
-                  <span class="comment-author">작성자</span>
-                  <span class="comment-date">2022.02.28</span>
-                </div>
-                <div class="comment-content">대댓글 내용</div>
-                <div class="recomment-action-">
-                  <button class="btn-comment-like">좋아요</button>
-                </div>
-              </li>
-            </ul>
-        
-          </li>
-          
-        </ul>
-      </div>
-      
-	
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-	<script src="recomm2.js"></script>
+		
+	<script src="/js/recomm.js"></script>
 </body>
 </html>

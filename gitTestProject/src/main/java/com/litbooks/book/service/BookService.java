@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.litbooks.book.dao.BookDao;
 import com.litbooks.book.vo.Book;
 import com.litbooks.book.vo.Recomm;
+import com.litbooks.book.vo.BookView;
 
 import common.JDBCTemplate;
 
@@ -17,7 +18,7 @@ public class BookService {
 		dao = new BookDao();
 	}
 
-	//bookDetail.jsp을 위한 정보를 넘겨주기 위해서 책 한 권에 대한 모든 정보들을 조회함  
+	//bookDetail.jsp을 위한 정보를 넘겨주기 위해서 책 한 권에 대한 모든 정보들을 조회함 
 	public Book selectOneBook(int bookNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		Book b = dao.selectOneBook(conn, bookNo);
@@ -104,10 +105,21 @@ public class BookService {
 	public int insertRecomm(Recomm rc) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.insertRecomm(conn,rc);
+			if(result>0) {
+			
+			JDBCTemplate.commit(conn);
+			
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
 		
 		return result;
 	}
-
+	
+	//상세페이지의 댓글 조회
+	
+	
 	
 
 }
