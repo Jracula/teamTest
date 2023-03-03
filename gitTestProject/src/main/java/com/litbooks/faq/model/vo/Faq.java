@@ -122,7 +122,9 @@ public class Faq {
 		this.filepath = filepath;
 	}
 
-
+	public String getfContentBr() {
+		return fContent.replaceAll("\r\n", "<br>");
+	}
 	
-
 }
+

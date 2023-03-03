@@ -40,7 +40,7 @@ public class FaqDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<Faq> list = new ArrayList<Faq>();
-		String query = "select * from (select rownum as rnum, n.* from(select f_no, f_title, f_content, f_read_count, f_reg_date from faq order by 1 desc)n) where rnum between ? and ?";
+		String query = "select * from (select rownum as rnum, n.* from(select f_no, f_title, f_content, f_read_count, f_reg_date, f_writer from faq order by 1 desc)n) where rnum between ? and ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -92,6 +92,56 @@ public class FaqDao {
 		
 		return totalCount;
 	}
+
+	public int updateReadCount(Connection conn, int faqNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update faq set f_read_count = f_read_count+1 where f_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, faqNo);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public Faq selectOneFaq(Connection conn, int faqNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Faq f = null;
+		String query = "select * from faq where f_no = ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, faqNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				f = new Faq();
+				f.setfContent(rset.getString("f_content"));
+				f.setfNo(rset.getInt("f_no"));
+				f.setfReadCount(rset.getInt("f_read_count"));
+				f.setfRegDate(rset.getString("f_reg_date"));
+				f.setfTitle(rset.getString("f_title"));
+				f.setfWriter(rset.getString("f_writer"));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return f;
+	}
+	
 
 
 }

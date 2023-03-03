@@ -1,4 +1,4 @@
-package com.litbooks.qna.controller;
+package com.litbooks.faq.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.qna.model.service.QnaService;
-import com.litbooks.qna.model.vo.QnaViewData;
+import com.litbooks.faq.model.service.FaqService;
+import com.litbooks.faq.model.vo.Faq;
 
 /**
- * Servlet implementation class BoardViewServlet
+ * Servlet implementation class FaqViewServlet
  */
-@WebServlet(name = "QnaView", urlPatterns = { "/qnaView.do" })
-public class QnaViewServlet extends HttpServlet {
+@WebServlet(name = "FaqView", urlPatterns = { "/faqView.do" })
+public class FaqViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaViewServlet() {
+    public FaqViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,29 +31,24 @@ public class QnaViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
-		//2. 값추출
-		int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
-		//3. 비즈니스 로직
-		QnaService service = new QnaService();
-		QnaViewData qvd = service.selectOneBoard(qnaNo);
+		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
+		FaqService service = new FaqService();
+		Faq f = service.selectOneFaq(faqNo);
 		
-		//4. 결과 출력
-		if(qvd == null) {
+		if(f == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
 			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/qnaList.do?reqPage=1");
+			request.setAttribute("loc", "/faqList.do?reqPage=1");
 			view.forward(request, response);
 		}else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaView.jsp");
-			request.setAttribute("q", qvd.getQ());
-			request.setAttribute("commentList", qvd.getCommentList());
-			request.setAttribute("reCommentList", qvd.getReCommentList());
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/faq/faqView.jsp");
+			request.setAttribute("f", f);
 			view.forward(request, response);
 		}
+		
 	}
 
 	/**

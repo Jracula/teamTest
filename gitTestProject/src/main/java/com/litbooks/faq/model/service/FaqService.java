@@ -36,8 +36,8 @@ public class FaqService {
 		int end = numPerPage*reqPage;
 		int start = end-numPerPage+1;
 		
-		ArrayList<Faq> list = dao.selectFaqList(conn,start,end);
 		int totalCount = dao.selectFaqCount(conn);
+		ArrayList<Faq> list = dao.selectFaqList(conn,start,end);
 		int totalPage = 0;
 		if(totalCount%numPerPage == 0) {
 			totalPage = totalCount/numPerPage;
@@ -91,6 +91,23 @@ public class FaqService {
 		JDBCTemplate.close(conn);
 		return fpd;
 		
+	}
+
+	public Faq selectOneFaq(int faqNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateReadCount(conn,faqNo);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+			Faq f = dao.selectOneFaq(conn,faqNo);
+			JDBCTemplate.close(conn);
+			return f;
+		}else{
+			JDBCTemplate.rollback(conn);
+			JDBCTemplate.close(conn);
+			return null;
+		}
+		
+
 	}
 
 

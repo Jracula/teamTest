@@ -1,60 +1,78 @@
 package com.litbooks.qna.model.vo;
 
 public class QnaComment {
-	private String bcNo;
-	private String bcWriter;
-	private String bcContent;
-	private String bcDate;
-	private int boardRef;
-	private int bcRef;
+	private int qcNo;
+	private String qcWriter;
+	private String qcContent;
+	private String qcDate;
+	private int qnaRef;
+	private int qcRef;
+	
 	public QnaComment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public QnaComment(String bcNo, String bcWriter, String bcContent, String bcDate, int boardRef, int bcRef) {
+
+	public QnaComment(int qcNo, String qcWriter, String qcContent, String qcDate, int qnaRef, int qcRef) {
 		super();
-		this.bcNo = bcNo;
-		this.bcWriter = bcWriter;
-		this.bcContent = bcContent;
-		this.bcDate = bcDate;
-		this.boardRef = boardRef;
-		this.bcRef = bcRef;
+		this.qcNo = qcNo;
+		this.qcWriter = qcWriter;
+		this.qcContent = qcContent;
+		this.qcDate = qcDate;
+		this.qnaRef = qnaRef;
+		this.qcRef = qcRef;
 	}
-	public String getBcNo() {
-		return bcNo;
+
+	public int getQcNo() {
+		return qcNo;
 	}
-	public void setBcNo(String bcNo) {
-		this.bcNo = bcNo;
+
+	public void setQcNo(int qcNo) {
+		this.qcNo = qcNo;
 	}
-	public String getBcWriter() {
-		return bcWriter;
+
+	public String getQcWriter() {
+		return qcWriter;
 	}
-	public void setBcWriter(String bcWriter) {
-		this.bcWriter = bcWriter;
+
+	public void setQcWriter(String qcWriter) {
+		this.qcWriter = qcWriter;
 	}
-	public String getBcContent() {
-		return bcContent;
+
+	public String getQcContent() {
+		return qcContent;
 	}
-	public void setBcContent(String bcContent) {
-		this.bcContent = bcContent;
+
+	public void setQcContent(String qcContent) {
+		this.qcContent = qcContent;
 	}
-	public String getBcDate() {
-		return bcDate;
+
+	public String getQcDate() {
+		return qcDate;
 	}
-	public void setBcDate(String bcDate) {
-		this.bcDate = bcDate;
+
+	public void setQcDate(String qcDate) {
+		this.qcDate = qcDate;
 	}
-	public int getBoardRef() {
-		return boardRef;
+
+	public int getQnaRef() {
+		return qnaRef;
 	}
-	public void setBoardRef(int boardRef) {
-		this.boardRef = boardRef;
+
+	public void setQnaRef(int qnaRef) {
+		this.qnaRef = qnaRef;
 	}
-	public int getBcRef() {
-		return bcRef;
+
+	public int getQcRef() {
+		return qcRef;
 	}
-	public void setBcRef(int bcRef) {
-		this.bcRef = bcRef;
+
+	public void setQcRef(int qcRef) {
+		this.qcRef = qcRef;
+	}
+	
+	public String getQcContentBr() {
+		return qcContent.replaceAll("\r\n", "<br>");
 	}
 	
 	

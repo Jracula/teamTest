@@ -13,18 +13,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+
+</style>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="page-title">FAQ</div>
-		<%--
-		<%if(m !=null && m.getMemberLevel() == 1) {%>
-		<a class="btn bc2 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
-		<%} %>
-		
-		 --%>
-
 		<a href="/qnaList.do?reqPage=1" class="btn bc1" >문의게시판</a>
 		<label><a href="#" class="btn bc1">1:1게시판</a></label>
 		<label><a href="#" class="btn bc1">메일보내기</a></label>
@@ -42,8 +38,8 @@
 			<tr class="tr-1">
 				<td><%=i+start %></td>
 				<td>
-					<a href="/FaqView.do?faqNo=<%=f.getfNo() %>">
-						<%=f.getfTitle() %>
+					<a class="detailContent" href="/faqView.do?faqNo=<%=f.getfNo() %>">
+					<%=f.getfContent() %>
 					</a>
 				</td>
 				<td><%=f.getfWriter() %></td>
@@ -52,11 +48,22 @@
 			</tr>
 			<%} %>
 		</table>
-		<a class="btn bc2 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
+		
+		<% if(m != null && m.getMemberLevel() == 1){ %>
+			<a class="btn bc2 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
+		
+		<%}else {%>
+		
+		<%} %>
 		<div id="pageNavi"><%=pageNavi %></div>		
-
-
 	</div>
+	<script>
+		function func1(){
+			
+			
+		}
+	
+	</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 
 </body>

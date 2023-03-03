@@ -16,10 +16,10 @@ public class QnaViewData {
 		this.commentList = commentList;
 		this.reCommentList = reCommentList;
 	}
-	public Qna getB() {
+	public Qna getQ() {
 		return q;
 	}
-	public void setB(Qna q) {
+	public void setQ(Qna q) {
 		this.q = q;
 	}
 	public ArrayList<QnaComment> getCommentList() {
