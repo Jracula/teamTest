@@ -82,6 +82,31 @@ public class MemberDao {
 		return m;
 	}
 
+	//회원가입
+	public int insertMember(Connection conn, Member m) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String queery = "insert into member values(member_seq.nextval,?,?,?,?,?,DEFAULT,TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
+		
+		try {
+			pstmt = conn.prepareStatement(queery);
+			pstmt.setString(1, m.getMemberId());
+			pstmt.setString(2, m.getMemberPw());
+			pstmt.setString(3, m.getMemberName());
+			pstmt.setString(4, m.getMemberPhone());
+			pstmt.setString(5, m.getMemberEmail());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 }
 
 
