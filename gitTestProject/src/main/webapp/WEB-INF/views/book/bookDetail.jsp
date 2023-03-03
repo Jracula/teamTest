@@ -109,12 +109,107 @@
 			<%}%>
 		</div>
 		<%}%>
+		<!-- 댓글 후기 노출 영역 -->
+		<div class="commentBox">
+         <%for(Recomm rc : recommList) {%>
+         <ul class="posting-comment">
+            <li>
+               <span class="material-icons">account_box</span>
+            </li>
+            <li>
+               <p class="comment-info">
+                  <span><%=rc.getRcWriter() %></span>
+                  <span><%=rc.getRecommDate() %></span>
+               </p>
+               <p class="comment-content"><%=rc.getRecommContent() %></p>
+               <textarea name="ncContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
+               <p class="comment-link">
+                  <%if(m != null) {%>
+                     <%if(m.getMemberId().equals(rc.getRcWriter())) {%>
+                     <a href="javascript:void(0)" onclick="modifyComment(this,<%=rc.getRecommNo()%>,<%=b.getBookNo()%>);">수정</a>
+                     <a href="javascript:void(0)" onclick="deleteCommnet(this,<%=rc.getRecommNo()%>,<%=b.getBookNo()%>);">삭제</a>
+                     
+                     <%}//해당 댓글 수정 조건(댓글작성자가 로그인한 회원인지 확인) %>
+                  <a href="javascript:void(0)" class="recShow">답글달기</a>
+                  <%}// 대댓글 달기 조건문(로그인체크) %>
+               </p>
+            </li>
+         </ul>   
+         <%for(Recomm rcc : rerecommList ) {%>
+            <%if(rcc.getRecommRef() == rcc.getRecommNo()) {%>
+            <ul class="posting-comment reply">
+               <li>
+                  <span class="material-icons">subdirectory_arrow_right</span>
+                  <span class="material-icons">account_box</span>
+               </li>
+               <li>
+                  <p class="comment-info">
+                     <span><%=rcc.getRcWriter() %></span>
+                     <span><%=rcc.getRecommDate() %></span>
+                  </p>
+                  <p class="comment-content"><%=rcc.getRecommContent() %></p>
+                  <textarea name="ncContent" class="input-form" style="min-height:96px;display:none;"><%=rcc.getRecommContent() %></textarea>
+                  <p class="comment-link">
+                     <%if(m!=null && m.getMemberId().equals(rcc.getRcWriter())) {%>
+                        <a href="javascript:void(0)" onclick="modifyComment(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);">수정</a>
+                     <a href="javascript:void(0)" onclick="deleteCommnet(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);">삭제</a>
+                     
+                     <%} %>
+                  </p>
+               </li>
+            </ul>
+            <%}//댓글번호 체크 if문 종료 %>
+         <%}//대댓글 출력 for문 종료 %>
+         
+            <%-- 댓글에 대한 대댓글 입력양식 --%>
+            <%if(m != null) {%>
+            <div class="inputCommentBox inputRecommentBox">
+               <form action="/insertNoticeComment.do" method="post">
+                  <ul>
+                     <li>
+                        <span class="material-icons">subdirectory_arrow_right</span>
+                     </li>
+                     <li>
+                        <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
+                        <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
+                        <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
+                        <textarea name="ncContent" class="input-form"></textarea>
+                     </li>
+                     <li>
+                        <button type="submit" class="btn bc1 bs4">등록</button>
+                     </li>
+                  </ul>
+               </form>
+            </div>   
+            <%} %>
+            
+         <%}//댓글 출력 for문 끝나는 위치 %>
+      </div>
+      
+      <%-- 로그인 되어있는 경우에만 댓글 작성 화면을 띄움 --%>
+      <%if (m != null) {%>
+      <div class="inputCommentBox">
+         <form action="insertNoticeComment.do" method="post">
+            <ul>
+               <li>
+                  <span class="material-icons">account_box</span>
+               </li>
+               <li>
+                  <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
+                  <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
+                  <input type="hidden" name="recommRef" value="0">
+                  <textarea name="recommContent" class="input-form"></textarea>
+               </li>
+               <li>
+                  <button type="submit" class="btn bc1 bs4">등록</button>
+               </li>
+            </ul>
+         </form>
+      </div>   
+      <%} %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 		
 		
-<<<<<<< HEAD
-	<script src="/js/recomm.js"></script>
-=======
-	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 	$("#addCart").on("click", function(){
@@ -138,6 +233,6 @@
 		}
 	});
 	</script>
->>>>>>> main
+	<script src="/js/recomm.js"></script>
 </body>
 </html>

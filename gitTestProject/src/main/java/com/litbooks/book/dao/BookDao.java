@@ -50,6 +50,8 @@ public class BookDao {
 		}
 
 	
+		
+		
 	//1권인 책만 상세 조건으로 책 검색
 	public ArrayList<Book> selectBook1stByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]){
 		PreparedStatement pstmt = null;
@@ -361,17 +363,18 @@ public class BookDao {
 			return list;
 		}
 
-
+		//댓글 입력
 		public int insertRecomm(Connection conn, Recomm rc) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'))";
+			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?)";
 			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
 			try {
 				pstmt = conn.prepareStatement(qurey);
 		        pstmt.setInt(1, rc.getBookNo());
 		        pstmt.setString(2, rc.getRcWriter());
 		        pstmt.setString(3, rc.getRecommContent());
+		        pstmt.setString(4, (rc.getRecommRef()==0)?null:String.valueOf(rc.getRecommRef()));
 		        result= pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -383,5 +386,70 @@ public class BookDao {
 			
 			return result;
 		}
+		
+		//댓글 전체 출력
+		public ArrayList<Recomm> selectRecomm(Connection conn, int bookNo) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			ArrayList<Recomm> list
+			=new ArrayList<Recomm>();
+			String query = "select * from RECOMM where BOOK_REF=? and RECOMM_REF is null order by 1";
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1, bookNo);
+				rset = pstmt.executeQuery();
+				while(rset.next()) {
+					Recomm rc = new Recomm();
+					rc.setRecommContent(rset.getString("recomm_content"));
+					rc.setRecommDate(rset.getString("recomm_date"));
+					rc.setRecommNo(rset.getInt("recomm_no"));
+					rc.setRecommRef(rset.getInt("recomm_ref"));
+					rc.setRcWriter(rset.getString("member_id"));
+					rc.setBookNo(rset.getInt("book_ref"));
+					list.add(rc);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return list;
+		}
+
+		//대댓글 전체 출력
+			public ArrayList<Recomm> selectRerecomm(Connection conn, int bookNo) {
+				PreparedStatement pstmt = null;
+				ResultSet rset = null;
+				ArrayList<Recomm> list
+				=new ArrayList<Recomm>();
+				String query = "select * from RECOMM where BOOK_REF=? and RECOMM_REF is null order by 1";
+				try {
+					pstmt=conn.prepareStatement(query);
+					pstmt.setInt(1, bookNo);
+					rset = pstmt.executeQuery();
+					while(rset.next()) {
+						Recomm rc = new Recomm();
+						rc.setRecommContent(rset.getString("recomm_content"));
+						rc.setRecommDate(rset.getString("recomm_date"));
+						rc.setRecommNo(rset.getInt("recomm_no"));
+						rc.setRecommRef(rset.getInt("recomm_ref"));
+						rc.setRcWriter(rset.getString("member_id"));
+						rc.setBookNo(rset.getInt("book_ref"));
+						list.add(rc);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					JDBCTemplate.close(rset);
+					JDBCTemplate.close(pstmt);
+				}
+				
+				return list;
+			}
+
 	
 }
