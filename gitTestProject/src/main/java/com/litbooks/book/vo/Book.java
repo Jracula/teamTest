@@ -70,6 +70,14 @@ public class Book {
 		this.nonFee = nonFee;
 	}
 
+	// 장바구니 조회를 위한 생성자
+	public Book(int bookNo, String bookTitle, int bookPrice) {
+		super();
+		this.bookNo = bookNo;
+		this.bookTitle = bookTitle;
+		this.bookPrice = bookPrice;
+	}
+
 	public int getBookNo() {
 		return bookNo;
 	}
