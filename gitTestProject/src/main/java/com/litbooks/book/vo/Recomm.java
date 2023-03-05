@@ -3,28 +3,15 @@ package com.litbooks.book.vo;
 
 public class Recomm {
 	    private int recommNo;
-	    private int bookNo;
+	    private int bookRef;
 	    private String rcWriter;
 	    private String recommContent;
 	    private String recommDate;
 		private int recommRef;
-		private int bookRef;
 
 		public Recomm() {
 			super();
 			// TODO Auto-generated constructor stub
-		}
-
-		public Recomm(int recommNo, int bookNo, String rcWriter, String recommContent, String recommDate, int recommRef,
-				int bookRef) {
-			super();
-			this.recommNo = recommNo;
-			this.bookNo = bookNo;
-			this.rcWriter = rcWriter;
-			this.recommContent = recommContent;
-			this.recommDate = recommDate;
-			this.recommRef = recommRef;
-			this.bookRef = bookRef;
 		}
 
 		public int getRecommNo() {
@@ -35,12 +22,12 @@ public class Recomm {
 			this.recommNo = recommNo;
 		}
 
-		public int getBookNo() {
-			return bookNo;
+		public int getBookRef() {
+			return bookRef;
 		}
 
-		public void setBookNo(int bookNo) {
-			this.bookNo = bookNo;
+		public void setBookRef(int bookRef) {
+			this.bookRef = bookRef;
 		}
 
 		public String getRcWriter() {
@@ -75,12 +62,17 @@ public class Recomm {
 			this.recommRef = recommRef;
 		}
 
-		public int getBookRef() {
-			return bookRef;
+		public Recomm(int recommNo, int bookRef, String rcWriter, String recommContent, String recommDate,
+				int recommRef) {
+			super();
+			this.recommNo = recommNo;
+			this.bookRef = bookRef;
+			this.rcWriter = rcWriter;
+			this.recommContent = recommContent;
+			this.recommDate = recommDate;
+			this.recommRef = recommRef;
 		}
 
-		public void setBookRef(int bookRef) {
-			this.bookRef = bookRef;
-		}
+		
 
 }

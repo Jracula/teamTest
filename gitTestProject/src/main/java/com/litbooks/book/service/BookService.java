@@ -141,8 +141,23 @@ public class BookService {
 	public int insertRecomm(Recomm rc) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.insertRecomm(conn,rc);
-			if(result>0) {
-			
+		if (result > 0) {
+
+			JDBCTemplate.commit(conn);
+
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+
+		return result;
+	}
+
+	//update comment
+	public int UpdateRecomm(Recomm rc) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateNotice(conn, rc );
+		if(result>0) {
 			JDBCTemplate.commit(conn);
 			
 		}else {
@@ -154,9 +169,6 @@ public class BookService {
 	}
 
 
-	
-	
-	//상세페이지의 댓글 조회
 	
 	
 	

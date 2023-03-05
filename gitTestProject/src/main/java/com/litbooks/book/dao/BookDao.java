@@ -371,7 +371,7 @@ public class BookDao {
 			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
 			try {
 				pstmt = conn.prepareStatement(qurey);
-		        pstmt.setInt(1, rc.getBookNo());
+		        pstmt.setInt(1, rc.getBookRef());
 		        pstmt.setString(2, rc.getRcWriter());
 		        pstmt.setString(3, rc.getRecommContent());
 		        pstmt.setString(4, (rc.getRecommRef()==0)?null:String.valueOf(rc.getRecommRef()));
@@ -393,7 +393,7 @@ public class BookDao {
 			ResultSet rset = null;
 			ArrayList<Recomm> list
 			=new ArrayList<Recomm>();
-			String query = "select * from RECOMM where BOOK_REF=? and RECOMM_REF is null order by 1";
+			String query = "select * from recomm where BOOK_ref=? and RECOMM_REF is null order by 1";
 			try {
 				pstmt=conn.prepareStatement(query);
 				pstmt.setInt(1, bookNo);
@@ -405,7 +405,7 @@ public class BookDao {
 					rc.setRecommNo(rset.getInt("recomm_no"));
 					rc.setRecommRef(rset.getInt("recomm_ref"));
 					rc.setRcWriter(rset.getString("member_id"));
-					rc.setBookNo(rset.getInt("book_ref"));
+					rc.setBookRef(rset.getInt("BOOK_ref"));
 					list.add(rc);
 				}
 			} catch (SQLException e) {
@@ -425,7 +425,7 @@ public class BookDao {
 				ResultSet rset = null;
 				ArrayList<Recomm> list
 				=new ArrayList<Recomm>();
-				String query = "select * from RECOMM where BOOK_REF=? and RECOMM_REF is null order by 1";
+				String query = "select * from recomm where BOOK_ref=? and RECOMM_REF is not null order by 1";
 				try {
 					pstmt=conn.prepareStatement(query);
 					pstmt.setInt(1, bookNo);
@@ -437,7 +437,7 @@ public class BookDao {
 						rc.setRecommNo(rset.getInt("recomm_no"));
 						rc.setRecommRef(rset.getInt("recomm_ref"));
 						rc.setRcWriter(rset.getString("member_id"));
-						rc.setBookNo(rset.getInt("book_ref"));
+						rc.setBookRef(rset.getInt("BOOK_ref"));
 						list.add(rc);
 					}
 				} catch (SQLException e) {
@@ -449,6 +449,30 @@ public class BookDao {
 				}
 				
 				return list;
+			}
+
+
+
+
+			public int updateNotice(Connection conn, Recomm rc) {
+				PreparedStatement pstmt = null;
+				int result = 0;
+				String query = "update recomm set recomm_content=? where recomm_no=?";
+				
+				try {
+					pstmt=conn.prepareStatement(query);
+					pstmt.setString(1, rc.getRecommContent());
+					pstmt.setInt(2, rc.getRecommNo());
+					result = pstmt.executeUpdate();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					JDBCTemplate.close(pstmt);
+				}
+				
+				return result;
 			}
 
 	

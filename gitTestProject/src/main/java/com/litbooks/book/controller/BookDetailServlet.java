@@ -39,7 +39,7 @@ public class BookDetailServlet extends HttpServlet {
 		BookService service = new BookService();
 		Book b = service.getBook(bookNo);
 		BookView bv = service.selectOneBook(bookNo);
-		if (b == null) {
+		if (bv == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "등록되지 않은 도서번호입니다.");
