@@ -10,12 +10,17 @@
     margin: 40px auto;
     width: 650px;
     border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 tr>td:first-child{
     font-size: 15px;
     font-weight: 600;
     margin-left: 20px;
+}
+
+table{
+	margin : 0px auto;
 }
 
 
@@ -126,9 +131,9 @@ color: rgb(226, 1, 1);
 .agreeModal-wrap{
 	display: none;
     width: 100vw;
-    height: 105vh;
+    height: 115vh;
     background-color: rgba(0,0,0,0.5);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     justify-content: center;

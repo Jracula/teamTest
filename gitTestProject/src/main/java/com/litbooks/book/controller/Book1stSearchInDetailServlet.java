@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.book.service.BookService;
 import com.litbooks.book.vo.Book;
+import com.litbooks.book.vo.SearchResultPage;
 
 /**
  * Servlet implementation class Book1stSearchInDetailServlet
@@ -41,6 +42,7 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+		int reqPage = 1;
 		String searchTitle = request.getParameter("searchTitle");
 		String searchWriter = request.getParameter("searchWriter");
 		String selectedGenre[] = request.getParameterValues("selectedGenre");
@@ -49,8 +51,10 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 			onlyOnSale = 1;
 		}
 		BookService service = new BookService();
-		ArrayList<Book> books = service.selectBook1stByWish(searchTitle, searchWriter, onlyOnSale, selectedGenre);
-		request.setAttribute("books", books);
+		SearchResultPage bsr = service.selectBook1stByWish(reqPage, searchTitle, searchWriter, onlyOnSale, selectedGenre);
+		request.setAttribute("books", bsr.getList());
+		request.setAttribute("pageNavi", bsr.getPageNavi());
+		request.setAttribute("start", bsr.getStart());
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/findBook1st.jsp");

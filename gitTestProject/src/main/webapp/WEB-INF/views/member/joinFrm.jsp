@@ -17,7 +17,7 @@
 			<form action="/checkId.do" name="checkIdFrm">
 				<input type="hidden" name="checkId">
 			</form>
-			<form action="#" method="post">
+			<form action="/join.do" method="post">
 				<div class="join-box">
 					<table>
 						<tr>
@@ -151,16 +151,9 @@
 
 
 	<script>
-		//약관동의 체크
-		function agreeAll() {
-			if ($(".all-agree").is(':checked')) {
-				$("input[type=checkbox]").prop("checked", true);
-			} else {
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		}
+	
+		const result = [false,false,false,false,false,false];
 		
-
 		//아이디 유효성, 중복 체크
 		$("#memberId").on("keyup", function() {
 			const memberId = $(this).val();
@@ -179,19 +172,17 @@
 						if (data == "1") {
 							$("#idCheck").text("이미 사용중인 아이디 입니다.");
 							$("#idCheck").css("color", "red");
-							$("#memberId").css("border", "1px solid red");
 						} else if (data == "0") {
 							$("#idCheck").text("사용가능한 아이디 입니다.");
-							$("#idCheck").css("color", "green");
-							$("#memberId").css("border", "1px solid green");
+							$("#idCheck").css("color", "rgb(32, 90, 167)");
+							result[0] = true;
 						}
 					}
-				});
-						result[0] = true;
+				});		
 				}else{
 						$("#idCheck").text("아이디는 영어 소문자/숫자로 4~12글자");
 						$("#idCheck").css("color", "red");
-						result[0] = true;
+						result[0] = false;
 			}
 		});
 
@@ -216,11 +207,11 @@
 		$("[name=memberPwCheck]").on("keyup", function() {
 			const pwInput = $("[name=memberPw]").val();
 			if ($(this).val() == pwInput) {
-				$("#pwDoubleCheck").text("비밀번호가 일치합니다.");
+				$("#pwDoubleCheck").text("비밀번호가 일치합니다");
 				$("#pwDoubleCheck").css("color", "rgb(32, 90, 167)");
 				result[2] = true;
 			} else {
-				$("#pwDoubleCheck").text("비밀번호가 일치하지 않습니다.");
+				$("#pwDoubleCheck").text("비밀번호가 일치하지 않습니다");
 				$("#pwDoubleCheck").css("color", "red");
 				result[2] = false;
 			}
@@ -293,18 +284,46 @@
 				}else{
 					const checkEmail = $("#checkEmail").val();
 					if(checkEmail == mailCode){
-						$("#email-time").prop("readonly",true); //인증완료되면 더이상 수정 못하게 하는 코드
+						$("#email-time").prop("readonly",true); 
 						$("#email-time").text("인증 완료");
 						$("#email-time").css("color","green");
 						clearInterval(intervalId);
+						result[3] = true;
 					}else{
 						$("#email-time").text("인증 실패");
 						$("#email-time").css("color","red");
+						result[3] = false;
 					}
 				}
 			});
 
+			//약관동의 체크
+			function agreeAll() {
+				if ($(".all-agree").is(':checked')) {
+					$("input[type=checkbox]").prop("checked", true);
+				} else {
+					$("input[type=checkbox]").prop("checked", false);
+				}
+			}
+			<%--
+			$("#agree-1").on("change",function(){
+				console.log(result);
+				if($(this).prop("checked")){
+					result[4] = true;
+				}else{
+					result[4] = false;
+				}	
+			});
 			
+			$("#agree-4").on("change",function(){
+				if($(this).prop("checked")){
+					result[5] = true;
+				}else{
+					result[5] = false;
+				}	
+			});--%>
+				
+			//약관보기 모달
 			$(".modal1").on("click", function(){
 			    $(".agreeModal-wrap").css("display","flex");
 			});
@@ -312,6 +331,15 @@
 			
 			$("#reset").on("click", function(){
 			    $(".agreeModal-wrap").css("display","none");
+			});
+			
+			
+			//submit
+			$("[type=submit]").on("click",function(event){ //하나라도 TRUE가 아닐때
+				if(!(result[0] && result[1] && result[2] && result[3] &&$("#agree-1").prop("checked") && $("#agree-4").prop("checked"))){
+			        event.preventDefault();
+			        alert("입력하신 정보를 확인하세요");		        
+				}
 			});
 			
 			
