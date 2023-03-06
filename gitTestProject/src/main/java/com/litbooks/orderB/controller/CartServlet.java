@@ -53,7 +53,7 @@ public class CartServlet extends HttpServlet {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/cart.jsp");
 			request.setAttribute("list", list);
 			request.setAttribute("bask", bask);
-			view.forward(request, response);			
+			view.forward(request, response);
 		}
 	}
 

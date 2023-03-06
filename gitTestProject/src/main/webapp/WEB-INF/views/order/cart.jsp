@@ -23,28 +23,24 @@
 	}
 	
 	.table-content{
-		display: inline-flex;
 		border: 1px solid black;
+		width: 50%;
 	}
 	
 	.table-content th{
-		border: 1px solid black;
+		align-content: center;
 	}
 	
-	.table-content td{
-		border: 1px solid black;
-	}
-	
-	.pay-content{
-		float: right;
-	}
-	
-	#allChk{
+	#check{
 		width: 15px;
 		height: 15px;
 	}
+
+	.pay-content{
+		margin: 30px 50px;
+	}
 	
-	.chk {
+	#allChk{
 		width: 15px;
 		height: 15px;
 	}
@@ -66,33 +62,24 @@
         
         <table class="table-content">
             <tr>
-                <th><input type="checkbox" id="allChk"><label for="allChk">전체선택</label></th>
-                <th>책 이미지</th>
-                <th>책 번호</th>
+                <th colspan="2"><input type="checkbox" id="allChk"><label for="allChk">전체선택</label></th>
+                <th></th>
                 <th>책 이름</th>
                 <th>책 가격</th>
+                <th></th>
                 <th><button type="button" class="removeBtn">선택삭제</button></th>
             </tr>
             
-            <% for(int i=0; i<list.size(); i++) { %>
-            <% Basket ba = list.get(i); %>
+            <% for(int i=0; i<list.size(); i++) { %> <!-- 장바구니 테이블 -->
+            <% Basket ba = list.get(i); %> 			
+       		<% Book detail = bask.get(i); %>
             <tr>
-                <td><input type="checkbox" class="chk" value=<%=ba.getBasketNo() %>></td>
+                <td><input type="checkbox" class="chk" id="check" value=<%=ba.getBasketNo() %>></td>
                 <td><img src="#" width="150px" height="150px"></td>
-                <td><span style="display: block;" id="bookNo"><%=ba.getBasketNo() %></span></td> 
-				<td> <!-- 책 이름 -->
-				<% for(int j=0; j<bask.size(); j++) {%>
-       			<% Book detail = bask.get(j); %>
-				<%=detail.getBookTitle() %>
-				<% } %>
-				</td> 
-                <td class="amountPrice"> <!-- 책 가격 -->
-                <% for(int j=0; j<bask.size(); j++) {%>
-       			<% Book detail = bask.get(j); %>
-                <%=detail.getBookPrice() %>
-                <% } %>
-                </td> 
-                <td></td>
+                <td><span style="display: none;" id="bookNo"><%=ba.getBasketNo() %></span></td> 
+				<td><%=detail.getBookTitle() %></td> <!-- 책 이름 -->
+                <td class="amountPrice"><%=detail.getBookPrice() %></td>
+
     		</tr>
     		<% } %>
         </table>
@@ -150,7 +137,17 @@
 		});
 		
 		
+		let totalPrice = 0;
+		function allPrice() {
+			const price = $(".amountPrice");
+			for(let i=0; i<price.length; i++) {
+				sum += Number(price.eq(i).text());
+			}
+			$("#allPrice").text(sum);
+			$("#allPrice2").text(sum);
+		}
 		
+		/*
 		// 총 상품 금액, 합계 --> 함수처리
 		let sum = 0;
 		const price = $(".amountPrice");
@@ -162,6 +159,7 @@
 			$("#allPrice").text(sum);
 			$("#allPrice2").text(sum);
 		}
+		*/
 	
 		// 결제페이지로 이동
 		$("#buyBook").on("click", function() {
