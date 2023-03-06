@@ -14,7 +14,6 @@ import common.JDBCTemplate;
 
 public class BookDao {
 
-	
 	//bookDetail.jsp을 위한 정보를 넘겨주기 위해서 책 한 권에 대한 모든 정보들을 조회함  
 	public Book selectOneBook(Connection conn, int bookNo) {
 		PreparedStatement pstmt = null;
@@ -208,13 +207,22 @@ public class BookDao {
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
+		String[] titles = searchTitle.split(" ");
 
-		String query = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?))RESULT) WHERE RN BETWEEN 1 AND ?";
+		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE ((BOOK_TITLE LIKE ?)";
+		String queryHead2 = "";
+		for(int i=1; i<titles.length; i++) {
+			queryHead2 += " AND (BOOK_TITLE LIKE ?)";
+		}
+		String queryTail = "))RESULT) WHERE RN BETWEEN 1 AND ?";
+		String query = queryHead+queryHead2+queryTail;	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+searchTitle+'%');
-			pstmt.setInt(2, numPerPage);
+			for(int i=0; i<titles.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+1, '%'+titles[i]+'%');
+			}
+			pstmt.setInt(titles.length+1, numPerPage);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
@@ -250,8 +258,18 @@ public class BookDao {
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
+		String[] titles = searchTitle.split(" ");
+		String[] writers = searchWriter.split(" ");
 
-		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE ((BOOK_TITLE LIKE ?)";
+		String queryHead2 = "";
+		for(int i=1; i<titles.length; i++) {
+			queryHead2 += " AND (BOOK_TITLE LIKE ?)";
+		}
+		String queryHead3 = ") AND ((WRITER LIKE ?)";
+		for(int i=1; i<writers.length; i++) {
+			queryHead3 += " AND (WRITER LIKE ?)";
+		}
 		String queryBody = "";
 		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
 			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
@@ -265,21 +283,25 @@ public class BookDao {
 		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
 			queryOnsale =" AND (ONSALE=1)";
 		}
-		String query = queryHead+queryBody+queryTail+queryOnsale+")RESULT) WHERE RN BETWEEN ? AND ?";	//완성된 query문
+		String query = queryHead+queryHead2+queryHead3+queryBody+queryTail+queryOnsale+")RESULT) WHERE RN BETWEEN ? AND ?";	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
-			pstmt.setString(2, '%'+searchWriter+'%');
+			for(int i=0; i<titles.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+1, '%'+titles[i]+'%');
+			}
+			for(int i=0; i<writers.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+titles.length+1, '%'+writers[i]+'%');
+			}
 			if(selectedGenre!=null) {
 				for(int i=0; i<selectedGenre.length; i++) {
-					pstmt.setString(i+3, selectedGenre[i]);
+					pstmt.setString(i+titles.length+writers.length+1, selectedGenre[i]);
 				}
-				pstmt.setInt(selectedGenre.length+3, start);
-				pstmt.setInt(selectedGenre.length+4, end);
+				pstmt.setInt(selectedGenre.length+titles.length+writers.length+1, start);
+				pstmt.setInt(selectedGenre.length+titles.length+writers.length+2, end);
 			} else {
-				pstmt.setInt(3, start);
-				pstmt.setInt(4, end);
+				pstmt.setInt(titles.length+writers.length+1, start);
+				pstmt.setInt(titles.length+writers.length+2, end);
 			}
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
@@ -316,12 +338,21 @@ public class BookDao {
 		ResultSet rset = null;
 		
 		int totalCount = 0;
+		String[] titles = searchTitle.split(" ");
 		
-		String query = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?))";
+		String queryHead = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?)";
+		String queryHead2 = "";
+		for(int i=1; i<titles.length; i++) {
+			queryHead2 += " AND (BOOK_TITLE LIKE ?)";
+		}
+		String queryTail = ")";
+		String query = queryHead+queryHead2+queryTail;	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+			for(int i=0; i<titles.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+1, '%'+titles[i]+'%');
+			}
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				totalCount = rset.getInt("cnt");
@@ -343,8 +374,18 @@ public class BookDao {
 		ResultSet rset = null;
 		
 		int totalCount = 0;
-		
-		String queryHead = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String[] titles = searchTitle.split(" ");
+		String[] writers = searchWriter.split(" ");
+
+		String queryHead = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE ((BOOK_TITLE LIKE ?)";
+		String queryHead2 = "";
+		for(int i=1; i<titles.length; i++) {
+			queryHead2 += " AND (BOOK_TITLE LIKE ?)";
+		}
+		String queryHead3 = ") AND ((WRITER LIKE ?)";
+		for(int i=1; i<writers.length; i++) {
+			queryHead3 += " AND (WRITER LIKE ?)";
+		}
 		String queryBody = "";
 		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
 			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
@@ -358,15 +399,19 @@ public class BookDao {
 		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
 			queryOnsale =" AND (ONSALE=1)";
 		}
-		String query = queryHead+queryBody+queryTail+queryOnsale+")";	//완성된 query문
+		String query = queryHead+queryHead2+queryHead3+queryBody+queryTail+queryOnsale+")";	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
-			pstmt.setString(2, '%'+searchWriter+'%');
+			for(int i=0; i<titles.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+1, '%'+titles[i]+'%');
+			}
+			for(int i=0; i<writers.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+titles.length+1, '%'+writers[i]+'%');
+			}
 			if(selectedGenre!=null) {
 				for(int i=0; i<selectedGenre.length; i++) {
-					pstmt.setString(i+3, selectedGenre[i]);
+					pstmt.setString(i+titles.length+writers.length+1, selectedGenre[i]);
 				}
 			}
 			rset = pstmt.executeQuery();
@@ -450,28 +495,6 @@ public class BookDao {
 	}
 
 
-	public int insertRecomm(Connection conn, com.litbooks.book.vo.Recomm rc) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-		String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'))";
-		//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
-		try {
-			pstmt = conn.prepareStatement(qurey);
-	        pstmt.setInt(1, rc.getBookNo());
-	        pstmt.setString(2, rc.getMemberId());
-	        pstmt.setString(3, rc.getRecommContent());
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-			JDBCTemplate.close(pstmt);
-		}
-		
-		
-		return result;
-	}
-
 	// 장바구니 조회를 위한 책 테이블 전체조회
 	public ArrayList<Book> selectAllBook(Connection conn, int bookNo) {
 		PreparedStatement pstmt = null;
@@ -538,6 +561,139 @@ public class BookDao {
 		}
 		return list;
 	}
-	
 
+		//댓글 입력
+		public int insertRecomm(Connection conn, Recomm rc) {
+			PreparedStatement pstmt = null;
+			int result = 0;
+			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?)";
+			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
+			try {
+				pstmt = conn.prepareStatement(qurey);
+		        pstmt.setInt(1, rc.getBookRef());
+		        pstmt.setString(2, rc.getRcWriter());
+		        pstmt.setString(3, rc.getRecommContent());
+		        pstmt.setString(4, (rc.getRecommRef()==0)?null:String.valueOf(rc.getRecommRef()));
+		        result= pstmt.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(pstmt);
+			}
+			
+			
+			return result;
+		}
+		
+		//댓글 전체 출력
+		public ArrayList<Recomm> selectRecomm(Connection conn, int bookNo) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+			ArrayList<Recomm> list
+			=new ArrayList<Recomm>();
+			String query = "select * from recomm where BOOK_REF=? and RECOMM_REF is null order by 1";
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1, bookNo);
+				rset = pstmt.executeQuery();
+				while(rset.next()) {
+					Recomm rc = new Recomm();
+					rc.setRecommContent(rset.getString("recomm_content"));
+					rc.setRecommDate(rset.getString("recomm_date"));
+					rc.setRecommNo(rset.getInt("recomm_no"));
+					rc.setRecommRef(rset.getInt("recomm_ref"));
+					rc.setRcWriter(rset.getString("member_id"));
+					rc.setBookRef(rset.getInt("book_ref"));
+					list.add(rc);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			
+			return list;
+		}
+
+		//대댓글 전체 출력
+			public ArrayList<Recomm> selectRerecomm(Connection conn, int bookNo) {
+				PreparedStatement pstmt = null;
+				ResultSet rset = null;
+				ArrayList<Recomm> list
+				=new ArrayList<Recomm>();
+				String query = "select * from recomm where BOOK_REF=? and RECOMM_REF is not null order by 1";
+				try {
+					pstmt=conn.prepareStatement(query);
+					pstmt.setInt(1, bookNo);
+					rset = pstmt.executeQuery();
+					while(rset.next()) {
+						Recomm rc = new Recomm();
+						rc.setRecommContent(rset.getString("recomm_content"));
+						rc.setRecommDate(rset.getString("recomm_date"));
+						rc.setRecommNo(rset.getInt("recomm_no"));
+						rc.setRecommRef(rset.getInt("recomm_ref"));
+						rc.setRcWriter(rset.getString("member_id"));
+						rc.setBookRef(rset.getInt("book_ref"));
+						list.add(rc);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					JDBCTemplate.close(rset);
+					JDBCTemplate.close(pstmt);
+				}
+				
+				return list;
+			}
+
+
+
+
+			public int updateRecomm(Connection conn, Recomm rc) {
+				PreparedStatement pstmt = null;
+				int result = 0;
+				String query = "update recomm set recomm_content=? where recomm_no=?";
+				
+				try {
+					pstmt=conn.prepareStatement(query);
+					pstmt.setString(1, rc.getRecommContent());
+					pstmt.setInt(2, rc.getRecommNo());
+					result = pstmt.executeUpdate();
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					JDBCTemplate.close(pstmt);
+				}
+				
+				return result;
+			}
+
+
+
+
+			public int deleteRecomm(Connection conn, int recommNo) {
+				PreparedStatement pstmt = null;
+				int result = 0;
+				String query = "delete from recomm where recomm_no=?";
+				
+				try {
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, recommNo);
+					result = pstmt.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					JDBCTemplate.close(conn);
+				}
+				return result;
+			}
+
+	
 }
