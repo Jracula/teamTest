@@ -2,6 +2,7 @@ package com.litbooks.basket.Service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import com.litbooks.basket.dao.BasketDao;
 import com.litbooks.basket.vo.Basket;
@@ -68,6 +69,31 @@ public class BasketService {
 		ArrayList<Book> bask = dao.selectBookDetail(conn, memberNo);
 		JDBCTemplate.close(conn);
 		return bask;
+	}
+
+	// 장바구니 일괄체크 후 삭제
+	public boolean cartDelete(String no) {
+		Connection conn = JDBCTemplate.getConnection();
+		
+		StringTokenizer sT1 = new StringTokenizer(no, "/");
+		boolean result = true;
+		
+		while(sT1.hasMoreTokens()) {
+			int bookNo = Integer.parseInt(sT1.nextToken());
+			
+			int changeResult = dao.cartDelete(conn, bookNo);
+			if(changeResult == 0) {
+				result = false;
+				break;
+			}
+		}
+		if(result) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
 	}
 
 

@@ -32,7 +32,6 @@
 		<div class="page-content">
 			<div class="page-title">결제(주문)내역</div>
 			<form action="/orderList.do?reqPage=1&memberNo=2">
-				<!-- /orderList.do?memberNo=2&bookNo=1&bookPrice=3000 -->
 				<table class="tbl tbl-hober orberB-tbl">
 					<tr class="tr-2">
 						<th width="20%">주문번호</th>
