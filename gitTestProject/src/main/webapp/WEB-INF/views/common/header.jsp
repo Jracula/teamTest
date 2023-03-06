@@ -49,10 +49,12 @@
     </header>
     
 	<script>
-		function checkKeyword() {
+		function checkKeyword() {	//검색바에서 공백을 제외하고 2자 이상으로 검색 요청 
+			const keywordReg = /\S{2,}/;
 			const keyword = $("form>div>input").val();
-			if (!keyword) {
-				alert("검색어를 입력 후 검색해주십시오.");
+			const check = keywordReg.test(keyword);
+			if (!check) {
+				alert("2자 이상의 검색어로 입력해주십시오.");
 				return false;
 			}
 			return true;

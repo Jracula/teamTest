@@ -95,11 +95,14 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
-		function checkKeyword() {
+		function checkKeyword() {	//검색폼에서 책제목 또는 저자에 공백을 제외하고 2자 이상으로 검색 요청
+			const keywordReg = /\S{2,}/;
 			const keyword1 = $("[name=searchTitle]").val();
 			const keyword2 = $("[name=searchWriter]").val();
-			if (!keyword1 && !keyword2) {
-				alert("책제목 또는 저자 중 하나 이상은 입력 후 검색해주십시오.");
+			const check1 = keywordReg.test(keyword1);
+			const check2 = keywordReg.test(keyword2);
+			if (!check1 && !check2) {
+				alert("책제목 또는 저자를 2자 이상의 검색어로 입력해주십시오.");
 				return false;
 			}
 			return true;
