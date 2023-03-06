@@ -37,13 +37,10 @@
       	<!-- 마이페이지1 : /mypage1.do -->
       	<!-- <a class="btn bc11" href="/mypage1.do"><%=m.getMemberName() %></a> --> 
       	<!-- 마이페이지2 : 세션에서 꺼낸 memberId를 키값에넣어 보내줌 -->
-<<<<<<< HEAD
       	<a class="btn bc11" href="">장바구니</a>
       	<a class="btn bc11" href="/mypage.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
-=======
       	<a class="btn bc11" href="/cart.do?memberNo=<%=m.getMemberNo()%>">장바구니</a>
       	<a class="btn bc11" href="/mypage.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
->>>>>>> main
       	<a class="btn bc11" href="/logout.do">LOGOUT</a>
 <!-- memberNo 가져오기용 -->	<span id="memberNo" style="display: none;"><%=m.getMemberNo() %></span>
       <%} %>
@@ -52,10 +49,12 @@
     </header>
     
 	<script>
-		function checkKeyword() {
+		function checkKeyword() {	//검색바에서 공백을 제외하고 2자 이상으로 검색 요청 
+			const keywordReg = /\S{2,}/;
 			const keyword = $("form>div>input").val();
-			if (!keyword) {
-				alert("검색어를 입력 후 검색해주십시오.");
+			const check = keywordReg.test(keyword);
+			if (!check) {
+				alert("2자 이상의 검색어로 입력해주십시오.");
 				return false;
 			}
 			return true;

@@ -42,10 +42,11 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		int reqPage = 1;
+		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		String searchTitle = request.getParameter("searchTitle");
 		String searchWriter = request.getParameter("searchWriter");
 		String selectedGenre[] = request.getParameterValues("selectedGenre");
+		String noneArry[] = {};
 		int onlyOnSale = 0;	//기본값(판매중지 제외가 체크되지 않은 상태)를 위해 0으로 초기화
 		if(request.getParameter("onSale")!=null) {
 			onlyOnSale = 1;
@@ -57,6 +58,14 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 		request.setAttribute("start", bsr.getStart());
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
+		request.setAttribute("recievedTitle", searchTitle);
+		request.setAttribute("recievedWriter", searchWriter);
+		if(selectedGenre!=null) {
+			request.setAttribute("recievedGenre", selectedGenre);
+		}else {
+			request.setAttribute("recievedGenre", noneArry);
+		}
+		request.setAttribute("recievedOnSale", onlyOnSale);
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/findBook1st.jsp");
 		view.forward(request, response);
 	}

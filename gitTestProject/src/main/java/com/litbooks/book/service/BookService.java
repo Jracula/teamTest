@@ -7,6 +7,7 @@ import com.litbooks.basket.vo.Basket;
 import com.litbooks.book.dao.BookDao;
 import com.litbooks.book.vo.Book;
 import com.litbooks.book.vo.Recomm;
+import com.litbooks.book.vo.SearchResultPage;
 import com.litbooks.book.vo.BookView;
 import com.litbooks.book.vo.SearchResultPage;
 
@@ -386,7 +387,4 @@ public class BookService {
 
 
 	
-	}
-
-
-
+}
