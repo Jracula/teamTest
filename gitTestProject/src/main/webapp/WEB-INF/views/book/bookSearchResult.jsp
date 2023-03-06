@@ -25,7 +25,7 @@
 	<div class="page-content">
 		<div class="searchEngine">
 			<form action="/bookSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
-				<div>책제목 : <input type="text" name="searchTitle" id="gtgt" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
+				<div>책제목 : <input type="text" name="searchTitle" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
 				<div>저자 : <input type="text" name="searchWriter" value="<%=recievedWriter %>" placeholder="검색할 저자 이름"></div>
 				<div>
 			<%for(int i=0; i<genreList.size(); i++){%>
