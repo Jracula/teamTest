@@ -34,7 +34,8 @@ public class BookSearchInDetailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		String searchTitle = request.getParameter("searchKeyword");
+		String searchTitleD = request.getParameter("searchKeyword");
+		String searchTitle = searchTitleD.trim().replaceAll("(\\s)\\1+","$1");
 		String selectedGenre[] = {};
 		BookService service = new BookService();
 		SearchResultPage bsr = service.selectBooksInHeader(searchTitle);
