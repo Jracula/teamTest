@@ -21,6 +21,15 @@
 <meta charset="UTF-8">
 <title><%=b.getBookTitle() %> - LITBOOKS</title>
 <link rel="stylesheet" href="/css/recomm.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" /><style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -123,12 +132,11 @@
       <div class="inputCommentBox">
          <form action="/insertRecomm.do" method="post">
             <ul>
-               
                <li>
                   <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                   <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                   <input type="hidden" name="recommRef" value="0">
-                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 자제해 주세요 "></textarea>
+                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "> </textarea>
                </li>
                <li>
                   <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
@@ -153,11 +161,14 @@
                <p class="comment-link">
                   <%if(m != null) {%>
                      <%if(m.getMemberId().equals(rc.getRcWriter())) {%>
-                     <a href="javascript:void(0)" onclick="modifyComment(this,<%=rc.getRecommNo()%>,<%=b.getBookNo()%>);">수정</a>
-                     <a href="javascript:void(0)" onclick="deleteCommnet(this,<%=rc.getRecommNo()%>,<%=b.getBookNo()%>);">삭제</a>
+                     <a href="javascript:void(0)" onclick="modifyComment(this,<%=rc.getRecommNo()%>,<%=b.getBookNo()%>);"><span class="material-symbols-outlined plusborder">
+						edit</span></a>
+                     <a href="javascript:void(0)" onclick="deleteCommnet(this,<%=rc.getRecommNo()%>,<%=b.getBookNo()%>);"><span class="material-symbols-outlined plusborder">
+						delete</span></a>
                      
                      <%}//해당 댓글 수정 조건(댓글작성자가 로그인한 회원인지 확인) %>
-                  <a href="javascript:void(0)" class="reshow">답글달기</a>
+                  
+                  <a href="javascript:void(0)" class="reshow"><span class="recommopenbtn">답글달기</span></a>
                   <%}// 대댓글 달기 조건문(로그인체크) %>
                </p>
             </li>
@@ -175,11 +186,13 @@
                      <span><%=rcc.getRecommDate() %></span>
                   </p>
                   <p class="comment-content"><%=rcc.getRecommContent() %></p>
-                  <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rcc.getRecommContent() %></textarea>
+                  <textarea name="recommContent" class="input-form" style="min-height:96px; display:none; border-radius: 5px; "><%=rcc.getRecommContent() %></textarea>
                   <p class="comment-link">
                      <%if(m!=null && m.getMemberId().equals(rcc.getRcWriter())) {%>
-                        <a href="javascript:void(0)" onclick="modifyComment(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);">수정</a>
-                     <a href="javascript:void(0)" onclick="deleteCommnet(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);">삭제</a>
+                        <a href="javascript:void(0)" onclick="modifyComment(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);"><span class="material-symbols-outlined plusborder">
+						edit</span></a>
+                     	<a href="javascript:void(0)" onclick="deleteCommnet(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);"><span class="material-symbols-outlined plusborder">
+						delete</span></a>
                      
                      <%} %>
                   </p>
@@ -193,14 +206,14 @@
             <div class="inputCommentBox inputRecommentBox">
                <form action="/insertRecomm.do" method="post">
                   <ul class="rerecomm-inputbox">
-                     <li>
+                     <li style="margin-bottom: 8px;">
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
                         <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;"></textarea>
                      </li>
                      <li>
-                        <button type="submit" class="rerecommbtn recommbc1 recommbs1" style="margin-left: 1100px; ">등록</button>
+                        <button type="submit" class="rerecommbtn recommbc1 recommbs1" style="margin-left: 1100px; border-radius: 10px  ">등록</button>
                      </li>
                   </ul>
                </form>
