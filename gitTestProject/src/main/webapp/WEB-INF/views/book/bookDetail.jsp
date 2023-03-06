@@ -145,7 +145,7 @@
                   <span><%=rc.getRecommDate() %></span>
                </p>
                <p class="comment-content"><%=rc.getRecommContent() %></p>
-               <textarea name="rcContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
+               <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
                <p class="comment-link">
                   <%if(m != null) {%>
                      <%if(m.getMemberId().equals(rc.getRcWriter())) {%>
@@ -171,7 +171,7 @@
                      <span><%=rcc.getRecommDate() %></span>
                   </p>
                   <p class="comment-content"><%=rcc.getRecommContent() %></p>
-                  <textarea name="rcContent" class="input-form" style="min-height:96px;display:none;"><%=rcc.getRecommContent() %></textarea>
+                  <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rcc.getRecommContent() %></textarea>
                   <p class="comment-link">
                      <%if(m!=null && m.getMemberId().equals(rcc.getRcWriter())) {%>
                         <a href="javascript:void(0)" onclick="modifyComment(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);">수정</a>
@@ -193,10 +193,10 @@
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
-                        <textarea name="rcContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;"></textarea>
+                        <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;"></textarea>
                      </li>
                      <li>
-                        <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
+                        <button type="submit" class="rerecommbtn recommbc1 recommbs1" style="margin-left: 1100px; ">등록</button>
                      </li>
                   </ul>
                </form>
