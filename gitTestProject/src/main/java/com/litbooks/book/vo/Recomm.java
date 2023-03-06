@@ -1,62 +1,78 @@
 package com.litbooks.book.vo;
 
-import com.litbooks.member.vo.Member;
 
 public class Recomm {
-	    private int RecommNo;
-	    private int BookNo;
-	    private String memberId;
-	    private String RecommContent;
-	    private String RecommDate;
+	    private int recommNo;
+	    private int bookRef;
+	    private String rcWriter;
+	    private String recommContent;
+	    private String recommDate;
+		private int recommRef;
+
 		public Recomm() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
-		public Recomm(int recommNo, int bookNo, String memberId, String recommContent, String recommDate) {
-			super();
-			RecommNo = recommNo;
-			BookNo = bookNo;
-			this.memberId = memberId;
-			RecommContent = recommContent;
-			RecommDate = recommDate;
-		}
+
 		public int getRecommNo() {
-			return RecommNo;
+			return recommNo;
 		}
+
 		public void setRecommNo(int recommNo) {
-			RecommNo = recommNo;
+			this.recommNo = recommNo;
 		}
-		public int getBookNo() {
-			return BookNo;
+
+		public int getBookRef() {
+			return bookRef;
 		}
-		public void setBookNo(int bookNo) {
-			BookNo = bookNo;
+
+		public void setBookRef(int bookRef) {
+			this.bookRef = bookRef;
 		}
-		public String getMemberId() {
-			return memberId;
+
+		public String getRcWriter() {
+			return rcWriter;
 		}
-		public void setMemberId(String memberId) {
-			this.memberId = memberId;
+
+		public void setRcWriter(String rcWriter) {
+			this.rcWriter = rcWriter;
 		}
+
 		public String getRecommContent() {
-			return RecommContent;
+			return recommContent;
 		}
+
 		public void setRecommContent(String recommContent) {
-			RecommContent = recommContent;
+			this.recommContent = recommContent;
 		}
+
 		public String getRecommDate() {
-			return RecommDate;
+			return recommDate;
 		}
+
 		public void setRecommDate(String recommDate) {
-			RecommDate = recommDate;
+			this.recommDate = recommDate;
 		}
+
+		public int getRecommRef() {
+			return recommRef;
+		}
+
+		public void setRecommRef(int recommRef) {
+			this.recommRef = recommRef;
+		}
+
+		public Recomm(int recommNo, int bookRef, String rcWriter, String recommContent, String recommDate,
+				int recommRef) {
+			super();
+			this.recommNo = recommNo;
+			this.bookRef = bookRef;
+			this.rcWriter = rcWriter;
+			this.recommContent = recommContent;
+			this.recommDate = recommDate;
+			this.recommRef = recommRef;
+		}
+
 		
-		
-		
-	
-	
-	
-	
-	
-	
+
 }

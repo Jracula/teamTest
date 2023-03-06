@@ -463,6 +463,7 @@ footer > .footer-content > ul > li > a {
   color: #fff;
   cursor: pointer;
 }
+
 .bs1 {
   padding: 1rem;
 }
@@ -479,6 +480,7 @@ footer > .footer-content > ul > li > a {
   padding: 2rem;
   font-size: 1.2em;
 }
+
 /* input 디자인 */
 .input-form {
   width: 100%;
@@ -497,6 +499,7 @@ footer > .footer-content > ul > li > a {
 textarea.input-form {
   resize: none;
   min-height: 300px;
+  width: 800px;
 }
 .input-form:read-only:not(select),
 .input-form:disabled {
@@ -580,6 +583,9 @@ textarea.input-form {
 .posting-comment > li:first-child .material-icons {
   font-size: 80px;
   color: #ccc;
+}
+.inputCommentBox > ul >li{
+	list-style-type: none;
 }
 .posting-comment.reply > li:first-child .material-icons:first-child {
   font-size: 40px;
