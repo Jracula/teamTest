@@ -163,6 +163,7 @@
                                 alert("결제 성공");
                                 // insert 후 되돌아오는 서블릿
                                 // form 태그로 insert
+                                
                             },
                             error : function() {
                                 alert("에러 발생");

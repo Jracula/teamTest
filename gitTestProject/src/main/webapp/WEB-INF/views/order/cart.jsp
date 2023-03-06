@@ -24,6 +24,15 @@
 	
 	.table-content{
 		display: inline-flex;
+		border: 1px solid black;
+	}
+	
+	.table-content th{
+		border: 1px solid black;
+	}
+	
+	.table-content td{
+		border: 1px solid black;
 	}
 	
 	.pay-content{
@@ -54,13 +63,14 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
     <div class="page-content">
         <div class="page-title">장바구니(카트)</div>
-        <!-- <form action="/orderPayMent.do" method="post"> -->
         
         <table class="table-content">
             <tr>
                 <th><input type="checkbox" id="allChk"><label for="allChk">전체선택</label></th>
-                <th></th>
-                <th></th>
+                <th>책 이미지</th>
+                <th>책 번호</th>
+                <th>책 이름</th>
+                <th>책 가격</th>
                 <th><button type="button" class="removeBtn">선택삭제</button></th>
             </tr>
             
@@ -69,26 +79,32 @@
             <tr>
                 <td><input type="checkbox" class="chk" value=<%=ba.getBasketNo() %>></td>
                 <td><img src="#" width="150px" height="150px"></td>
-                <td>
-                	<span style="display: none;" id="bookNo"><%=ba.getBasketNo() %></span>
+                <td><span style="display: block;" id="bookNo"><%=ba.getBasketNo() %></span></td> 
+				<td> <!-- 책 이름 -->
+				<% for(int j=0; j<bask.size(); j++) {%>
+       			<% Book detail = bask.get(j); %>
+				<%=detail.getBookTitle() %>
+				<% } %>
+				</td> 
+                <td class="amountPrice"> <!-- 책 가격 -->
+                <% for(int j=0; j<bask.size(); j++) {%>
+       			<% Book detail = bask.get(j); %>
+                <%=detail.getBookPrice() %>
+                <% } %>
+                </td> 
+                <td></td>
+    		</tr>
     		<% } %>
-			<% for(int j=0; j<bask.size(); j++) {%>
-       		<% Book detail = bask.get(j); %>
-                    <p><%=detail.getBookTitle() %></p> <!-- 책제목 -->
-                </td>
-                <td class="amountPrice"><%=detail.getBookPrice() %></td> <!-- 책가격 -->
-            </tr>
-        <% } %>
         </table>
+        
        	<div class="pay-content">
             <span class="material-symbols-outlined">check_circle</span><span id="checkCount">O</span>개를 선택하셨습니다.
             <div>총 상품 금액 : <span id="allPrice"> 원</span></div>
             <div>합계 : <span id="allPrice2"> 원</span></div>
             <button id="buyBook">구매하기</button>
         </div>
-	<!--  </form>-->
 	</div>
-	
+
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<script>
