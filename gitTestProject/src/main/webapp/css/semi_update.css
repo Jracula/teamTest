@@ -67,11 +67,11 @@ color: rgb(226, 1, 1);
     font-size: 13px;
 }
 
-/**/
+/*
 .join-box>table>tbody>tr>td:last-child>#memberEmail{ 
 width: 50%;
 }
-/**/
+*/
 
 .join-box>table>tbody>tr>td:last-child>#checkEmail{ 
     width:20%;
@@ -118,10 +118,6 @@ input[type=password]{
 }
 
 input[name=memberPhone]{
-	background-color: white;
-	border : 1.5px solid  rgb(241, 241, 241);
-}
-input[name=memberEmail]{
 	background-color: white;
 	border : 1.5px solid  rgb(241, 241, 241);
 }

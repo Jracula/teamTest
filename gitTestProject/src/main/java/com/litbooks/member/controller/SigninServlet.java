@@ -49,7 +49,7 @@ public class SigninServlet extends HttpServlet {
 	    	 request.setAttribute("title", "로그인실패");
 	    	 request.setAttribute("msg", "아이디또는 비밀번호 확인");
 	    	 request.setAttribute("icon", "error");
-	    	 request.setAttribute("loc", "/");
+	    	 request.setAttribute("loc", "/signinFrm.do");
 	     }else {
 	    	 HttpSession session = request.getSession(); //브라우저 닫을때까지 정보 유지
 	    	 session.setAttribute("m", member);

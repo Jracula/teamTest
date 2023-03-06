@@ -20,10 +20,8 @@ import com.litbooks.member.vo.Member;
  */
 @WebServlet(
 		name = "updateMemberInfo", 
-		urlPatterns = { "/updateMemberInfo" }, 
-		initParams = { 
-				@WebInitParam(name = "/updateMemberInfo.do", value = "")
-		})
+		urlPatterns = { "/updateMemberInfo.do" }
+		)
 public class UpdateMemberInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -43,15 +41,21 @@ public class UpdateMemberInfoServlet extends HttpServlet {
 		
 		//2
 		String memberPw = request.getParameter("memberPw");
+		String memberPhone = request.getParameter("memberPhone");
+		String memberId = request.getParameter("memberId");
+		
 		Member m = new Member();
+		
+		/*
 		if(memberPw.equals("")){
 			m.setMemberPhone(request.getParameter("memberPhone"));
 			m.setMemberEmail(request.getParameter("memberEmail"));
 			m.setMemberId(request.getParameter("memberId"));
 			}
+			*/
+			
 		m.setMemberPw(request.getParameter("memberPw"));
 		m.setMemberPhone(request.getParameter("memberPhone"));
-		m.setMemberEmail(request.getParameter("memberEmail"));
 		m.setMemberId(request.getParameter("memberId"));
 		
 		//3
@@ -65,7 +69,7 @@ public class UpdateMemberInfoServlet extends HttpServlet {
 			request.setAttribute("title", "수정 완료");
 			request.setAttribute("msg","정보 수정이 완료되었습니다");
 			request.setAttribute("icon","success");
-			request.setAttribute("loc","/mypage.do");
+			request.setAttribute("loc","/mypage.do?memberId="+memberId);
 			
 			HttpSession session = request.getSession();
 	    	 Member member =(Member)session.getAttribute("m");
@@ -77,7 +81,7 @@ public class UpdateMemberInfoServlet extends HttpServlet {
 			request.setAttribute("title", "수정 실패");
 			request.setAttribute("msg","수정에 실패했습니다");
 			request.setAttribute("icon","error");
-			request.setAttribute("loc","/mypage.do");
+			request.setAttribute("loc","/mypage.do?memberId="+memberId);
 		}
 		view.forward(request, response);
 		

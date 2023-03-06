@@ -178,6 +178,9 @@
 
 .inputCommentBox {
 	margin: 50px;
+	border-top: 2px solid #ccc;
+	padding-top: 50px;
+	padding-bottom: 10px;
 }
 
 .inputCommentBox>form>ul {
@@ -228,7 +231,6 @@
   cursor: pointer;
   margin-left: 800px;
   font-weight: bolder;
-   font-size: 20px;
 }
 .recommbs1 {
   width: 100%;
@@ -269,4 +271,31 @@ textarea{
   font-size: 17px;
   font-family: ns-light;
   
+}
+.recommopenbtn {
+	color: white;
+	float: left;
+	width: 60px; 
+	height: 25px;
+}
+
+a.reshow{
+	width: 60px; 
+	height: 25px; 
+	background-color: rgba(32, 90, 167, 1);
+	border: 1px solid transparent;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	color: white;
+	padding: 3px;
+}
+.plusborder{
+	border-right: 2px solid #ccc; 
+	padding: 5px;
+}
+.comment-link{
+	width: 300px;
+}
+.link-box{
+	widows: 100px;
 }

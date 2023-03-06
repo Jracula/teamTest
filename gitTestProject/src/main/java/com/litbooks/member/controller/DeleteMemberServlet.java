@@ -36,14 +36,16 @@ public class DeleteMemberServlet extends HttpServlet {
 request.setCharacterEncoding("utf-8");
 		
 		//2
+		String memberId = request.getParameter("memberId");
+		/*
 		HttpSession session = request.getSession();
 		Member m =(Member)session.getAttribute("m");
 		String memberId = m.getMemberId();
+		*/
 		
 		//3
 		MemberService service = new MemberService();
 		int result = service.deleteMember(memberId);
-		
 		
 		//4
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");

@@ -112,16 +112,22 @@ public class MemberDao {
 	public int updateMember(Connection conn, Member m) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "update member set member_pw=?, member_phone=?, member_email=? where member_id=?";
+		
+		String query = "update member set member_phone=?, member_pw=? where member_id=? ";
+		if(m.getMemberPw().equals("")) {
+			query = "update member set member_phone=? where member_id=?";
+		}
 		
 		try {
 			pstmt=conn.prepareStatement(query);
-			pstmt.setString(1, m.getMemberPw());
-			pstmt.setString(2, m.getMemberPhone());
-			pstmt.setString(3, m.getMemberEmail());
-			
+			pstmt.setString(1, m.getMemberPhone());
+			if(m.getMemberPw().equals("")) {
+				pstmt.setString(2, m.getMemberId());
+			}else {
+				pstmt.setString(2, m.getMemberPw());
+				pstmt.setString(3, m.getMemberId());
+			}
 			result=pstmt.executeUpdate();
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,10 +189,11 @@ public class MemberDao {
 
 
 	//탈퇴회원 insert
+	
 	public int insetDelMember(Connection conn, Member m) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into del_memebr values(?,?,?,?,TO_CHAR(SYSDATE,'YYYY-MM-DD'))";
+		String query = "insert into del_member values(?,?,?,?,TO_CHAR(SYSDATE,'YYYY-MM-DD'))";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -204,8 +211,10 @@ public class MemberDao {
 		}
 		return result;
 	}
+	
 
-	//전체회원회
+	//전체회원
+	/*
 	public ArrayList<Member> selectAllMember(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -234,6 +243,7 @@ public class MemberDao {
 		}
 		return list;
 	}
+	*/
 
 	//전체회원 조회
 	public ArrayList<Member> allMemberList(Connection conn, int start, int end) {
@@ -241,13 +251,13 @@ public class MemberDao {
 		ResultSet rset = null;
 		ArrayList<Member> list = new ArrayList<Member>();
 		
-		String query = "select*from(select rownum as rnum, n.*from(select memebr_no, member_id, member_name, member_phone, member_email, enroll_date from member order by 1 desc)n)where rnum between ? and ?";
+		String query = "select*from(select rownum as rnum, n.*from(select member_no, member_id, member_name, member_phone, member_email, enroll_date from member order by 1 desc)n)where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, start);
 			pstmt.setInt(2, end);
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			while(rset.next()) {
 				Member m = new Member();
 				m.setMemberNo(rset.getInt("member_no"));
 				m.setEnrollDate(rset.getString("enroll_date"));

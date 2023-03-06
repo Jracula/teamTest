@@ -18,7 +18,7 @@ public class OrderBDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
-		
+
 		String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.order_no) where member_no=?)n) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -26,11 +26,12 @@ public class OrderBDao {
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
 			rset = pstmt.executeQuery();
-			while(rset.next()) {
+			while (rset.next()) {
 				OrderB o = new OrderB();
 				o.setOrderNo(rset.getInt("order_no"));
 				o.setBook_title(rset.getString("book_title"));
-				o.setOrderPrice(rset.getInt("book_price"));;
+				o.setOrderPrice(rset.getInt("book_price"));
+				;
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));
 				list.add(o);
@@ -50,12 +51,12 @@ public class OrderBDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int totalCount = 0;
-		
+
 		String query = "select count(*) as cnt from order_B";
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
-			while(rset.next()) {
+			while (rset.next()) {
 				totalCount = rset.getInt("cnt");
 			}
 		} catch (SQLException e) {
@@ -73,14 +74,14 @@ public class OrderBDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		OrderB o = new OrderB();
-		
+
 		String query = "select m.member_no, b.book_no, b.book_price, b.publisher, b.book_title, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no) where m.member_no=? and book_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
 			pstmt.setInt(2, bookNo);
 			rset = pstmt.executeQuery();
-			if(rset.next()) {
+			if (rset.next()) {
 				o = new OrderB();
 				o.setMemberNo(rset.getInt("member_no"));
 				o.setBookNo(rset.getInt("book_no"));
@@ -106,12 +107,12 @@ public class OrderBDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
-		
+
 		String query = "select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date from order_b o join member m on (o.order_no = m.member_no) join book b on (o.order_no = b.book_no)";
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
-			while(rset.next()) {
+			while (rset.next()) {
 				OrderB o = new OrderB();
 				o.setOrderNo(rset.getInt("order_no"));
 				o.setMemberId(rset.getString("member_id"));
@@ -121,7 +122,7 @@ public class OrderBDao {
 				o.setOrderRegDate(rset.getString("order_reg_date"));
 				list.add(o);
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,23 +133,11 @@ public class OrderBDao {
 		return list;
 	}
 
-	// ↓ 수정
-	// 관리자페이지 주문내역 취소
-	public int orderCancel(Connection conn) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-		
-		String query = "update order_b set status='결제취소' where member_no=?";
-		
-		
-		return 0;
-	}
-
 	// (관리자페이지) 결제방식 변경
 	public int changePay(Connection conn, int orderNo, int orderPay) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+
 		String query = "update order_b set status=? where order_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -168,7 +157,7 @@ public class OrderBDao {
 	public Book selectBookBasketNo(Connection conn, int basketOneNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		
+
 		Book b = null;
 
 		String query = "SELECT * FROM BOOK WHERE BOOK_NO=(select book_no from basket where basket_no=?)";
@@ -191,7 +180,8 @@ public class OrderBDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro,
+						bookEpi, book1st, nonFee, bookImage);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -203,10 +193,51 @@ public class OrderBDao {
 		return b;
 	}
 
+	// 결제내역 insert
+	public int insertOrder(Connection conn, int memberNo1, String[] bookNoArr, String[] bookPriceArr, int price,
+			String query, String payMethod) {
+		PreparedStatement pstmt = null;
+		int result = 0;
 
-	
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo1);
+			pstmt.setInt(2, price);
+			pstmt.setString(3, payMethod);
+			int index = 4;
+			for (int i = 0; i < bookNoArr.length; i++) {
+				pstmt.setString(index++, bookNoArr[i]);
+				pstmt.setString(index++, bookPriceArr[i]);
+			}
+			result = pstmt.executeUpdate();
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
 
+	// 장바구니 삭제
+	public int deleteBasket(Connection conn, String basketNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
 
-	
+		String query = "delete from basket where basket_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, basketNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 }

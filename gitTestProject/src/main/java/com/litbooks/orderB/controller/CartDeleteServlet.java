@@ -1,7 +1,6 @@
 package com.litbooks.orderB.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,20 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.basket.Service.BasketService;
-import com.litbooks.basket.vo.Basket;
-import com.litbooks.book.vo.Book;
 
 /**
- * Servlet implementation class CartServlet
+ * Servlet implementation class CartDeleteServlet
  */
-@WebServlet(name = "Cart", urlPatterns = { "/cart.do" })
-public class CartServlet extends HttpServlet {
+@WebServlet(name = "CartDelete", urlPatterns = { "/cartDelete.do" })
+public class CartDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CartServlet() {
+    public CartDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,26 +32,23 @@ public class CartServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		String no = request.getParameter("no");
 		
 		BasketService service = new BasketService();
+		boolean result = service.cartDelete(no);
 		
-		// 장바구니에서 책번호 조회
-		ArrayList<Basket> list = service.selectBookNumber(memberNo);
-		
-		if(list.isEmpty()) {
-			request.setAttribute("title", "카트 조회불가");
-			request.setAttribute("msg", "책을 담아주세요");
-			request.setAttribute("icon", "warning");
-			request.setAttribute("loc", "/index.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(result) {
+			request.setAttribute("title", "장바구니 삭제 완료");
+			request.setAttribute("msg", "요청이 처리되었습니다.");
+			request.setAttribute("icon", "success");
 		} else {
-			// 장바구니에서 회원이 담은 책 제목, 책 가격 조회
-			ArrayList<Book> bask = service.selectBookDetail(memberNo);
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/cart.jsp");
-			request.setAttribute("list", list);
-			request.setAttribute("bask", bask);
-			view.forward(request, response);
+			request.setAttribute("title", "장바구니 삭제 실패");
+			request.setAttribute("msg", "요청 처리 중 문제가 발생했습니다.");
+			request.setAttribute("icon", "error");
 		}
+		request.setAttribute("loc", "/cart.do");
+		view.forward(request, response);
 	}
 
 	/**

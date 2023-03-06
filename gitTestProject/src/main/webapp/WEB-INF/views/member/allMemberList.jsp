@@ -20,6 +20,9 @@
 	.tbl tr{
 		border-bottom: 1px solid #ccc;
 	}
+#pageNavi{
+	margin : 60px;
+}
 
 </style>
 <head>

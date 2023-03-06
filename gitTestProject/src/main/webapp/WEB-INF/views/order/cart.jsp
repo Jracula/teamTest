@@ -23,19 +23,24 @@
 	}
 	
 	.table-content{
-		display: inline-flex;
+		border: 1px solid black;
+		width: 50%;
 	}
 	
-	.pay-content{
-		float: right;
+	.table-content th{
+		align-content: center;
 	}
 	
-	#allChk{
+	#check{
 		width: 15px;
 		height: 15px;
 	}
+
+	.pay-content{
+		margin: 30px 50px;
+	}
 	
-	.chk {
+	#allChk{
 		width: 15px;
 		height: 15px;
 	}
@@ -54,41 +59,45 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
     <div class="page-content">
         <div class="page-title">장바구니(카트)</div>
-        <!-- <form action="/orderPayMent.do" method="post"> -->
         
         <table class="table-content">
             <tr>
-                <th><input type="checkbox" id="allChk"><label for="allChk">전체선택</label></th>
+                <th colspan="2"><input type="checkbox" id="allChk"><label for="allChk">전체선택</label></th>
                 <th></th>
+                <th>책 이름</th>
+                <th>책 가격</th>
                 <th></th>
                 <th><button type="button" class="removeBtn">선택삭제</button></th>
             </tr>
             
-            <% for(int i=0; i<list.size(); i++) { %>
-            <% Basket ba = list.get(i); %>
+            <% for(int i=0; i<list.size(); i++) { %> <!-- 장바구니 테이블 -->
+            <% Basket ba = list.get(i); %> 			
+       		<% Book detail = bask.get(i); %>
             <tr>
-                <td><input type="checkbox" class="chk" value=<%=ba.getBasketNo() %>></td>
-                <td><img src="#" width="150px" height="150px"></td>
+                <td><input type="checkbox" class="chk" id="check" value=<%=ba.getBasketNo() %>></td>
                 <td>
-                	<span style="display: block;" id="bookNo"><%=ba.getBasketNo() %></span>
-    		<% } %>
-			<% for(int j=0; j<bask.size(); j++) {%>
-       		<% Book detail = bask.get(j); %>
-                    <p><%=detail.getBookTitle() %></p> <!-- 책제목 -->
+		        <%if (detail.getBookImage()!=null){%>
+					<img src="/upload/book/cover-image/<%=detail.getBookImage() %>" height="150px">
+				<%}else{ %>
+					<img src="/upload/book/cover-image/00000000.jpg" height=150px>
+				<%} %>
                 </td>
-                <td class="amountPrice"><%=detail.getBookPrice() %></td> <!-- 책가격 -->
-            </tr>
-        <% } %>
+                <td><span style="display: none;" id="bookNo"><%=detail.getBookNo() %></span></td> 
+				<td><%=detail.getBookTitle() %></td> <!-- 책 이름 -->
+                <td class="amountPrice"><%=detail.getBookPrice() %></td>
+
+    		</tr>
+    		<% } %>
         </table>
+        
        	<div class="pay-content">
             <span class="material-symbols-outlined">check_circle</span><span id="checkCount">O</span>개를 선택하셨습니다.
             <div>총 상품 금액 : <span id="allPrice"> 원</span></div>
             <div>합계 : <span id="allPrice2"> 원</span></div>
             <button id="buyBook">구매하기</button>
         </div>
-	<!--  </form>-->
 	</div>
-	
+
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<script>
@@ -118,10 +127,34 @@
 					chk[i].parentElement.parentElement.remove();
 				}
 			}
+			
+			// 수정필요
+			const check = $(".chk:checked");
+			
+			const no = new Array();
+			
+			check.each(function(index, item) {				
+				const bookNo = $(this).parent().parent().next().children().find("span").text();
+				console.log("bookNo = " + bookNo);
+			});
+			
+			// 체크 후 선택삭제 시 장바구니 DB에 해당하는 책 번호 삭제
+			location.href="/cartDelete.do?no="+no.join("/");
 		});
 		
-		// 총 상품 금액, 합계 --> 함수처리
 		
+		let totalPrice = 0;
+		function allPrice() {
+			const price = $(".amountPrice");
+			for(let i=0; i<price.length; i++) {
+				sum += Number(price.eq(i).text());
+			}
+			$("#allPrice").text(sum);
+			$("#allPrice2").text(sum);
+		}
+		
+		/*
+		// 총 상품 금액, 합계 --> 함수처리
 		let sum = 0;
 		const price = $(".amountPrice");
 		//console.log(price);
@@ -132,6 +165,7 @@
 			$("#allPrice").text(sum);
 			$("#allPrice2").text(sum);
 		}
+		*/
 	
 		// 결제페이지로 이동
 		$("#buyBook").on("click", function() {
