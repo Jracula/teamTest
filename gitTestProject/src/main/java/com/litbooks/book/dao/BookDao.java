@@ -454,7 +454,7 @@ public class BookDao {
 
 
 
-			public int updateNotice(Connection conn, Recomm rc) {
+			public int updateRecomm(Connection conn, Recomm rc) {
 				PreparedStatement pstmt = null;
 				int result = 0;
 				String query = "update recomm set recomm_content=? where recomm_no=?";
@@ -478,7 +478,7 @@ public class BookDao {
 
 
 
-			public int updateNotice(Connection conn, int recommNo) {
+			public int deleteRecomm(Connection conn, int recommNo) {
 				PreparedStatement pstmt = null;
 				int result = 0;
 				String query = "delete from recomm where recomm_no=?";

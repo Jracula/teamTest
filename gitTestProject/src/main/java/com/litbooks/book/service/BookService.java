@@ -156,7 +156,7 @@ public class BookService {
 	//update comment
 	public int UpdateRecomm(Recomm rc) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.updateNotice(conn, rc );
+		int result = dao.updateRecomm(conn, rc );
 		if(result>0) {
 			JDBCTemplate.commit(conn);
 			
@@ -169,9 +169,9 @@ public class BookService {
 	}
 
 
-	public int deleteNoticeComment(int recommNo) {
+	public int deleteRecomm(int recommNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		int result = dao.updateNotice(conn, recommNo );
+		int result = dao.deleteRecomm(conn, recommNo );
 		if(result>0) {
 			JDBCTemplate.commit(conn);
 			
@@ -182,6 +182,7 @@ public class BookService {
 		
 		return result;
 	}
+
 
 
 	

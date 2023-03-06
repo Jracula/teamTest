@@ -38,7 +38,7 @@ public class DeleteRecommServlet extends HttpServlet {
 
 		// 3.비로직
 		BookService service = new BookService();
-		int result = service.deleteNoticeComment(recommNo);
+		int result = service.deleteRecomm(recommNo);
 
 		// 4.결처리
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
