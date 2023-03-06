@@ -33,11 +33,11 @@ public class MypageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String memebrId = request.getParameter("memberId");
+		String memberId = request.getParameter("memberId");
 		
 		//3
 		MemberService service = new MemberService();
-		Member m = service.selectOneMember(memebrId);
+		Member m = service.selectOneMember(memberId);
 		
 		//4
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/member/mypagFrm.jsp");

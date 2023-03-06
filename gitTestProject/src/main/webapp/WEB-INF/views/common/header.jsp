@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="/css/default.css" />
     <!-- 기본 js -->
     <script src="/js/default.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
 
 
     <header>
@@ -37,13 +39,10 @@
       	<!-- 마이페이지1 : /mypage1.do -->
       	<!-- <a class="btn bc11" href="/mypage1.do"><%=m.getMemberName() %></a> --> 
       	<!-- 마이페이지2 : 세션에서 꺼낸 memberId를 키값에넣어 보내줌 -->
-<<<<<<< HEAD
-      	<a class="btn bc11" href="">장바구니</a>
-      	<a class="btn bc11" href="/mypage.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
-=======
+
       	<a class="btn bc11" href="/cart.do?memberNo=<%=m.getMemberNo()%>">장바구니</a>
       	<a class="btn bc11" href="/mypage.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
->>>>>>> main
+
       	<a class="btn bc11" href="/logout.do">LOGOUT</a>
 <!-- memberNo 가져오기용 -->	<span id="memberNo" style="display: none;"><%=m.getMemberNo() %></span>
       <%} %>

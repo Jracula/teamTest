@@ -29,13 +29,15 @@
                <td>
                   <input type="text" name="memberId" id="memberId"class="inputBox" value="<%=member.getMemberId()%>" readonly>
                   <div class="comment" id="idCheck"></div>
+
                </td>
             </tr>
             <tr>
                <td>비밀번호</td>
                <td>
-               <input type="password" name="memberPw" class="inputBox" placeholder="새 비밀번호를 입력해주세요">
+               <input type="password" name="memberPw" class="inputBox" placeholder="수정하시려면 새 비밀번호를 입력해주세요">
                   <div class="comment" id="pwCheck"></div>
+                <input type="hidden" name="memberPw" value="<%=m.getMemberPw()%>">
                </td>
             </tr>
             <tr>
@@ -53,17 +55,19 @@
             <tr>
                <td>전화번호</td>
                <td>
-                  <input type="text" name="memberPhone" class="inputBox" value="<%=member.getMemberPhone()%>">
+                  <input type="text" name="memberPhone" class="inputBox" value="<%=member.getMemberPhone()%>" required>
                </td>
             </tr>
             <tr>
                <td>이메일인증</td>
                <td>
-                  <input type="text" name="memberEmail" id="memberEmail" class="inputBox" value="<%=member.getMemberEmail()%>">
-                  <input type="text" name="memberEmail" id="checkEmail" class="inputBox" required placeholder="인증번호">
+                  <input type="text" name="memberEmail" id="memberEmail" class="inputBox" value="<%=member.getMemberEmail()%>" required disabled>
+                 <%-- 
+                  <input type="text" name="memberEmail" id="checkEmail" class="inputBox" placeholder="인증번호">
                   <button type="button" class="email-check" id="emailCheck">이메일인증</button>
                   <button type="button" class="email-check" id="check" style="display: none;">확인</button>
                   <div class="comment" id="email-time"></div>
+                  --%>
                </td>
             </tr>
 
