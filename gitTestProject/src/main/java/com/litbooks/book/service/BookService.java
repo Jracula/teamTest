@@ -271,7 +271,7 @@ public class BookService {
 		int start = numPerPage*(reqPage-1)+1;
 		ArrayList<Book> list = dao.selectBook1stByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre, start, end);
 		// 최대 페이지 수
-		int totalCount = dao.selectSearchResultCount(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
+		int totalCount = dao.selectSearchResult1stCount(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
 		int maxPage = 0;
 		if(totalCount%numPerPage == 0) {
 			maxPage = totalCount/numPerPage;

@@ -5,12 +5,13 @@
     <%
     ArrayList<Book> books = (ArrayList<Book>)request.getAttribute("books");
     String pageNavi = (String)request.getAttribute("pageNavi");
+    int start = (int)request.getAttribute("start");
     ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
     //이전 검색 조건들 ↓
     String recievedTitle = (String)request.getAttribute("recievedTitle");
     String recievedWriter = (String)request.getAttribute("recievedWriter");
-    String[] recievedGenre = {};
-    int recievedOnSale = 0;
+    String[] recievedGenre = (String[])request.getAttribute("recievedGenre");
+    int recievedOnSale = (int)request.getAttribute("recievedOnSale");
     //이전 검색 조건들 ↑
     %>
 <!DOCTYPE html>
@@ -46,7 +47,7 @@
 				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
 				<%} %>
             <%} %>
-            	<div><label>
+            		<div><label>
             	<%if(recievedOnSale==1){ %>
             		<input type="checkbox" name="onSale" value="1" checked="true">
             	<%}else if(recievedOnSale==0){ %>
@@ -55,9 +56,43 @@
             		판매중지 제외</label></div>
 				</div>
 				<input type="hidden" name="reqPage" value="1">
-				<button type="submit" id="submitButton">검색</button>
+				<button type="submit">검색</button>
 			</form>
 		</div>
+
+<!-- 이전 검색 조건을 저장하는 form으로서, 페이지 이동 버튼 동작을 위해 작성됨 -->
+		<div class="searchEngine" style="display:none;">
+			<form action="/book1stSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
+				<input type="text" name="searchTitle" value="<%=recievedTitle %>">
+				<input type="text" name="searchWriter" value="<%=recievedWriter %>">
+				<div>
+			<%for(int i=0; i<genreList.size(); i++){%>
+				<%int check=0; %>
+				<%for(int j=0; j<recievedGenre.length; j++){ %>
+					<%if(genreList.get(i).equals(recievedGenre[j])){ %>
+						<%check++; %>
+					<%} %>
+				<%} %>
+				<%if(check>0){ %>
+				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true">
+				<%}else if(check==0){ %>
+				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>">
+				<%} %>
+            <%} %>
+            		<div>
+            	<%if(recievedOnSale==1){ %>
+            		<input type="checkbox" name="onSale" value="1" checked="true">
+            	<%}else if(recievedOnSale==0){ %>
+            		<input type="checkbox" name="onSale" value="1">
+            	<%} %>
+            		</div>
+				</div>
+				<input name="reqPage">
+				<button type="submit" id="submitButton">보이지 않는 검색 버튼</button>
+			</form>
+		</div>
+<!-- 숨겨진 검색 form 끝 -->
+		
 		<div class="result-wrap">
 	<%if(books!=null){%>
 		<%if(books.size()==0) {%>
@@ -102,15 +137,23 @@
 		<div id="pageNavi" style="clear: both;"><%=pageNavi %></div>
 	</div>
 	<script>
-	function checkKeyword() {
+	function checkKeyword() {	//검색폼에서 책제목 또는 저자에 공백을 제외하고 2자 이상으로 검색 요청
+		const keywordReg = /\S{2,}/;
 		const keyword1 = $("[name=searchTitle]").val();
 		const keyword2 = $("[name=searchWriter]").val();
-		if (!keyword1 && !keyword2) {
-			alert("책제목 또는 저자 중 하나 이상은 입력 후 검색해주십시오.");
+		const check1 = keywordReg.test(keyword1);
+		const check2 = keywordReg.test(keyword2);
+		if (!check1 && !check2) {
+			alert("책제목 또는 저자를 2자 이상의 검색어로 입력해주십시오.");
 			return false;
 		}
 		return true;
 	}
+	$(".page-item").on("click", function(){
+		const reqPage = $(this).children().first().text();
+		$("[name=reqPage]").val(reqPage);
+		$("#submitButton").click();
+	});
 	$(".page-item").on("click", function(){
 		const reqPage = $(this).children().first().text();
 		$("[name=reqPage]").val(reqPage);

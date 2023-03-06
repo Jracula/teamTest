@@ -77,7 +77,7 @@
 				</tr>
 				<tr class="tr-1">
 					<td colspan="6">
-						<textarea name="bookIntro" placeholder="작품 소개글. 한글 최대 1000자" class="input-form"></textarea>
+						<textarea name="bookIntro" placeholder="작품 소개글. 한글 최대 1000자" class="input-form" style="width:100%;"></textarea>
 					</td>
 				</tr>
 				<tr class="tr-1">

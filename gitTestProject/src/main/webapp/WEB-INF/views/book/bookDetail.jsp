@@ -78,6 +78,7 @@
 		<div>
 			<h3>이 책의 시리즈</h3>
 		<%for(int i=0; i<seriesList.size(); i++){%>
+			<%if(i<5){%>
 			<%Book bs = seriesList.get(i); %>
 			<div>
 				<div>
@@ -105,6 +106,9 @@
 				<%} %>
 				</div>
 			</div>
+			<%}else{%>
+			<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
+			<%break;}%>
 			<%}%>
 		</div>
 		<%}%>
