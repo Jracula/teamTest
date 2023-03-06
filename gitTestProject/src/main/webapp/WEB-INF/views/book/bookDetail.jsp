@@ -128,12 +128,11 @@
       <div class="inputCommentBox">
          <form action="/insertRecomm.do" method="post">
             <ul>
-               
                <li>
                   <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                   <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                   <input type="hidden" name="recommRef" value="0">
-                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 자제해 주세요 "> </textarea>
+                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "> </textarea>
                </li>
                <li>
                   <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
