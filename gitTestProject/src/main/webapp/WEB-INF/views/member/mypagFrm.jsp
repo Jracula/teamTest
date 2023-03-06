@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%
-Member member = (Member) request.getAttribute("m");
+Member member = (Member)request.getAttribute("m");
 %>
 
 <!DOCTYPE html>
@@ -10,14 +10,19 @@ Member member = (Member) request.getAttribute("m");
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/semi_update.css">
+<link rel="stylesheet" href="css/semi_mypage.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp"%>
 <div class="update-all-wrap">
 	<form action="#" method="post">
 		<div class="update-title">
-			<h2>마이 페이지</h2>
+		<%if(member.getMemberLevel() == 1) {%>
+					<h2>관리자 정보</h2>
+				<%}else{ %>
+					<h2>마이페이지</h2>
+				<%} %>
+			
 		</div>
 		<div class="join-box">
 			<table>
@@ -56,12 +61,28 @@ Member member = (Member) request.getAttribute("m");
 
 			</table>
 		</div>
-			<div class="btn-box">
-				<button type="submit" class="update-btn" id="update-btn">정보 수정</button>
-				<button type="submit" class="list-btn">구매 내역</button>
-				<button type="button" class="delete-btn">회원 탈퇴</button>
+			<div class="btnBox">
+				<a class="button" href="/updateMemberFrm.do?memberId=<%=m.getMemberId()%>" id="update-btn">관리자 정보 수정</a>
+				<%if(m.getMemberLevel() == 1) {%>
+					<a class="button" href="/selectAllMember.do?reqPage=1" id="admin-btn">전체회원 정보</a>
+				<%}else{ %>
+					<a class="button" href="#" id="list-btn">구매내역</a>
+					<button type="button" class="delBtn" id="delete-btn">회원탈퇴</button>
+					<%-- <a class="button" href="/deleteMember.do?memberId=<%=m.getMemberId()%>" id="delete-btn">회원탈퇴</a>--%>
+				<%} %>
+				<div class="del-modalWrap">
+           	     <div class="del-modal" >
+                       <div class="del-top">
+                             <h3>정말,,탈퇴하시겠습니까?</h3>               
+                        </div>
+                        <div class="btnDiv">
+	                        <a class="okBtn" href="/deleteMember.do?memberId=<%=m.getMemberId()%>" id="delete-btn">확인</a>
+	                  		<button type="button" class="reset" id="reset">취소</button>
+                  		</div>
+                 </div>
 			</div>
-		</form>
+			</div>
+		</form>		
 	</div>
 
 
@@ -176,11 +197,17 @@ Member member = (Member) request.getAttribute("m");
 		}
 	});
 	
-	$("#update-btn").on("click",function(){
-	 		location.href="/updateFrm.do";
-	 	});
-	 
+	$("#delete-btn").on("click",function(){
+		$(".del-modalWrap").css("display","flex");
+	});
+	
+	$("#reset").on("click",function(){
+		$(".del-modalWrap").css("display","none");
+	});
+	
 
+	
+	
 	</script>
 
 

@@ -13,16 +13,16 @@ import com.litbooks.member.sevice.MemberService;
 import com.litbooks.member.vo.Member;
 
 /**
- * Servlet implementation class MypageServlet
+ * Servlet implementation class UpdateMemberServlet
  */
-@WebServlet(name = "mypage", urlPatterns = { "/mypage.do" })
-public class MypageServlet extends HttpServlet {
+@WebServlet(name = "updateMember", urlPatterns = { "/updateMemberFrm.do" })
+public class UpdateMemberFrmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MypageServlet() {
+    public UpdateMemberFrmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,16 +33,18 @@ public class MypageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String memebrId = request.getParameter("memberId");
+		//값	
+		String memberId = request.getParameter("memberId");
 		
-		//3
+		//비즈니스로직
 		MemberService service = new MemberService();
-		Member m = service.selectOneMember(memebrId);
+		Member m  = service.selectOneMember(memberId) ;
 		
-		//4
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/member/mypagFrm.jsp");
-		request.setAttribute("m", m); 
+		//결과처리
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/member/updateMemberFrm.jsp");
+		request.setAttribute("m", m);
 		view.forward(request, response);
+		
 	}
 
 	/**
