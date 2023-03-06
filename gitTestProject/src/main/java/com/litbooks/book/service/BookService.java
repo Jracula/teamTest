@@ -3,11 +3,13 @@ package com.litbooks.book.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.litbooks.basket.vo.Basket;
 import com.litbooks.book.dao.BookDao;
 import com.litbooks.book.vo.Book;
 import com.litbooks.book.vo.Recomm;
 import com.litbooks.book.vo.SearchResultPage;
 import com.litbooks.book.vo.BookView;
+import com.litbooks.book.vo.SearchResultPage;
 
 import common.JDBCTemplate;
 
@@ -336,6 +338,7 @@ public class BookService {
 		return bsr;
 	}
 
+
 	
 	//댓글 입력
 	public int insertRecomm(Recomm rc) {
@@ -359,7 +362,6 @@ public class BookService {
 		int result = dao.updateRecomm(conn, rc );
 		if(result>0) {
 			JDBCTemplate.commit(conn);
-			
 		}else {
 			JDBCTemplate.rollback(conn);
 		}
@@ -374,7 +376,6 @@ public class BookService {
 		int result = dao.deleteRecomm(conn, recommNo );
 		if(result>0) {
 			JDBCTemplate.commit(conn);
-			
 		}else {
 			JDBCTemplate.rollback(conn);
 		}

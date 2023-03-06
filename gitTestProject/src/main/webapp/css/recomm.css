@@ -216,7 +216,7 @@
 }
 .recommbc1 {
   background-color: rgba(32, 90, 167, 0.9);
-  color: #ccc;
+  color: white;
   border: 2px solid rgba(32, 90, 167, 0.9);
   margin-left: 800px;
   font-weight: bolder;
@@ -256,4 +256,17 @@ textarea{
 
 .rerecommbox{
 	margin-left: 180px;
+	font-size: 15px;
+}
+
+.rerecommbtn {
+  border: none;
+  padding: 1rem;
+  width: 100px;
+  display: inline-block;
+  box-sizing: border-box;
+  transition-duration: 0.5s;
+  font-size: 17px;
+  font-family: ns-light;
+  
 }

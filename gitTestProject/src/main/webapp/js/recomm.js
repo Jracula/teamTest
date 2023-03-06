@@ -80,9 +80,9 @@ function modifyComplete(obj, recommNo, bookNo) {
 	const bookNoInput = $("<input type='text' name='bookNo'>");
 	bookNoInput.val(bookNo);
 	//3.textarea
-	const rcContent = $(obj).parent().prev().clone();
+	const recommContent = $(obj).parent().prev().clone();
 	//4.form태그에 input, textarea를 모두 포함
-	form.append(recommNoInput).append(bookNoInput).append(rcContent);
+	form.append(recommNoInput).append(bookNoInput).append(recommContent);
 	//5.생성된 form태그를 body태그에 추가
 	$("body").append(form);
 	//form태그를 전송

@@ -21,8 +21,11 @@ public class BookDao {
 		
 		Book b = null;
 
+<<<<<<< HEAD
 		String query = "SELECT * FROM BOOK WHERE BOOK_NO=?";
 
+=======
+>>>>>>> main
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, bookNo);
@@ -53,13 +56,40 @@ public class BookDao {
 	}
 
 
+<<<<<<< HEAD
 	//시리즈물인 책들의 bookNo들을 ArrayList로 넘겨주기 위한 함수
 	public ArrayList<Book> selectSeriesBooks(Connection conn, int book1st){
+=======
+
+
+	//검색결과물의 수 - header.jsp에서 검색
+	public int selectSearchResultCount(Connection conn, String searchTitle) {
+>>>>>>> main
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
+		
+		int totalCount = 0;
+		
+		String query = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?))";
 
-		ArrayList<Book> list = new ArrayList<Book>();
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				totalCount = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return totalCount;
+	}
 
+<<<<<<< HEAD
 		String query = "SELECT * FROM BOOK WHERE BOOK_1ST=?";
 
 		try {
@@ -81,6 +111,44 @@ public class BookDao {
 				String bookImage = rset.getString("BOOK_IMAGE");
 				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
 				list.add(b);
+=======
+
+	//검색결과물의 수 - 상세 검색
+	public int selectSearchResultCount(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int totalCount = 0;
+		
+		String queryHead = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryBody = "";
+		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
+			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
+			for(int i=1; i<selectedGenre.length; i++) {
+				queryBody += ", ?";
+			}
+			queryBody += ")";
+		}
+		String queryTail = ")";
+		String queryOnsale ="";
+		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
+			queryOnsale =" AND (ONSALE=1)";
+		}
+		String query = queryHead+queryBody+queryTail+queryOnsale+")";	//완성된 query문
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+			pstmt.setString(2, '%'+searchWriter+'%');
+			if(selectedGenre!=null) {
+				for(int i=0; i<selectedGenre.length; i++) {
+					pstmt.setString(i+3, selectedGenre[i]);
+				}
+			}
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				totalCount = rset.getInt("cnt");
+>>>>>>> main
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -89,6 +157,7 @@ public class BookDao {
 			JDBCTemplate.close(rset);
 			JDBCTemplate.close(pstmt);
 		}
+<<<<<<< HEAD
 		return list;
 	}
 
@@ -203,10 +272,21 @@ public class BookDao {
 	
 	//header의 검색바에서 검색
 	public ArrayList<Book> selectBooksInHeader(Connection conn, String searchTitle, int numPerPage){
+=======
+		return totalCount;
+	}
+
+	
+		
+		
+	//1권인 책만 상세 조건으로 책 검색
+	public ArrayList<Book> selectBook1stByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[], int start, int end){
+>>>>>>> main
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
+<<<<<<< HEAD
 		String[] titles = searchTitle.split(" ");
 
 		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE ((BOOK_TITLE LIKE ?)";
@@ -223,6 +303,39 @@ public class BookDao {
 				pstmt.setString(i+1, '%'+titles[i]+'%');
 			}
 			pstmt.setInt(titles.length+1, numPerPage);
+=======
+
+		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryBody = "";
+		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
+			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
+			for(int i=1; i<selectedGenre.length; i++) {
+				queryBody += ", ?";
+			}
+			queryBody += ")";
+		}
+		String queryTail = ")";
+		String queryOnsale ="";
+		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
+			queryOnsale =" AND (ONSALE=1)";
+		}
+		String query = queryHead+queryBody+queryTail+queryOnsale+")RESULT) WHERE RN BETWEEN ? AND ?";	//완성된 query문
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+			pstmt.setString(2, '%'+searchWriter+'%');
+			if(selectedGenre!=null) {
+				for(int i=0; i<selectedGenre.length; i++) {
+					pstmt.setString(i+3, selectedGenre[i]);
+				}
+				pstmt.setInt(selectedGenre.length+3, start);
+				pstmt.setInt(selectedGenre.length+4, end);
+			} else {
+				pstmt.setInt(3, start);
+				pstmt.setInt(4, end);
+			}
+>>>>>>> main
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				int bookNo = rset.getInt("BOOK_NO");
@@ -552,6 +665,7 @@ public class BookDao {
 				bask.setBookNo(rset.getInt("book_no"));
 				list.add(bask);
 			}
+<<<<<<< HEAD
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -561,6 +675,113 @@ public class BookDao {
 		}
 		return list;
 	}
+=======
+			return result;
+		}
+
+		
+		//header의 검색바에서 검색
+		public ArrayList<Book> selectBooksInHeader(Connection conn, String searchKeyword, int numPerPage){
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+
+			ArrayList<Book> list = new ArrayList<Book>();
+
+			String query = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) OR (WRITER LIKE ?)";
+
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, '%'+searchKeyword+'%');
+				pstmt.setString(2, '%'+searchKeyword+'%');
+				rset = pstmt.executeQuery();
+				while (rset.next()) {
+					int bookNo = rset.getInt("BOOK_NO");
+					String bookTitle = rset.getString("BOOK_TITLE");
+					String bookGenre = rset.getString("BOOK_GENRE");
+					String writer = rset.getString("WRITER");
+					String publisher = rset.getString("PUBLISHER");
+					int bookPrice = rset.getInt("BOOK_PRICE");
+					int discount = rset.getInt("DISCOUNT");
+					int onSale = rset.getInt("ONSALE");
+					String bookIntro = rset.getString("BOOK_INTRO");
+					int bookEpi = rset.getInt("BOOK_EPI");
+					int book1st = rset.getInt("BOOK_1ST");
+					int nonFee = rset.getInt("NONFEE");
+					String bookImage = rset.getString("BOOK_IMAGE");
+					Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+					list.add(b);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(rset);
+				JDBCTemplate.close(pstmt);
+			}
+			return list;
+		}
+
+		
+		//상세 조건으로 책 검색
+				public ArrayList<Book> selectBooksByWish(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[], int start, int end){
+					PreparedStatement pstmt = null;
+					ResultSet rset = null;
+
+					ArrayList<Book> list = new ArrayList<Book>();
+
+					String queryHead = "SELECT * FROM BOOK WHERE (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+					String queryBody = "";
+					if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
+						queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
+						for(int i=1; i<selectedGenre.length; i++) {
+							queryBody += ", ?";
+						}
+						queryBody += ")";
+					}
+					String queryTail = ")";
+					String queryOnsale ="";
+					if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
+						queryOnsale =" AND (ONSALE=1)";
+					}
+					String query = queryHead+queryBody+queryTail+queryOnsale;	//완성된 query문
+
+					try {
+						pstmt = conn.prepareStatement(query);
+						pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+						pstmt.setString(2, '%'+searchWriter+'%');
+						if(selectedGenre!=null) {
+							for(int i=0; i<selectedGenre.length; i++) {
+								pstmt.setString(i+3, selectedGenre[i]);
+							}
+						}			
+						rset = pstmt.executeQuery();
+						while (rset.next()) {
+							int bookNo = rset.getInt("BOOK_NO");
+							String bookTitle = rset.getString("BOOK_TITLE");
+							String bookGenre = rset.getString("BOOK_GENRE");
+							String writer = rset.getString("WRITER");
+							String publisher = rset.getString("PUBLISHER");
+							int bookPrice = rset.getInt("BOOK_PRICE");
+							int discount = rset.getInt("DISCOUNT");
+							int onSale = rset.getInt("ONSALE");
+							String bookIntro = rset.getString("BOOK_INTRO");
+							int bookEpi = rset.getInt("BOOK_EPI");
+							int book1st = rset.getInt("BOOK_1ST");
+							int nonFee = rset.getInt("NONFEE");
+							String bookImage = rset.getString("BOOK_IMAGE");
+							Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+							list.add(b);
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						JDBCTemplate.close(rset);
+						JDBCTemplate.close(pstmt);
+					}
+					return list;
+				}
+>>>>>>> main
 
 		//댓글 입력
 		public int insertRecomm(Connection conn, Recomm rc) {
@@ -592,7 +813,7 @@ public class BookDao {
 			ResultSet rset = null;
 			ArrayList<Recomm> list
 			=new ArrayList<Recomm>();
-			String query = "select * from recomm where BOOK_ref=? and RECOMM_REF is null order by 1";
+			String query = "select * from RECOMM where BOOK_REF=? and RECOMM_REF is null order by 1";
 			try {
 				pstmt=conn.prepareStatement(query);
 				pstmt.setInt(1, bookNo);
@@ -604,7 +825,7 @@ public class BookDao {
 					rc.setRecommNo(rset.getInt("recomm_no"));
 					rc.setRecommRef(rset.getInt("recomm_ref"));
 					rc.setRcWriter(rset.getString("member_id"));
-					rc.setBookRef(rset.getInt("BOOK_ref"));
+					rc.setBookRef(rset.getInt("book_ref"));
 					list.add(rc);
 				}
 			} catch (SQLException e) {
@@ -617,6 +838,75 @@ public class BookDao {
 			
 			return list;
 		}
+		
+
+	// 장바구니 조회를 위한 책 테이블 전체조회
+	public ArrayList<Book> selectAllBook(Connection conn, int bookNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Book> list = new ArrayList<>();
+		
+		String query = "select * from book where book_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bookNo);
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Book b = new Book();
+				b.setBookNo(rset.getInt("book_no"));
+				b.setBookTitle(rset.getString("book_title"));
+				b.setBookGenre(rset.getString("book_genre"));
+				b.setWriter(rset.getString("writer"));
+				b.setPublisher(rset.getString("publisher"));
+				b.setBookPrice(rset.getInt("book_price"));
+				b.setDiscount(rset.getInt("discount"));
+				b.setOnSale(rset.getInt("onsale"));
+				b.setBookIntro(rset.getString("book_intro"));
+				b.setBookEpi(rset.getInt("book_epi"));
+				b.setBook1st(rset.getInt("book_1st"));
+				b.setNonFee(rset.getInt("nonfee"));
+				b.setBookImage(rset.getString("book_image"));
+				list.add(b);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return list;
+	}
+
+	// 장바구니 목록 조회
+	public ArrayList<Basket> selectAllBasket(Connection conn, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Basket> list = new ArrayList<>();
+		
+		String query = "select * from basket where member_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Basket bask = new Basket();
+				bask.setBasketNo(rset.getInt("basket_no"));
+				bask.setMemberNo(rset.getInt("member_no"));
+				bask.setBookNo(rset.getInt("book_no"));
+				list.add(bask);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return list;
+	}
+	
 
 		//대댓글 전체 출력
 			public ArrayList<Recomm> selectRerecomm(Connection conn, int bookNo) {
@@ -624,7 +914,7 @@ public class BookDao {
 				ResultSet rset = null;
 				ArrayList<Recomm> list
 				=new ArrayList<Recomm>();
-				String query = "select * from recomm where BOOK_ref=? and RECOMM_REF is not null order by 1";
+				String query = "select * from RECOMM where BOOK_REF=? and RECOMM_REF is not null order by 1";
 				try {
 					pstmt=conn.prepareStatement(query);
 					pstmt.setInt(1, bookNo);
@@ -636,7 +926,7 @@ public class BookDao {
 						rc.setRecommNo(rset.getInt("recomm_no"));
 						rc.setRecommRef(rset.getInt("recomm_ref"));
 						rc.setRcWriter(rset.getString("member_id"));
-						rc.setBookRef(rset.getInt("BOOK_ref"));
+						rc.setBookRef(rset.getInt("book_ref"));
 						list.add(rc);
 					}
 				} catch (SQLException e) {
@@ -649,9 +939,6 @@ public class BookDao {
 				
 				return list;
 			}
-
-
-
 
 			public int updateRecomm(Connection conn, Recomm rc) {
 				PreparedStatement pstmt = null;
@@ -675,8 +962,6 @@ public class BookDao {
 			}
 
 
-
-
 			public int deleteRecomm(Connection conn, int recommNo) {
 				PreparedStatement pstmt = null;
 				int result = 0;
@@ -694,6 +979,4 @@ public class BookDao {
 				}
 				return result;
 			}
-
-	
 }
