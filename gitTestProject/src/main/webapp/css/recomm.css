@@ -182,6 +182,7 @@
 
 .inputCommentBox>form>ul {
 	list-style-type: none;
+	
 }
 
 .inputCommentBox>form>ul>li:first-child {
@@ -215,15 +216,19 @@
 }
 .recommbc1 {
   background-color: rgba(32, 90, 167, 0.9);
-  color: #fff;
+  color: #ccc;
   border: 2px solid rgba(32, 90, 167, 0.9);
   margin-left: 800px;
+  font-weight: bolder;
+  
 
 }
 .recommbc1:hover {
   background-color: rgba(32, 90, 167, 1);
   cursor: pointer;
   margin-left: 800px;
+  font-weight: bolder;
+   font-size: 20px;
 }
 .recommbs1 {
   width: 100%;
@@ -244,7 +249,11 @@ textarea{
   display: inline-block;
   box-sizing: border-box;
   transition-duration: 0.5s;
-  font-size: 16px;
+  font-size: 20px;
   font-family: ns-light;
   
+}
+
+.rerecommbox{
+	margin-left: 180px;
 }

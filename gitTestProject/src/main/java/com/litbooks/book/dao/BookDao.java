@@ -475,5 +475,26 @@ public class BookDao {
 				return result;
 			}
 
+
+
+
+			public int updateNotice(Connection conn, int recommNo) {
+				PreparedStatement pstmt = null;
+				int result = 0;
+				String query = "delete from recomm where recomm_no=?";
+				
+				try {
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, recommNo);
+					result = pstmt.executeUpdate();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally {
+					JDBCTemplate.close(conn);
+				}
+				return result;
+			}
+
 	
 }

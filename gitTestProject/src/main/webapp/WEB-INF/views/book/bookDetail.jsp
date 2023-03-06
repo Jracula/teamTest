@@ -1,33 +1,26 @@
 <%@page import="com.litbooks.book.vo.BookView"%>
 <%@page import="com.litbooks.book.vo.Recomm"%>
 <%@page import="com.litbooks.book.vo.Book"%>
-<%@page import="com.litbooks.member.vo.Member"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
     Book b = (Book)request.getAttribute("b");
     ArrayList<Book> seriesList = (ArrayList<Book>)request.getAttribute("seriesList");
+    
+    %>
+    <%
     ArrayList<Recomm> recommList
     =(ArrayList<Recomm>)request.getAttribute("recommList");
     ArrayList<Recomm> rerecommList
     =(ArrayList<Recomm>)request.getAttribute("rerecommList");
     %>
-  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title><%=b.getBookTitle() %> - LITBOOKS</title>
-<link rel="stylesheet" href="css/recomm.css">
-<link rel="stylesheet" href="css/default.css">
-<script src="/js/jquery-3.6.3.min.js"></script>
-<style>
-.inputCommentBox > ul>li{
-	list-style-type: none;
-}
-</style>
-
+<link rel="stylesheet" href="/css/recomm.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -115,17 +108,44 @@
 			<%}%>
 		</div>
 		<%}%>
+		
+		
+		
 		<!-- 댓글 후기 노출 영역 -->
 		<div class="commentBox">
+		
+		<%-- 로그인 되어있는 경우에만 댓글 작성 화면을 띄움 --%>
+      <%if (m != null) {%>
+      <div class="inputCommentBox">
+         <form action="/insertRecomm.do" method="post">
+            <ul>
+               
+               <li>
+                  <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
+                  <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
+                  <input type="hidden" name="recommRef" value="0">
+                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 자제해 주세요 "></textarea>
+               </li>
+               <li>
+                  <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
+               </li>
+            </ul>
+         </form>
+      </div>   
+      <%} %>
+		
          <%for(Recomm rc : recommList) {%>
          <ul class="posting-comment">
+            <li>
+               <span class="material-icons">account_box</span>
+            </li>
             <li>
                <p class="comment-info">
                   <span><%=rc.getRcWriter() %></span>
                   <span><%=rc.getRecommDate() %></span>
                </p>
                <p class="comment-content"><%=rc.getRecommContent() %></p>
-               <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
+               <textarea name="rcContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
                <p class="comment-link">
                   <%if(m != null) {%>
                      <%if(m.getMemberId().equals(rc.getRcWriter())) {%>
@@ -139,7 +159,7 @@
             </li>
          </ul>   
          <%for(Recomm rcc : rerecommList ) {%>
-            <%if(rcc.getRecommRef() == rcc.getRecommNo()) {%>
+            <%if(rcc.getRecommRef() == rc.getRecommNo()) {%>
             <ul class="posting-comment reply">
                <li>
                   <span class="material-icons">subdirectory_arrow_right</span>
@@ -151,7 +171,7 @@
                      <span><%=rcc.getRecommDate() %></span>
                   </p>
                   <p class="comment-content"><%=rcc.getRecommContent() %></p>
-                  <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rcc.getRecommContent() %></textarea>
+                  <textarea name="rcContent" class="input-form" style="min-height:96px;display:none;"><%=rcc.getRecommContent() %></textarea>
                   <p class="comment-link">
                      <%if(m!=null && m.getMemberId().equals(rcc.getRcWriter())) {%>
                         <a href="javascript:void(0)" onclick="modifyComment(this,<%=rcc.getRecommNo()%>,<%=b.getBookNo()%>);">수정</a>
@@ -168,18 +188,15 @@
             <%if(m != null) {%>
             <div class="inputCommentBox inputRecommentBox">
                <form action="/insertRecomm.do" method="post">
-                  <ul>
-                     <li>
-                        <span class="material-icons">subdirectory_arrow_right</span>
-                     </li>
+                  <ul class="rerecomm-inputbox">
                      <li>
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
-                        <textarea name="recommContent" class="input-form" placeholder="후기를 남겨주세요!  후기 작성시 욕설 및 비속어, 타인을 향한 모욕적인 문구를 사용할 시 비공개 처리 될 수 있습니다."></textarea>
+                        <textarea name="rcContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;"></textarea>
                      </li>
                      <li>
-                        <button type="submit" class="recommbtn recommbc1 recommbs4">등록</button>
+                        <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
                      </li>
                   </ul>
                </form>
@@ -188,29 +205,8 @@
             
          <%}//댓글 출력 for문 끝나는 위치 %>
       </div>
-      
-      <!-- 로그인 되어있는 경우에만 댓글 작성 화면을 띄움 -->
-      <%if (m != null) {%>
-      <div class="inputCommentBox">
-         <form action="/insertRecomm.do" method="post">
-            <ul>
-               
-               <li>
-                  <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
-                  <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
-                  <input type="hidden" name="recommRef" value="0">
-                  <textarea name="recommContent" class="input-form" placeholder="후기를 남겨주세요!   후기 작성시 욕설 및 비속어, 타인을 향한 모욕적인 문구를 사용할 시 비공개 처리 될 수 있습니다."></textarea>
-               </li>
-               <li>
-                  <button type="submit" class="recommbtn recommbc1 recommbs4" >등록</button>
-               </li>
-            </ul>
-         </form>
-      </div>   
-      <%} %>
+	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-		
-		
 	<script>
 	$("#addCart").on("click", function(){
 		const memberNo = $("#memberNo").text();	//header.jsp의 Member m.getMemberNo()

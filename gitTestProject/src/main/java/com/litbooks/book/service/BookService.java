@@ -169,8 +169,23 @@ public class BookService {
 	}
 
 
-	
-	
-	
+	public int deleteNoticeComment(int recommNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateNotice(conn, recommNo );
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+			
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		
+		return result;
+	}
 
-}
+
+	
+	}
+
+
+

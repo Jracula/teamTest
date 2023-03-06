@@ -91,8 +91,7 @@ function modifyComplete(obj, recommNo, bookNo) {
 
 function deleteCommnet(obj, recommNo, bookNo) {
 	if (confirm("댓글을 삭제하시겠습니까?")) {
-		location.href = "/deleteNoticeCommnet.do?bookNo=" + bookNo + "&recommNo=" + bookNo;
-
+		location.href = "/deleteRecomm.do?recommNo="+ recommNo +"&bookNo="+ bookNo;
 	}
 }
 			
