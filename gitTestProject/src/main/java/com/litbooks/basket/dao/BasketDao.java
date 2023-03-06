@@ -125,7 +125,7 @@ public class BasketDao {
 		ResultSet rset = null;
 		ArrayList<Book> bask = new ArrayList<>();
 		
-		String query = "select ba.book_no, book_title, book_price from basket ba left join book b on (b.book_no=ba.basket_no) where member_no=?";
+		String query = "select b.book_no, b.book_title, b.book_price from basket ba left join book b on (b.book_no = ba.book_no) where member_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
