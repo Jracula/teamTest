@@ -75,8 +75,14 @@
        		<% Book detail = bask.get(i); %>
             <tr>
                 <td><input type="checkbox" class="chk" id="check" value=<%=ba.getBasketNo() %>></td>
-                <td><img src="#" width="150px" height="150px"></td>
-                <td><span style="display: none;" id="bookNo"><%=ba.getBasketNo() %></span></td> 
+                <td>
+		        <%if (detail.getBookImage()!=null){%>
+					<img src="/upload/book/cover-image/<%=detail.getBookImage() %>" height="150px">
+				<%}else{ %>
+					<img src="/upload/book/cover-image/00000000.jpg" height=150px>
+				<%} %>
+                </td>
+                <td><span style="display: none;" id="bookNo"><%=detail.getBookNo() %></span></td> 
 				<td><%=detail.getBookTitle() %></td> <!-- 책 이름 -->
                 <td class="amountPrice"><%=detail.getBookPrice() %></td>
 

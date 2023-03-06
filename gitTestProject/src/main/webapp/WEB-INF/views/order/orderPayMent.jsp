@@ -74,11 +74,13 @@
                 <table>
                 	<tr>
                 		<th>총 결제 금액</th>
+        		<% int totalSum = 0; %>
                 <% for(int i=0; i<list.size(); i++) { %>
         		<% Book b = list.get(i); %>
-                		<td><%=b.getBookPrice() %></td>
-                	</tr>
+        		<% totalSum += b.getBookPrice(); %>
                 <% } %>
+                		<td id="sum"><%=totalSum %></td>
+                	</tr>
                 </table>
                 <input type="checkbox" id="product">
                 <label for="product"><span id="agreeMent">상품, 가격, 할인정보, 유의사항등을 확인하였으며 구매에 동의합니다.</span></label>
@@ -88,6 +90,9 @@
     </div>
     
         <script>
+        	const totalSum = $("#sum").text();
+        	
+        
             $("#payMentBtn").on("click", function() {
                 let price = 0;
                 const bookNo = new Array();
