@@ -10,6 +10,7 @@ public class Faq {
 	private String fRegDate;
 	private String filename;
 	private String filepath;
+	private int fFlag;
 	
 	
 	public Faq() {
@@ -19,7 +20,7 @@ public class Faq {
 
 
 	public Faq(int fNo, int memberNo, String fWriter, String fTitle, String fContent, int fReadCount, String fRegDate,
-			String filename, String filepath) {
+			String filename, String filepath, int fFlag) {
 		super();
 		this.fNo = fNo;
 		this.memberNo = memberNo;
@@ -30,7 +31,9 @@ public class Faq {
 		this.fRegDate = fRegDate;
 		this.filename = filename;
 		this.filepath = filepath;
+		this.fFlag = fFlag;
 	}
+
 
 
 	public int getfNo() {
@@ -121,6 +124,17 @@ public class Faq {
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
+
+
+	public int getfFlag() {
+		return fFlag;
+	}
+
+
+	public void setfFlag(int fFlag) {
+		this.fFlag = fFlag;
+	}
+
 
 	public String getfContentBr() {
 		return fContent.replaceAll("\r\n", "<br>");
