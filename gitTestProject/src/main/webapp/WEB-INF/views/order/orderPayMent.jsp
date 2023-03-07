@@ -135,7 +135,7 @@
                             url : "/insertPayMent.do", // 결제관련 정보를 DB에 insert하는 서블릿
                             type : "POST",
                             dataType : "JSON",
-                            data : {memberNo1 : memberNo1, bookNo : bookNo.join("/"), bookPrice : bookPrice.join("/"), price : price, basketNo : basketNo,payMethod:rsp.pay_method},
+                            data : {memberNo1 : memberNo1, bookNo : bookNo.join("/"), bookPrice : bookPrice.join("/"), price : price, basketNo : basketNo, payMethod:rsp.pay_method},
                             // { key : value }
                             success : function(data) {
                                 if(data == "1"){
