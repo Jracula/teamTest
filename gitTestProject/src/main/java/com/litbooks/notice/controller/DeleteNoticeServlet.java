@@ -1,5 +1,6 @@
 package com.litbooks.notice.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -13,16 +14,16 @@ import com.litbooks.notice.service.NoticeService;
 import com.litbooks.notice.vo.Notice;
 
 /**
- * Servlet implementation class NoticeViewServlet
+ * Servlet implementation class DeleteNoticeServlet
  */
-@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView.do" })
-public class NoticeViewServlet extends HttpServlet {
+@WebServlet(name = "DeleteNotice", urlPatterns = { "/deleteNotice.do" })
+public class DeleteNoticeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeViewServlet() {
+    public DeleteNoticeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,20 +37,28 @@ public class NoticeViewServlet extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
 		NoticeService service = new NoticeService();
-		Notice n = service.selectOneNotice(noticeNo);
+		Notice n = service.deleteNotice(noticeNo);
 		
-		if(n == null) {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "조회 실패");
-			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
-			request.setAttribute("icon", "info");
+		RequestDispatcher view  = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(n != null) {
+			if(n.getFilepath() != null) {
+				String root = getServletContext().getRealPath("/");
+				String deleteFile = root+"upload/notice/"+n.getFilepath();
+				File delFile = new File(deleteFile);
+				delFile.delete();
+			}
+			request.setAttribute("title", "삭제 성공");
+			request.setAttribute("msg", "게시글이 삭제되었습니다.");
+			request.setAttribute("icon", "success");
 			request.setAttribute("loc", "/noticeList.do?reqPage=1");
-			view.forward(request, response);
-		} else { 
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
-			request.setAttribute("n", n);
-			view.forward(request, response);
+			
+		} else {
+			request.setAttribute("title", "삭제 실패");
+			request.setAttribute("msg", "관리자에게 문의하세요");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/noticeView.do?noticeNo="+noticeNo);
 		}
+		view.forward(request, response);
 	}
 
 	/**

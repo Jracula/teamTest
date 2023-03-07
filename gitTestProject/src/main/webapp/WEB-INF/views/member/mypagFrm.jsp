@@ -67,7 +67,7 @@ Member member = (Member)request.getAttribute("m");
 					<a class="button" href="/selectAllMember.do?reqPage=1" id="admin-btn">전체회원 정보</a>
 				<%}else{ %>
 					<a class="button" href="/updateMemberFrm.do?memberId=<%=m.getMemberId()%>" id="update-btn">내정보 수정</a>
-					<a class="button" href="#" id="list-btn">구매내역</a>
+					<a class="button" href="/orderList.do?reqPage=1" id="list-btn">구매내역</a>
 					<button type="button" class="delBtn" id="delete-btn">회원탈퇴</button>
 					<%-- <a class="button" href="/deleteMember.do?memberId=<%=m.getMemberId()%>" id="delete-btn">회원탈퇴</a>--%>
 				<%} %>

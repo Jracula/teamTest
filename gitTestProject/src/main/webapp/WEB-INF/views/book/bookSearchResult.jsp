@@ -6,6 +6,7 @@
     ArrayList<Book> books = (ArrayList<Book>)request.getAttribute("books");
     String pageNavi = (String)request.getAttribute("pageNavi");
     int start = (int)request.getAttribute("start");
+    int totalCount = (int)request.getAttribute("totalCount");
     ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
     //이전 검색 조건들 ↓
     String recievedTitle = (String)request.getAttribute("recievedTitle");
@@ -41,7 +42,7 @@
 				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
 				<%} %>
             <%} %>
-            	<div><label>
+            		<div><label>
             	<%if(recievedOnSale==1){ %>
             		<input type="checkbox" name="onSale" value="1" checked="true">
             	<%}else if(recievedOnSale==0){ %>
@@ -50,14 +51,49 @@
             		판매중지 제외</label></div>
 				</div>
 				<input type="hidden" name="reqPage" value="1">
-				<button type="submit" id="submitButton">검색</button>
+				<button type="submit">검색</button>
 			</form>
 		</div>
+
+<!-- 이전 검색 조건을 저장하는 form으로서, 페이지 이동 버튼 동작을 위해 작성됨 -->
+		<div class="searchEngine" style="display:none;">
+			<form action="/bookSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
+				<input type="text" name="searchTitle" value="<%=recievedTitle %>">
+				<input type="text" name="searchWriter" value="<%=recievedWriter %>">
+				<div>
+			<%for(int i=0; i<genreList.size(); i++){%>
+				<%int check=0; %>
+				<%for(int j=0; j<recievedGenre.length; j++){ %>
+					<%if(genreList.get(i).equals(recievedGenre[j])){ %>
+						<%check++; %>
+					<%} %>
+				<%} %>
+				<%if(check>0){ %>
+				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true">
+				<%}else if(check==0){ %>
+				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>">
+				<%} %>
+            <%} %>
+            		<div>
+            	<%if(recievedOnSale==1){ %>
+            		<input type="checkbox" name="onSale" value="1" checked="true">
+            	<%}else if(recievedOnSale==0){ %>
+            		<input type="checkbox" name="onSale" value="1">
+            	<%} %>
+            		</div>
+				</div>
+				<input name="reqPage">
+				<button type="submit" id="submitButton">보이지 않는 검색 버튼</button>
+			</form>
+		</div>
+<!-- 숨겨진 검색 form 끝 -->
+
 		<div class="result-wrap">
 	<%if(books!=null){%>
 		<%if(books.size()==0) {%>
 			<div>조건을 만족하는 책이 없습니다.</div>
 		<%}else{ %>
+			<div>총 <%=totalCount %>건의 검색 결과가 있습니다.</div>
 			<%for(int i=0; i<books.size(); i++){%>
 			<div class="book-wrap" style="float: left; width: 400px; height: 160px;">
 			<%Book bs = books.get(i); %>

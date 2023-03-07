@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import com.litbooks.notice.dao.NoticeDao;
 import com.litbooks.notice.vo.Notice;
 import com.litbooks.notice.vo.NoticePageData;
-import com.litbooks.notice.vo.NoticeViewData;
 
 import common.JDBCTemplate;
 
@@ -25,7 +24,6 @@ public class NoticeService {
 		Connection conn = JDBCTemplate.getConnection();
 		
 		int numPerPage = 10;
-		
 
 		int end = numPerPage * reqPage; 
 		int start = end - numPerPage + 1;
@@ -88,29 +86,62 @@ public class NoticeService {
 	}
 
 	// 공지사항 게시물 조회수 증가
-	public NoticeViewData selectOneNotice(int noticeNo) {
+	public Notice selectOneNotice(int noticeNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		
-		int result = dao.updateReadCount(conn, noticeNo);
-		if(result > 0) {
-			JDBCTemplate.close(conn);
-			Notice n = dao.selectOneNotice(conn, noticeNo);
-			
-			NoticeViewData nvd = new NoticeViewData(n);
-			
-			JDBCTemplate.commit(conn);
-			return nvd;
+		Notice n = dao.selectOneNotice(conn, noticeNo);
+		if(n != null) {
+			int result = dao.updateReadCount(conn, noticeNo);
+			if(result > 0) {
+				JDBCTemplate.commit(conn);
+			} else {
+				JDBCTemplate.rollback(conn);
+			}
 		} else {
-			JDBCTemplate.rollback(conn);
 			JDBCTemplate.close(conn);
-			return null;
 		}
+		return n;
 	}
 	
 	// 공지사항 글 쓰기 등록
 	public int insertNotice(Notice n) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.insertNotice(conn, n);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	// 파일 다운로드
+	public Notice getNotice(int noticeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Notice n = dao.selectOneNotice(conn, noticeNo);
+		JDBCTemplate.close(conn);
+		return n;
+	}
+
+	// 공지사항(첨부파일이 포함된) 게시물 삭제
+	public Notice deleteNotice(int noticeNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Notice n = dao.selectOneNotice(conn, noticeNo);
+		int result = dao.deleteNotice(conn, noticeNo);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+			n = null;
+		}
+		JDBCTemplate.close(conn);
+		return n;
+	}
+
+	// 공지사항(첨부파일이 포함된) 수정
+	public int updateNotice(Notice n) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateNotice(conn, n);
 		if(result > 0) {
 			JDBCTemplate.commit(conn);
 		} else {

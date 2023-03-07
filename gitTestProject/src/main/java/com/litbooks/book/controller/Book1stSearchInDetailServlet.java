@@ -33,8 +33,19 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setCharacterEncoding("utf-8");
+		String selectedGenre[] = {};
+		BookService service = new BookService();
+		request.setAttribute("pageNavi", "");
+		request.setAttribute("start", 1);
+		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
+		request.setAttribute("genreList", list);
+		request.setAttribute("recievedTitle", "");
+		request.setAttribute("recievedWriter", "");
+		request.setAttribute("recievedGenre", selectedGenre);
+		request.setAttribute("recievedOnSale", 0);
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/findBook1st.jsp");
+		view.forward(request, response);
 	}
 
 	/**
@@ -43,8 +54,10 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		String searchTitle = request.getParameter("searchTitle");
-		String searchWriter = request.getParameter("searchWriter");
+		String searchTitleD = request.getParameter("searchTitle");
+		String searchTitle = searchTitleD.trim().replaceAll("(\\s)\\1+","$1");
+		String searchWriterD = request.getParameter("searchWriter");
+		String searchWriter = searchWriterD.trim().replaceAll("(\\s)\\1+","$1");
 		String selectedGenre[] = request.getParameterValues("selectedGenre");
 		String noneArry[] = {};
 		int onlyOnSale = 0;	//기본값(판매중지 제외가 체크되지 않은 상태)를 위해 0으로 초기화

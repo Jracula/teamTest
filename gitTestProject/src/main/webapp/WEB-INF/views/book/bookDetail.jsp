@@ -29,6 +29,130 @@
   'GRAD' 0,
   'opsz' 48
 }
+.modal-open {
+  overflow: hidden;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, -25%);
+  -ms-transform: translate(0, -25%);
+  -o-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  -webkit-transition: -webkit-transform 0.3s ease-out;
+  -o-transition: -o-transform 0.3s ease-out;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out, -o-transform 0.3s ease-out;
+}
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  -o-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  outline: 0;
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+.modal-backdrop.fade {
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+.modal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+.modal-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.modal-header .close {
+  margin-top: -2px;
+}
+.modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.modal-body {
+  position: relative;
+  padding: 15px;
+}
+.modal-footer {
+  padding: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.modal-footer .btn + .btn {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+.modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  }
+  .modal-sm {
+    width: 300px;
+  }
+}
+@media (min-width: 992px) {
+  .modal-lg {
+    width: 900px;
+  }
+}
 </style>
 </head>
 <body>
@@ -62,9 +186,32 @@
 			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">0</span></p>
 			<p>&nbsp;</p>
 		<%} %>
-		<!-- 아래 두 버튼들은 로그인했을 때만 나오도록 표시하던가, 아니면 눌렀을 때 로그인하라는 경고창을 띄우던가 -->
+	<%if(m!=null){ %>
+		<%if(m.getMemberLevel()==1){%>
+			<a class="btn bc6" href="/bookUpdateFrm.do?bookNo=<%=b.getBookNo() %>">편집</a>
+		<%} %>
+	<%} %>
 			<button class="btn bc9" id="addCart">장바구니에 담기</button>
-			<a class="btn bc9" href="#">구매하기</a>
+<!-- 장바구니에 담기 Modal을 실행시킬 숨겨진 버튼 -->
+			<button type="button" class="btn btn-info btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal" style="display: none;">modal용 숨겨진 버튼</button>
+<!-- 장바구니에 담기 Modal -->
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align: center;">알림</h4>
+						</div>
+						<div class="modal-body">
+							<p id="givenMessage" style="text-align: center;">장바구니 결과 메세지</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 장바구니에 담기 Modal 끝 -->
+			<a class="btn bc9" href="/orderPayOne.do">구매하기</a>
 		</div>
 		<div>
 		</div>
@@ -87,6 +234,7 @@
 		<div>
 			<h3>이 책의 시리즈</h3>
 		<%for(int i=0; i<seriesList.size(); i++){%>
+			<%if(i<5){%>
 			<%Book bs = seriesList.get(i); %>
 			<div>
 				<div>
@@ -114,11 +262,13 @@
 				<%} %>
 				</div>
 			</div>
+			<%}else{%>
+			<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
+			<%break;}%>
 			<%}%>
 		</div>
 		<%}%>
-		
-		
+
 		
 		<!-- 댓글 후기 노출 영역 -->
 		<div class="commentBox">
@@ -218,28 +368,25 @@
             
          <%}//댓글 출력 for문 끝나는 위치 %>
       </div>
-	
+
+
+	</div>	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 	$("#addCart").on("click", function(){
-		const memberNo = $("#memberNo").text();	//header.jsp의 Member m.getMemberNo()
-		if(memberNo!=0){ //로그인되어 있는지부터 확인
 			const bookNo = $("#bookNo").text();
 			$.ajax({
 				url: "/insertOneIntoCart.do",
 				type: "GET",
-				data: {input1 : bookNo, input2 : memberNo},
+				data: {input1 : bookNo},
 				success: function(message){
-					alert(message);
+					$("#givenMessage").text(message);
+					$("#modalButton").click();
 				},
 				error: function(){
 					console.log("알 수 없는 오류가 발생했습니다.");
 				}
 			});
-		}else{
-			console.log(memberNo);
-			alert("회원 로그인이 필요합니다.");
-		}
 	});
 	</script>
 	<script src="/js/recomm.js"></script>
