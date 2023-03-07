@@ -33,8 +33,19 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		request.setCharacterEncoding("utf-8");
+		String selectedGenre[] = {};
+		BookService service = new BookService();
+		request.setAttribute("pageNavi", "");
+		request.setAttribute("start", 1);
+		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
+		request.setAttribute("genreList", list);
+		request.setAttribute("recievedTitle", "");
+		request.setAttribute("recievedWriter", "");
+		request.setAttribute("recievedGenre", selectedGenre);
+		request.setAttribute("recievedOnSale", 0);
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/findBook1st.jsp");
+		view.forward(request, response);
 	}
 
 	/**

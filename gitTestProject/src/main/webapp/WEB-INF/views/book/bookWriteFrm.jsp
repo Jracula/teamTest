@@ -26,7 +26,7 @@
 				</tr>
 				<tr class="tr-1">
 					<th class="td-3">책표지 이미지</th>
-					<td colspan="5">
+					<td colspan="5" style="text-align: left;">
 						<input type="file" name="imagefile" accept=".jpg,.jpeg,.gif,.png,.webp">
 					</td>
 				</tr>
@@ -39,11 +39,11 @@
 					<th class="td-3">첫권(화)</th>
 					<td>
 						<input type="number" name="book1st" id="book1st" min="0" placeholder="단권 또는 1권은 지정 불필요" class="input-form" readonly>
-						<button type="button" id="findSimilar" style="display: none;">검색</button>
+						<button type="button" id="findSimilar" style="font-size: 20px; display: none;">찾아보기</button>
 					</td>
 					<th class="td-3" rowspan="2">무료 감상</th>
 					<td rowspan="2">
-						<input type="checkbox" name="nonFee" value="1" class="input-form">
+						<input type="checkbox" name="nonFee" value="1" class="input-form" style="width: 25px; height: 25px; margin-left: 20px;">
 					</td>
 				</tr>
 				<tr class="tr-1">
@@ -90,6 +90,15 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
+	$("[name=nonFee]").on("change", function(){
+		if($(this).is(":checked")){
+			$("[name=bookPrice]").css({'text-decoration' : 'line-through'});
+			$("[name=discount]").css("color","#BCBCBC");
+		} else if ( !$(this).is(":checked") ){
+			$("[name=bookPrice]").css({'text-decoration' : ''});
+			$("[name=discount]").css("color","#252A34");
+		}		
+	});
 	$("#bookEpi").on("keyup change", function(){
 		if($(this).val()>1){
 			$("#book1st").attr("placeholder", "1권인 책의 bookNo를 지정");
@@ -106,7 +115,7 @@
 	});
 
 	$("#findSimilar").on("click",function(){
-		window.open("/findBook1st.do", "findBook1st", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=1240, height=680");
+		window.open("/book1stSearchInDetail.do", "findBook1st", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=1240, height=680");
 	});
 	</script>
 </body>

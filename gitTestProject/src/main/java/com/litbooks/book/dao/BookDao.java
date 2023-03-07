@@ -152,6 +152,40 @@ public class BookDao {
 		return result;
 	}
 
+
+
+	//책 1권 정보 수정. 이미지는 여기서 수정 안 함
+	public int updateBook(Connection conn, Book b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE BOOK SET BOOK_TITLE = ?, BOOK_GENRE = ?, WRITER = NVL(?, '작자미상'), PUBLISHER = NVL(?, '출판사불명'), BOOK_PRICE = ?, DISCOUNT = ?, ONSALE = ?, BOOK_INTRO = ?, BOOK_EPI = ?, BOOK_1ST = ?, NONFEE = ? WHERE BOOK_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getBookTitle());
+			pstmt.setString(2, b.getBookGenre());
+			pstmt.setString(3, b.getWriter());
+			pstmt.setString(4, b.getPublisher());
+			pstmt.setInt(5, b.getBookPrice());
+			pstmt.setInt(6, b.getDiscount());
+			pstmt.setInt(7, b.getOnSale());
+			pstmt.setString(8, b.getBookIntro());
+			pstmt.setInt(9, b.getBookEpi());
+			pstmt.setInt(10, b.getBook1st());
+			pstmt.setInt(11, b.getNonFee());
+			pstmt.setInt(12, b.getBookNo());
+			//bookImage 파일명은 다시 명명할 것이므로 지금 정해줄 필요 없음
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 	
 	//가장 마지막으로 등록된 책의 bookNo를 알아오기 위한 함수  
 	public int getLatestBookNo(Connection conn) {

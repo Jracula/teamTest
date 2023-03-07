@@ -6,6 +6,7 @@
     ArrayList<Book> books = (ArrayList<Book>)request.getAttribute("books");
     String pageNavi = (String)request.getAttribute("pageNavi");
     int start = (int)request.getAttribute("start");
+    int totalCount = (int)request.getAttribute("totalCount");
     ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
     //이전 검색 조건들 ↓
     String recievedTitle = (String)request.getAttribute("recievedTitle");
@@ -92,6 +93,7 @@
 		<%if(books.size()==0) {%>
 			<div>조건을 만족하는 책이 없습니다.</div>
 		<%}else{ %>
+			<div>총 <%=totalCount %>건의 검색 결과가 있습니다.</div>
 			<%for(int i=0; i<books.size(); i++){%>
 			<div class="book-wrap" style="float: left; width: 400px; height: 160px;">
 			<%Book bs = books.get(i); %>
