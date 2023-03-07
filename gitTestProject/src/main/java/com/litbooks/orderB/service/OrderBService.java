@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import com.litbooks.book.vo.Book;
+import com.litbooks.member.vo.Member;
 import com.litbooks.orderB.dao.OrderBDao;
 import com.litbooks.orderB.vo.OrderB;
 import com.litbooks.orderB.vo.OrderBPageData;
@@ -213,6 +214,19 @@ public class OrderBService {
 		}
 		JDBCTemplate.close(conn);
 		
+		return result;
+	}
+
+	// 책 단권 구매
+	public int insertPayOne(int memberNo, int bookNo, int bookPrice, String payMethod) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.insertPayOne(conn, memberNo, bookNo, bookPrice, payMethod);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
 		return result;
 	}
 

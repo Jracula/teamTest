@@ -1,7 +1,7 @@
 package com.litbooks.orderB.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,22 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.litbooks.basket.Service.BasketService;
-import com.litbooks.basket.vo.Basket;
-import com.litbooks.book.vo.Book;
 import com.litbooks.member.vo.Member;
+import com.litbooks.orderB.service.OrderBService;
 
 /**
- * Servlet implementation class CartServlet
+ * Servlet implementation class OrderPayOneServlet
  */
-@WebServlet(name = "Cart", urlPatterns = { "/cart.do" })
-public class CartServlet extends HttpServlet {
+@WebServlet(name = "OrderPayOne", urlPatterns = { "/orderPayOne.do" })
+public class OrderPayOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public CartServlet() {
+    public OrderPayOneServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,29 +36,17 @@ public class CartServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		int bookNo = Integer.parseInt(request.getParameter("bookNo"));
+		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
+		String payMethod = request.getParameter("payMethod");
 		
-		BasketService service = new BasketService();
+		OrderBService service = new OrderBService();
+		int result = service.insertPayOne(memberNo, bookNo, bookPrice, payMethod);
 		
-		// 장바구니에서 책번호 조회
-		ArrayList<Basket> list = service.selectBookNumber(memberNo);
+		PrintWriter out = response.getWriter();
+		out.print(result);
 		
 		
-		if(list.isEmpty()) {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "장바구니 조회불가");
-			request.setAttribute("msg", "책을 장바구니에 담아주세요");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/index.jsp");
-			view.forward(request, response);
-			return;
-		} else {
-			// 장바구니에서 회원이 담은 책 제목, 책 가격 조회
-			ArrayList<Book> bask = service.selectBookDetail(memberNo);
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/cart.jsp");
-			request.setAttribute("list", list);
-			request.setAttribute("bask", bask);
-			view.forward(request, response);
-		}
 	}
 
 	/**
