@@ -6,6 +6,7 @@
     %> <!-- 로그인 정보 -->
 
     <!-- 구글 아이콘 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- jquery -->
@@ -14,7 +15,8 @@
     <link rel="stylesheet" href="/css/default.css" />
     <!-- 기본 js -->
     <script src="/js/default.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
 
 
 
@@ -24,7 +26,10 @@
       </div>
       <nav>
       	<form action="/bookSearchInDetail.do" method="get" onsubmit="return checkKeyword();">
-      		<div class="search-bar" style="width: 560px; margin: 0 auto;"><input style="width:460px;" type="text" name="searchKeyword" placeholder="책제목을 입력하세요."><button type="submit">검색</button></div>
+      		<div class="search-bar" style="width: 600px; ">
+      			<input type="text" name="searchKeyword" placeholder="책제목을 입력하세요.">
+      			<button type="submit" ><span class="material-symbols-outlined">search</span></button>
+			</div>
       	</form>
       </nav>
       <div class="header-link">

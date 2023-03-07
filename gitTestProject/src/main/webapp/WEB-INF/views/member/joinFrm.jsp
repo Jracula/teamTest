@@ -24,7 +24,7 @@
 							<td>아이디 <sup>*</sup></td>
 							<td><input type="text" name="memberId" id="memberId"
 								class="inputBox" required> <%--<button type="button" class="double-check" id="double-check">중복체크</button>--%>
-								<div class="comment" id="idCheck"></div></td>
+								<div class="comment" id="idCheck">　</div></td>
 						</tr>
 						<tr>
 							<td>비밀번호 <sup>*</sup></td>
