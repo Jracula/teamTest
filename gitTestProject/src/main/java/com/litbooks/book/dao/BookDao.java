@@ -1,6 +1,7 @@
 package com.litbooks.book.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -675,14 +676,16 @@ public class BookDao {
 		public int insertRecomm(Connection conn, Recomm rc) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?)";
-			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
+			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?,?)";
+			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜,대댓글참조번호,평점
 			try {
 				pstmt = conn.prepareStatement(qurey);
 		        pstmt.setInt(1, rc.getBookRef());
 		        pstmt.setString(2, rc.getRcWriter());
 		        pstmt.setString(3, rc.getRecommContent());
 		        pstmt.setString(4, (rc.getRecommRef()==0)?null:String.valueOf(rc.getRecommRef()));
+		        pstmt.setInt(5, rc.getRating());
+		        
 		        result= pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -804,5 +807,4 @@ public class BookDao {
 				return result;
 			}
 
-	
 }

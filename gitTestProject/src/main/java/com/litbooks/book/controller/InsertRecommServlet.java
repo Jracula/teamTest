@@ -3,6 +3,7 @@ package com.litbooks.book.controller;
 import java.io.IOException;
 
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,10 +37,12 @@ public class InsertRecommServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//값추출
 		Recomm rc = new Recomm();
+		//값추출
 		rc.setRecommContent(request.getParameter("recommContent"));
 		rc.setRcWriter(request.getParameter("rcWriter"));
 		rc.setRecommRef(Integer.parseInt(request.getParameter("recommRef")));
 		rc.setBookRef(Integer.parseInt(request.getParameter("bookRef")));
+		rc.setRating(Integer.parseInt(request.getParameter("rating")));
 		//비로직
 		BookService service = new BookService();
 		int result = service.insertRecomm(rc);
