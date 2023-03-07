@@ -116,7 +116,11 @@
 				</tr>
 				<tr class="tr-1">
 					<td colspan="6">
+					<%if(b.getBookIntro()!=null){ %>
 						<textarea name="bookIntro" placeholder="작품 소개글. 한글 최대 1000자" class="input-form" style="width:100%;"><%=b.getBookIntro()%></textarea>
+					<%}else{ %>
+						<textarea name="bookIntro" placeholder="작품 소개글. 한글 최대 1000자" class="input-form" style="width:100%;"></textarea>
+					<%} %>
 					</td>
 				</tr>
 				<tr class="tr-1">

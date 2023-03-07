@@ -113,12 +113,14 @@ public class BookWriteServlet extends HttpServlet {
 					request.setAttribute("title", "등록 성공");
 					request.setAttribute("msg", "정상적으로 신규 도서가 등록되었습니다.");
 					request.setAttribute("icon", "success");
+					request.setAttribute("loc", "/bookDetail.do?bookNo="+lastestBookNo);
 				} else {
 					request.setAttribute("title", "등록 실패");
 					request.setAttribute("msg", "알 수 없는 이유로 신규 도서 등록에 실패했습니다.\n허용 글자 수 제한을 넘겼을 수 있습니다.");
 					request.setAttribute("icon", "error");
+					request.setAttribute("loc", "/index.jsp");
 				}
-				request.setAttribute("loc", "/index.jsp");
+				int newBookNo = service.getLatestBookNo();
 				view.forward(request, response);
 			} else {
 				RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");

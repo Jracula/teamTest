@@ -147,7 +147,7 @@ public class BookUpdateServlet extends HttpServlet {
 					request.setAttribute("msg", "알 수 없는 이유로 도서 정보 수정에 실패했습니다.\n허용 글자 수 제한을 넘겼을 수 있습니다.");
 					request.setAttribute("icon", "error");
 				}
-				request.setAttribute("loc", "/index.jsp");
+				request.setAttribute("loc", "/bookDetail.do?bookNo="+bookNo);
 				view.forward(request, response);
 			} else {
 				RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
