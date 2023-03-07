@@ -35,15 +35,12 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		//int memberNo = Integer.parseInt(request.getParameter("memberNo"));
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		
 		OrderBService service = new OrderBService();
-		//ArrayList<OrderB> list = service.selectAllOrder(memberNo);
-		OrderBPageData opd = service.selectAllOrder(memberNo, reqPage);
+		OrderBPageData opd = service.selectAllOrder(reqPage);
 		
-		
-		//if(list.isEmpty()) {
 		if(opd == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
@@ -56,7 +53,6 @@ public class OrderListServlet extends HttpServlet {
 			request.setAttribute("list", opd.getList());
 			request.setAttribute("pageNavi", opd.getPageNavi());
 			request.setAttribute("start", opd.getStart());
-			//request.setAttribute("list", list);
 			view.forward(request, response);
 		}
 		

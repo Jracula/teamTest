@@ -1,9 +1,11 @@
 package com.litbooks.notice.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,16 +15,16 @@ import com.litbooks.notice.service.NoticeService;
 import com.litbooks.notice.vo.Notice;
 
 /**
- * Servlet implementation class NoticeViewServlet
+ * Servlet implementation class NoticeFileDownServlet
  */
-@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView.do" })
-public class NoticeViewServlet extends HttpServlet {
+@WebServlet(name = "NoticeFileDown", urlPatterns = { "/noticeFileDown.do" })
+public class NoticeFileDownServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeViewServlet() {
+    public NoticeFileDownServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,20 +38,33 @@ public class NoticeViewServlet extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
 		NoticeService service = new NoticeService();
-		Notice n = service.selectOneNotice(noticeNo);
+		Notice n = service.getNotice(noticeNo);
 		
-		if(n == null) {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "조회 실패");
-			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
-			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/noticeList.do?reqPage=1");
-			view.forward(request, response);
-		} else { 
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
-			request.setAttribute("n", n);
-			view.forward(request, response);
+		String root = getServletContext().getRealPath("/");
+		String downFile = root+"upload/notice/"+n.getFilepath();
+		
+		FileInputStream fis = new FileInputStream(downFile);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		
+		ServletOutputStream sos = response.getOutputStream();
+		BufferedOutputStream bos = new BufferedOutputStream(sos);
+		
+		String resFilename = new String(n.getFilename().getBytes("UTF-8"),"ISO-8859-1");
+		
+		response.setContentType("application/octet-stream");
+		response.setHeader("Content-Disposition", "attachment;filename="+resFilename);
+		
+		while(true) {
+			int read = bis.read();
+			if(read != -1) {
+				bos.write(read);
+			} else {
+				break;
+			}
 		}
+		bos.close();
+		bis.close();
+
 	}
 
 	/**

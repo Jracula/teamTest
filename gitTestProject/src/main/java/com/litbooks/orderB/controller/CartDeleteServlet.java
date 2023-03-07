@@ -1,6 +1,7 @@
 package com.litbooks.orderB.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,18 +38,8 @@ public class CartDeleteServlet extends HttpServlet {
 		BasketService service = new BasketService();
 		boolean result = service.cartDelete(no);
 		
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-		if(result) {
-			request.setAttribute("title", "장바구니 삭제 완료");
-			request.setAttribute("msg", "요청이 처리되었습니다.");
-			request.setAttribute("icon", "success");
-		} else {
-			request.setAttribute("title", "장바구니 삭제 실패");
-			request.setAttribute("msg", "요청 처리 중 문제가 발생했습니다.");
-			request.setAttribute("icon", "error");
-		}
-		request.setAttribute("loc", "/cart.do");
-		view.forward(request, response);
+		PrintWriter out = response.getWriter();
+		out.print(result);
 	}
 
 	/**

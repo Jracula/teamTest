@@ -43,10 +43,13 @@ public class CartServlet extends HttpServlet {
 		ArrayList<Basket> list = service.selectBookNumber(memberNo);
 		
 		if(list.isEmpty()) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "카트 조회불가");
 			request.setAttribute("msg", "책을 담아주세요");
 			request.setAttribute("icon", "warning");
 			request.setAttribute("loc", "/index.jsp");
+			view.forward(request, response);
+			return;
 		} else {
 			// 장바구니에서 회원이 담은 책 제목, 책 가격 조회
 			ArrayList<Book> bask = service.selectBookDetail(memberNo);

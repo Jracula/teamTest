@@ -64,6 +64,13 @@
 				</tr>
 				<%} %>
 			</table>
+			<script>
+			function noticeDelete(noticeNo) {
+				if(confirm("게시글을 삭제하시겠습니까?")) {
+					location.href="/deleteNotice.do?noticeNo="+noticeNo;
+				}
+			}
+			</script>
 		</div>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

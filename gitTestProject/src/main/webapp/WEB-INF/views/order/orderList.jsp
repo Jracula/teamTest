@@ -31,7 +31,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="page-title">결제(주문)내역</div>
-			<form action="/orderList.do?reqPage=1&memberNo=2">
+				
 				<table class="tbl tbl-hober orberB-tbl">
 					<tr class="tr-2">
 						<th width="20%">주문번호</th>
@@ -55,7 +55,6 @@
 				
 				<div id="pageNavi"><%=pageNavi %></div>
 				
-			</form>
 		</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
