@@ -58,6 +58,7 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
     <div class="page-content">
+        <% if(m != null && m.getMemberLevel() != 1) { %>
         <div class="page-title">장바구니(카트)</div>
         
         <table class="table-content">
@@ -95,6 +96,7 @@
             <div>합계 : <span id="allPrice2"> 원</span></div>
             <button id="buyBook">구매하기</button>
         </div>
+        <% } %>
 	</div>
 
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

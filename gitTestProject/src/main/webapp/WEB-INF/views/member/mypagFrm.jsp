@@ -65,9 +65,11 @@ Member member = (Member)request.getAttribute("m");
 				<%if(m.getMemberLevel() == 1) {%>
 					<a class="button" href="/updateMemberFrm.do?memberId=<%=m.getMemberId()%>" id="update-btn">관리자 정보 수정</a>
 					<a class="button" href="/selectAllMember.do?reqPage=1" id="admin-btn">전체회원 정보</a>
+					<a class="button" href="/adminOrderList.do" id="admin-btn">구매(결제)내역 조회</a>
+					<a class="button" href="/adminOrderUpdate.do" id="admin-btn">구매(결제)내역 변경</a>
 				<%}else{ %>
 					<a class="button" href="/updateMemberFrm.do?memberId=<%=m.getMemberId()%>" id="update-btn">내정보 수정</a>
-					<a class="button" href="/orderList.do?reqPage=1" id="list-btn">구매내역</a>
+					<a class="button" href="/orderList.do?reqPage=1&memberNo=<%=m.getMemberNo() %>" id="list-btn">구매내역</a>
 					<button type="button" class="delBtn" id="delete-btn">회원탈퇴</button>
 					<%-- <a class="button" href="/deleteMember.do?memberId=<%=m.getMemberId()%>" id="delete-btn">회원탈퇴</a>--%>
 				<%} %>
