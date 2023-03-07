@@ -44,14 +44,12 @@ public class CartServlet extends HttpServlet {
 		// 장바구니에서 책번호 조회
 		ArrayList<Basket> list = service.selectBookNumber(memberNo);
 		
-		HttpSession session = request.getSession();
-		Member m = (Member)session.getAttribute("m");
 		
-		if(m != null && m.getMemberLevel() == 1) {
+		if(list.isEmpty()) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "장바구니 추가 불가");
-			request.setAttribute("msg", "관리자는 이용할 수 없습니다.");
-			request.setAttribute("icon", "warning");
+			request.setAttribute("title", "장바구니 조회불가");
+			request.setAttribute("msg", "책을 장바구니에 담아주세요");
+			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/index.jsp");
 			view.forward(request, response);
 			return;
