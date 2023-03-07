@@ -1,6 +1,7 @@
-package com.litbooks.faq.controller;
+package com.litbooks.notice.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,20 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.faq.model.service.FaqService;
-import com.litbooks.faq.model.vo.FaqPageData;
+import com.litbooks.notice.service.NoticeService;
+import com.litbooks.notice.vo.Notice;
+import com.litbooks.notice.vo.NoticePageData;
 
 /**
- * Servlet implementation class FaqListServlet
+ * Servlet implementation class NoticeListServlet
  */
-@WebServlet(name = "FaqList", urlPatterns = { "/faqList.do" })
-public class FaqListServlet extends HttpServlet {
+@WebServlet(name = "NoticeList", urlPatterns = { "/noticeList.do" })
+public class NoticeListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqListServlet() {
+    public NoticeListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,15 +36,14 @@ public class FaqListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		//3.비즈니스 로직
-		FaqService service = new FaqService();
-		FaqPageData fpd = service.selectFaqList(reqPage);
 		
-		//4. 결과처리
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/faq/faqList.jsp");
-		request.setAttribute("list", fpd.getList());
-		request.setAttribute("pageNavi", fpd.getPageNavi());
-		request.setAttribute("start", fpd.getStart());
+		NoticeService service = new NoticeService();
+		NoticePageData npd = service.selectNoticeList(reqPage);
+		
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/noticeList.jsp");
+		request.setAttribute("list", npd.getList());
+		request.setAttribute("pageNavi", npd.getPageNavi());
+		request.setAttribute("start", npd.getStart());
 		view.forward(request, response);
 	}
 

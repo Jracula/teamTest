@@ -18,33 +18,26 @@
 		<form action="qnaWrite.do" method="post" enctype="multipart/form-data">
 			<table class="tbl" id="boardWrite">
 				<tr class="tr-1">
-					<th class="td-2">제목</th>
-					<td colspan="3">
+					<th class="td-3">제목</th>
+					<td colspan="5">
 						<input type="text" name="qTitle" class="input-form">
 					</td>
 				</tr>
 				<tr class="tr-1">
-					<th class="td-2">작성자</th>
+					<th class="td-3">작성자</th>
 					<td>
-					<%--
-						<%=m.getMemberNo() %>					
-					 --%>
-						<input type="text" name="qMemberNo" value="">
+						<%=m.getMemberId() %>					
 					</td>					
-
-					<%--
 					<td>
-						<%=m.getMemberId() %>
-						<input type="hidden" name="qWriter" value="<%=m.getMemberId()%>">
+						<input type="hidden" name="qMemberNo" value="<%=m.getMemberNo()%>">
 					</td>					
-					 --%>
-					<th class="td-2">첨부파일</th>
+					<th class="td-3">첨부파일</th>
 					<td>
 						<input type="file" name="upfile">
 					</td>
 				</tr>
 				<tr class="tr-3">
-					<td class="td-1" colspan="4">
+					<td class="td-1" colspan="5">
 						<textarea name="qContent" class="input-form"></textarea>
 					</td>
 				</tr>

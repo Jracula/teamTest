@@ -1,7 +1,7 @@
 package com.litbooks.qna.controller;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.faq.model.service.FaqService;
-import com.litbooks.faq.model.vo.FaqPageData;
 import com.litbooks.qna.model.service.QnaService;
 import com.litbooks.qna.model.vo.Qna;
-import com.litbooks.qna.model.vo.QnaPageData;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class DeleteQnaServlet
  */
-@WebServlet(name = "QnaList", urlPatterns = { "/qnaList.do" })
-public class QnaListServlet extends HttpServlet {
+@WebServlet(name = "DeleteQna", urlPatterns = { "/deleteQna.do" })
+public class DeleteQnaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaListServlet() {
+    public DeleteQnaServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,21 +32,32 @@ public class QnaListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
-		//2. 값추출
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		//3. 비즈니스 로직
+		int qNo = Integer.parseInt(request.getParameter("qNo"));
 		QnaService service = new QnaService();
-		QnaPageData qpd = service.selectBoard(reqPage);
-		ArrayList<Qna> list = service.selectBoard();
+		Qna q = service.deleteQna(qNo);
 		
-		//4. 결과출력
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaList.jsp");
-		request.setAttribute("list", qpd.getList());
-		request.setAttribute("pageNavi", qpd.getPageNavi());
-		request.setAttribute("start", qpd.getStart());
-		view.forward(request, response);
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(q != null) {
+			if(q.getFilepath() != null) {
+				String root = getServletContext().getRealPath("/");
+				String deleteFile = root+"upload/notice/"+q.getFilepath();
+				File delFile = new File(deleteFile);
+				delFile.delete(); //파일삭제코드			
+		
+		}
+		request.setAttribute("title", "삭제성공");
+		request.setAttribute("msg", "게시글이 삭제되었습니다.");
+		request.setAttribute("icon", "success");
+		request.setAttribute("loc", "/qnaList.do?reqPage=1");
+		
+		}else {
+			request.setAttribute("title", "삭제실패");
+			request.setAttribute("msg", "오류가 발생했습니다.");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/qnaView.do?qNo"+qNo);
+		}
+		view.forward(request, response);	
 	}
 
 	/**

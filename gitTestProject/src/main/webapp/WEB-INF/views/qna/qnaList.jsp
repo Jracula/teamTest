@@ -19,7 +19,7 @@
 		<div class="page-title">문의게시판</div>
 			<div class="navi">
 				<a href="/faqList.do?reqPage=1" class="btn bc1" >FAQ</a>
-				<label><a href="#" class="btn bc1">1:1게시판</a></label>
+				<label><a href="/oneOnOneList.do?reqPage=1" class="btn bc1">1:1게시판</a></label>
 				<label><a href="#" class="btn bc1">메일보내기</a></label>
 			</div>
 		

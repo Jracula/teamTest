@@ -112,9 +112,10 @@ public class Qna {
 		this.filepath = filepath;
 	}
 	
+	public String getQnaContentBr() {
+		return qContent.replaceAll("\r\n", "<br>");
 	
 	
 	
-	
-	
+	}
 }

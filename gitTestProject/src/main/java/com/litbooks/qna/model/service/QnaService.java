@@ -46,7 +46,7 @@ public class QnaService {
 		//이전버튼(<)
 		if(pageNo != 1) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='page-item' href='/boardList.do?reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<a class='page-item' href='/qnaList.do?reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-icons'>chevron_left</span>";
 			pageNavi += "</a></li>";
 		}
@@ -54,12 +54,12 @@ public class QnaService {
 		for(int i=0; i<pageNaviSize; i++) {
 			if(pageNo == reqPage) {
 				pageNavi += "<li>";
-				pageNavi += "<a class='page-item active-page' href='/boardList.do?reqPage="+(pageNo)+"'>";
+				pageNavi += "<a class='page-item active-page' href='/qnaList.do?reqPage="+(pageNo)+"'>";
 				pageNavi += pageNo;
 				pageNavi += "</a></li>";
 			}else {
 				pageNavi += "<li>";
-				pageNavi += "<a class='page-item' href='/boardList.do?reqPage="+(pageNo)+"'>";
+				pageNavi += "<a class='page-item' href='/qnaList.do?reqPage="+(pageNo)+"'>";
 				pageNavi += pageNo;
 				pageNavi += "</a></li>";
 			}
@@ -72,7 +72,7 @@ public class QnaService {
 		//다음버튼
 		if(pageNo <= totalPage) {
 			pageNavi += "<li>";
-			pageNavi += "<a class='page-item' href='/boardList.do?reqPage="+(pageNo)+"'>";
+			pageNavi += "<a class='page-item' href='/qnaList.do?reqPage="+(pageNo)+"'>";
 			pageNavi += "<span class='material-icons'>chevron_right</span>";
 			pageNavi += "</a></li>";
 		}
@@ -115,14 +115,56 @@ public class QnaService {
 		
 		if(result > 0 ) {
 			JDBCTemplate.commit(conn);
-			Qna b = dao.selectOneBoard(conn,qnaNo);
+			Qna q = dao.selectOneBoard(conn,qnaNo);
 			ArrayList<QnaComment> commentList = dao.selectBoardComment(conn,qnaNo);
+			ArrayList<QnaComment> reCommentList = dao.selectReCommentList(conn, qnaNo);
+			QnaViewData qvd = new QnaViewData(q, commentList, reCommentList);
+			JDBCTemplate.close(conn);
 			
+			return qvd;
+			
+		}else {
+			JDBCTemplate.rollback(conn);
+			JDBCTemplate.close(conn);
+			return null;			
 		}
 		
-		return null;
 	}
 
-	
+
+	public Qna deleteQna(int qNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Qna q = dao.selectOneBoard(conn, qNo);
+		int result = dao.deleteQna(conn,qNo);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return q;
+	}
+
+
+	public Qna getQna(int qNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Qna q = dao.selectOneBoard(conn, qNo);
+		JDBCTemplate.close(conn);
+		return q;
+	}
+
+
+	public int updateNotice(Qna q) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateQna(conn,q);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
 	
 }

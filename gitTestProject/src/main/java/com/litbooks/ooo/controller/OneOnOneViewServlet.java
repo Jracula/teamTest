@@ -1,4 +1,4 @@
-package com.litbooks.qna.controller;
+package com.litbooks.ooo.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.qna.model.service.QnaService;
-import com.litbooks.qna.model.vo.QnaViewData;
+import com.litbooks.ooo.service.OneOnOneService;
+import com.litbooks.ooo.vo.OneOnOne;
 
 /**
- * Servlet implementation class BoardViewServlet
+ * Servlet implementation class OneOnOneViewServlet
  */
-@WebServlet(name = "QnaView", urlPatterns = { "/qnaView.do" })
-public class QnaViewServlet extends HttpServlet {
+@WebServlet(name = "OneOnOneView", urlPatterns = { "/oneOnOneView.do" })
+public class OneOnOneViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaViewServlet() {
+    public OneOnOneViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,26 +34,24 @@ public class QnaViewServlet extends HttpServlet {
 		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
-		int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
-		//3. 비즈니스 로직
-		QnaService service = new QnaService();
-		QnaViewData qvd = service.selectOneBoard(qnaNo);
-		
-		//4. 결과 출력
-		if(qvd == null) {
+		int oNo = Integer.parseInt(request.getParameter("oneOnOneNo"));
+		//3. 비즈니스로직
+		OneOnOneService service = new OneOnOneService();
+		OneOnOne o = service.selectOneOnOne(oNo);
+		//4. 결과처리
+		if(o == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
 			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/qnaList.do?reqPage=1");
+			request.setAttribute("loc", "/onOnOneList.do?reqPage=1");
 			view.forward(request, response);
 		}else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaView.jsp");
-			request.setAttribute("q", qvd.getQ());
-			request.setAttribute("commentList", qvd.getCommentList());
-			request.setAttribute("reCommentList", qvd.getReCommentList());
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/OneOnOne/onOnOneView.jsp");
+			request.setAttribute("o", o);
 			view.forward(request, response);
 		}
+
 	}
 
 	/**

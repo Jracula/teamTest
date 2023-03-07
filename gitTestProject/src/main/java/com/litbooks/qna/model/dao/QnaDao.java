@@ -157,8 +157,8 @@ public class QnaDao {
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				q = new Qna();
-				q.setFileName(rset.getString("q_filename"));
-				q.setFilepath(rset.getString("q_filepath"));
+				q.setFileName(rset.getString("filename"));
+				q.setFilepath(rset.getString("filepath"));
 				q.setMemberNo(rset.getInt("q_member_no"));
 				q.setqContent(rset.getString("q_content"));
 				q.setqNo(rset.getInt("q_no"));
@@ -185,21 +185,21 @@ public class QnaDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<QnaComment> list = new ArrayList<QnaComment>();
-		String query = "select * from qna_comment where notice_ref = ? and nc_ref is null order by 1";
+		String query = "select * from qna_comment where q_ref = ? and qc_ref is null order by 1";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, qnaNo);
 			rset = pstmt.executeQuery();
 			while(rset.next()) {
-				QnaComment bc = new QnaComment();
-				bc.setBcContent(query);
-				bc.setBcDate(query);
-				bc.setBcNo(query);
-				bc.setBcRef(qnaNo);
-				bc.setBcWriter(query);
-				bc.setBoardRef(qnaNo);
-				list.add(bc);
+				QnaComment qc = new QnaComment();
+				qc.setQcContent(rset.getString("qc_content"));
+				qc.setQcDate(rset.getString("qc_date"));
+				qc.setQcNo(rset.getInt("qc_no"));
+				qc.setQcRef(rset.getInt("qc_ref"));
+				qc.setQcWriter(rset.getString("qc_writer"));
+				qc.setQnaRef(rset.getInt("q_ref"));
+				list.add(qc);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -210,6 +210,81 @@ public class QnaDao {
 		}		
 		return list;
 
+	}
+
+	public ArrayList<QnaComment> selectReCommentList(Connection conn, int qnaNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<QnaComment> list = new ArrayList<QnaComment>();
+		String query = "select * from qna_comment where q_ref = ? and qc_ref is not null order by 1";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, qnaNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				QnaComment qc = new QnaComment();
+				qc.setQcContent(rset.getString("qc_content"));
+				qc.setQcDate(rset.getString("qc_date"));
+				qc.setQcNo(rset.getInt("qc_no"));
+				qc.setQcRef(rset.getInt("qc_ref"));
+				qc.setQcWriter(rset.getString("qc_writer"));
+				qc.setQnaRef(rset.getInt("q_ref"));
+				list.add(qc);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}		
+		return list;
+	}
+
+	public int deleteQna(Connection conn, int qNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from qna where q_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, qNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int updateQna(Connection conn, Qna q) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update qna set q_title = ?, q_content=?, filename = ?, filepath = ? where q_no=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, q.getqTitle());
+			pstmt.setString(2, q.getqTitle());
+			pstmt.setString(3, q.getFileName());
+			pstmt.setString(4, q.getFilepath());
+			pstmt.setInt(5, q.getqNo());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+		
 	}
 }
 

@@ -1,4 +1,4 @@
-package com.litbooks.qna.controller;
+package com.litbooks.notice.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.qna.model.service.QnaService;
-import com.litbooks.qna.model.vo.QnaViewData;
+import com.litbooks.notice.service.NoticeService;
+import com.litbooks.notice.vo.Notice;
+import com.litbooks.notice.vo.NoticeViewData;
 
 /**
- * Servlet implementation class BoardViewServlet
+ * Servlet implementation class NoticeViewServlet
  */
-@WebServlet(name = "QnaView", urlPatterns = { "/qnaView.do" })
-public class QnaViewServlet extends HttpServlet {
+@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView.do" })
+public class NoticeViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaViewServlet() {
+    public NoticeViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,27 +32,23 @@ public class QnaViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
-		//2. 값추출
-		int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
-		//3. 비즈니스 로직
-		QnaService service = new QnaService();
-		QnaViewData qvd = service.selectOneBoard(qnaNo);
 		
-		//4. 결과 출력
-		if(qvd == null) {
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		
+		NoticeService service = new NoticeService();
+		NoticeViewData nvd = service.selectOneNotice(noticeNo);
+		
+		if(nvd == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
 			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/qnaList.do?reqPage=1");
+			request.setAttribute("loc", "/noticeList.do?reqPage=1");
 			view.forward(request, response);
-		}else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaView.jsp");
-			request.setAttribute("q", qvd.getQ());
-			request.setAttribute("commentList", qvd.getCommentList());
-			request.setAttribute("reCommentList", qvd.getReCommentList());
+		} else { 
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
+			request.setAttribute("n", nvd.getN());
 			view.forward(request, response);
 		}
 	}

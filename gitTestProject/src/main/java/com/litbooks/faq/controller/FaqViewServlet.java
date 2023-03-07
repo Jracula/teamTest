@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.faq.model.service.FaqService;
-import com.litbooks.faq.model.vo.FaqPageData;
+import com.litbooks.faq.model.vo.Faq;
 
 /**
- * Servlet implementation class FaqListServlet
+ * Servlet implementation class FaqViewServlet
  */
-@WebServlet(name = "FaqList", urlPatterns = { "/faqList.do" })
-public class FaqListServlet extends HttpServlet {
+@WebServlet(name = "FaqView", urlPatterns = { "/faqView.do" })
+public class FaqViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqListServlet() {
+    public FaqViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +32,23 @@ public class FaqListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		//3.비즈니스 로직
+		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
 		FaqService service = new FaqService();
-		FaqPageData fpd = service.selectFaqList(reqPage);
+		Faq f = service.selectOneFaq(faqNo);
 		
-		//4. 결과처리
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/faq/faqList.jsp");
-		request.setAttribute("list", fpd.getList());
-		request.setAttribute("pageNavi", fpd.getPageNavi());
-		request.setAttribute("start", fpd.getStart());
-		view.forward(request, response);
+		if(f == null) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("title", "조회 실패");
+			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
+			request.setAttribute("icon", "info");
+			request.setAttribute("loc", "/faqList.do?reqPage=1");
+			view.forward(request, response);
+		}else {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/faq/faqView.jsp");
+			request.setAttribute("f", f);
+			view.forward(request, response);
+		}
+		
 	}
 
 	/**

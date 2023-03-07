@@ -5,27 +5,27 @@ public class Notice {
 	private String noticeTitle;
 	private String noticeWriter;
 	private String noticeContent;
-	private int noticeReadCount;
-	private String noticeRegDate;
-	private String noticeFilename;
-	private String noticeFilepath;
+	private int readCount;
+	private String RegDate;
+	private String filename;
+	private String filepath;
 	
 	public Notice() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Notice(int noticeNo, String noticeTitle, String noticeWriter, String noticeContent, int noticeReadCount,
-			String noticeRegDate, String noticeFilename, String noticeFilepath) {
+	public Notice(int noticeNo, String noticeTitle, String noticeWriter, String noticeContent, int readCount,
+			String regDate, String filename, String filepath) {
 		super();
 		this.noticeNo = noticeNo;
 		this.noticeTitle = noticeTitle;
 		this.noticeWriter = noticeWriter;
 		this.noticeContent = noticeContent;
-		this.noticeReadCount = noticeReadCount;
-		this.noticeRegDate = noticeRegDate;
-		this.noticeFilename = noticeFilename;
-		this.noticeFilepath = noticeFilepath;
+		this.readCount = readCount;
+		RegDate = regDate;
+		this.filename = filename;
+		this.filepath = filepath;
 	}
 
 	public int getNoticeNo() {
@@ -60,35 +60,37 @@ public class Notice {
 		this.noticeContent = noticeContent;
 	}
 
-	public int getNoticeReadCount() {
-		return noticeReadCount;
+	public int getReadCount() {
+		return readCount;
 	}
 
-	public void setNoticeReadCount(int noticeReadCount) {
-		this.noticeReadCount = noticeReadCount;
+	public void setReadCount(int readCount) {
+		this.readCount = readCount;
 	}
 
-	public String getNoticeRegDate() {
-		return noticeRegDate;
+	public String getRegDate() {
+		return RegDate;
 	}
 
-	public void setNoticeRegDate(String noticeRegDate) {
-		this.noticeRegDate = noticeRegDate;
+	public void setRegDate(String regDate) {
+		RegDate = regDate;
 	}
 
-	public String getNoticeFilename() {
-		return noticeFilename;
+	public String getFilename() {
+		return filename;
 	}
 
-	public void setNoticeFilename(String noticeFilename) {
-		this.noticeFilename = noticeFilename;
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 
-	public String getNoticeFilepath() {
-		return noticeFilepath;
+	public String getFilepath() {
+		return filepath;
 	}
 
-	public void setNoticeFilepath(String noticeFilepath) {
-		this.noticeFilepath = noticeFilepath;
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
+
+	
 }
