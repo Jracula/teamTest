@@ -1,0 +1,123 @@
+.join-all-wrap{
+    width: 1200px;
+    margin: 0 auto;
+}
+.update-title{
+    text-align: center;
+    margin-top : 70px;
+}
+
+.join-box{
+    margin: 40px auto;
+    width: 650px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+tr>td:first-child{
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: 20px;
+}
+
+table{
+	margin : 0 auto;
+	padding : 45px 0;
+}
+
+tr>td:first-child>sup{
+color: rgb(226, 1, 1);
+}
+
+.inputBox{
+    margin-left: 40px;
+    height: 45px;
+    width: 400px;
+    border: 0;
+    background-color: rgb(241, 241, 241);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+
+.join-box>table>tbody>tr>td{ 
+    padding: 20px 0px;
+}
+
+.agree-box>span{
+    float: right;
+    font-size: 12px;
+    color: rgb(32, 90, 167);
+}
+
+.agree-box>.agreeCheck{
+    padding-left: 20px;
+}
+
+#agreeBox{
+    padding-left: 23px;
+}
+
+.inputBox{
+    padding-left: 10px;
+}
+
+.join-box>table>tbody>tr>td:last-child>.comment{ 
+    padding-left: 40px;
+    font-size: 13px;
+}
+
+/*
+.join-box>table>tbody>tr>td:last-child>#memberEmail{ 
+width: 50%;
+}
+*/
+
+.join-box>table>tbody>tr>td:last-child>#checkEmail{ 
+    width:20%;
+    margin: 0;
+}
+
+#email-time{
+    margin-left: 300px;
+}
+
+.join-box>table>tbody>tr>td>button{ 
+    color:rgb(32, 90, 167);
+    border: 0px;
+    height: 45px;
+    border-radius: 5px;
+    width: 82px;
+    cursor: pointer;
+    border: 1.8px solid  rgb(32, 90, 167);
+    background-color: white;
+
+}
+
+.button-box{
+    width: 120px;
+    margin: 0 auto;
+}
+
+.button-box>button{
+    width: 120px;
+    background-color: rgb(32, 90, 167);
+    border: 0px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 15px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom : 60px;    
+}
+
+input[type=password]{
+	background-color: white;
+	border : 1.5px solid  rgb(241, 241, 241);
+}
+
+input[name=memberPhone]{
+	background-color: white;
+	border : 1.5px solid  rgb(241, 241, 241);
+}

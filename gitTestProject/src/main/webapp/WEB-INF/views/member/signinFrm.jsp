@@ -40,6 +40,10 @@
     padding-left: 10px;
 }
 
+[type=password]{
+    padding-left: 10px;
+}
+
 .link{
     text-decoration: none;
     font-size: 15px;
@@ -96,7 +100,6 @@
             <form action="/signin.do" method="post">
                 <div class="input-box">
 					<input type="text" name="loginId" id="loginId" class="login-form" placeholder="아이디를 입력하세요">
-					
 				</div>
                 <!--
                 <div class="login-comment">
@@ -104,7 +107,7 @@
                 </div>
                 -->
                 <div class="input-box">
-					<input type="text" name="loginPw" id="loginPw" class="login-form" placeholder="비밀번호를 입력하세요">
+					<input type="password" name="loginPw" id="loginPw" class="login-form" placeholder="비밀번호를 입력하세요">
 				</div>
                 <!--
                 <div class="login-comment">
@@ -116,12 +119,20 @@
 				</div>	
                 <div class="btn-box">
                     <button type="submit" class="login-btn">로그인</button>
-                    <button type="submit" class="join-btn">회원가입</button> 
-                    <!-- type="button"을 써줘야 자동으로 submit을 안함 -->
                 </div>
-            </form>
 
-    </div>
+            </form>                 
+            	<div class="btn-box">
+                    <button type="submit" class="join-btn">회원가입</button> 
+                </div>
+   		 </div>
+   		 
+   		 <script>
+   		 	$(".join-btn").on("click",function(){
+   		 		location.href="/joinFrm.do";
+   		 	});
+   		 
+   		 </script>
 		
 		
 		

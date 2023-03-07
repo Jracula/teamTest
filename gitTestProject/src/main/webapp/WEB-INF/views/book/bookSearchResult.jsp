@@ -4,7 +4,15 @@
     pageEncoding="UTF-8"%>
     <%
     ArrayList<Book> books = (ArrayList<Book>)request.getAttribute("books");
+    String pageNavi = (String)request.getAttribute("pageNavi");
+    int start = (int)request.getAttribute("start");
     ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
+    //이전 검색 조건들 ↓
+    String recievedTitle = (String)request.getAttribute("recievedTitle");
+    String recievedWriter = (String)request.getAttribute("recievedWriter");
+    String[] recievedGenre = (String[])request.getAttribute("recievedGenre");
+    int recievedOnSale = (int)request.getAttribute("recievedOnSale");
+    //이전 검색 조건들 ↑
     %>
 <!DOCTYPE html>
 <html>
@@ -16,16 +24,33 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="searchEngine">
-			<form action="/bookSearchInDetail.do" method="post">
-				<div>책제목 : <input type="text" name="searchTitle" placeholder="검색할 책 제목"></div>
-				<div>저자 : <input type="text" name="searchWriter" placeholder="검색할 저자 이름"></div>
+			<form action="/bookSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
+				<div>책제목 : <input type="text" name="searchTitle" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
+				<div>저자 : <input type="text" name="searchWriter" value="<%=recievedWriter %>" placeholder="검색할 저자 이름"></div>
 				<div>
 			<%for(int i=0; i<genreList.size(); i++){%>
-				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label> 
+				<%int check=0; %>
+				<%for(int j=0; j<recievedGenre.length; j++){ %>
+					<%if(genreList.get(i).equals(recievedGenre[j])){ %>
+						<%check++; %>
+					<%} %>
+				<%} %>
+				<%if(check>0){ %>
+				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
+				<%}else if(check==0){ %>
+				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
+				<%} %>
             <%} %>
-            	<div><label><input type="checkbox" name="onSale" value="1">판매중지 제외</label></div>
+            	<div><label>
+            	<%if(recievedOnSale==1){ %>
+            		<input type="checkbox" name="onSale" value="1" checked="true">
+            	<%}else if(recievedOnSale==0){ %>
+            		<input type="checkbox" name="onSale" value="1">
+            	<%} %>
+            		판매중지 제외</label></div>
 				</div>
-				<button type="submit">검색</button>
+				<input type="hidden" name="reqPage" value="1">
+				<button type="submit" id="submitButton">검색</button>
 			</form>
 		</div>
 		<div class="result-wrap">
@@ -33,8 +58,8 @@
 		<%if(books.size()==0) {%>
 			<div>조건을 만족하는 책이 없습니다.</div>
 		<%}else{ %>
-			<div class="book-wrap">
 			<%for(int i=0; i<books.size(); i++){%>
+			<div class="book-wrap" style="float: left; width: 400px; height: 160px;">
 			<%Book bs = books.get(i); %>
 				<div style="float: left;">
 				<%if (bs.getBookImage()!=null){%>
@@ -43,7 +68,7 @@
 					<img src="/upload/book/cover-image/00000000.jpg" width=100px>
 				<%} %>
 				</div>
-				<div style="float: left;">
+				<div style="float: left; width: 300px;">
 					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p>
 					<p><%=bs.getWriter() %> | <%=bs.getPublisher() %></p></a>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
@@ -61,12 +86,32 @@
 					<p>&nbsp;</p>
 				<%} %>
 				</div>
-			<%} %>
 			</div>
+			<%} %>
 		<%} %>
 	<%} %>
 		</div>
+		<div id="pageNavi" style="clear: both;"><%=pageNavi %></div>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	<script>
+		function checkKeyword() {	//검색폼에서 책제목 또는 저자에 공백을 제외하고 2자 이상으로 검색 요청
+			const keywordReg = /\S{2,}/;
+			const keyword1 = $("[name=searchTitle]").val();
+			const keyword2 = $("[name=searchWriter]").val();
+			const check1 = keywordReg.test(keyword1);
+			const check2 = keywordReg.test(keyword2);
+			if (!check1 && !check2) {
+				alert("책제목 또는 저자를 2자 이상의 검색어로 입력해주십시오.");
+				return false;
+			}
+			return true;
+		}
+		$(".page-item").on("click", function(){
+			const reqPage = $(this).children().first().text();
+			$("[name=reqPage]").val(reqPage);
+			$("#submitButton").click();
+		});
+	</script> 
 </body>
 </html>
