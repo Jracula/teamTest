@@ -25,6 +25,7 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
+		<% if(m.getMemberLevel() == 1) { %>
 		<div class="page-title">(관리자페이지) 주문내역 조회</div>
 		<form action="/adminOrderList.do" method="post">
 			<table class="tbl tbl-hober orberB-tbl">
@@ -48,6 +49,7 @@
 					<td><%=o.getOrderRegDate() %></td>
 				<% } %>
 				</tr>
+			<% } %>
 			</table>
 		</form>
 	</div>

@@ -179,14 +179,14 @@ public class OrderBService {
 
 		}
 		query += ")";
-		query += "values(order_b_seq.nextval,1,?,?,?,sysdate,?,?";
+		query += "values(order_b_seq.nextval,1,?,?,?,TO_CHAR(SYSDATE,'YYYY-MM-DD'),?,?";
 		for (int i = 0; i < bookNoArr.length - 1; i++) {
 			query += ",?,?";
 		}
 
 		query += ")";
 
-		System.out.println(query);
+		//System.out.println(query);
 
 		int result = dao.insertOrder(conn, memberNo1, bookNoArr, bookPriceArr, price, query, payMethod);
 		if(result > 0) {

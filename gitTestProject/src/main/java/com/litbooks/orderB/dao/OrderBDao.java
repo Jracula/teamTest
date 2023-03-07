@@ -19,7 +19,7 @@ public class OrderBDao {
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
 
-		String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.order_no) where member_no=?)n) where rnum between ? and ?";
+		String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.book_no) where member_no=?)n) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
@@ -108,7 +108,7 @@ public class OrderBDao {
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
 
-		String query = "select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date from order_b o join member m on (o.order_no = m.member_no) join book b on (o.order_no = b.book_no)";
+		String query = "select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no) order by 1";
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
