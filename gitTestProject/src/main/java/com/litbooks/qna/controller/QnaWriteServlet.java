@@ -37,12 +37,12 @@ public class QnaWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//2-1. 파일이 업로드 될 경로 지정
 		String root = getServletContext().getRealPath("/");
-		String saveDirectory = root+"upload/board";
+		String saveDirectory = root+"upload/qna";
 		//2-2. 파일 최대크기 지정
 		int maxSize = 10*1024*1024;
 		//2-3. 데이터를 꺼내기 위한 객체 변환작업
 		MultipartRequest mRequest = new MultipartRequest(request, saveDirectory, maxSize, "utf-8", new DefaultFileRenamePolicy());
-		int boardNo = Integer.parseInt(mRequest.getParameter("qMemberNo"));
+		int qNo = Integer.parseInt(mRequest.getParameter("qMemberNo"));
 		String boardWriter = mRequest.getParameter("qWrite");
 		String boardTitle = mRequest.getParameter("qTitle");
 		String boardContent = mRequest.getParameter("qContent");
@@ -54,7 +54,7 @@ public class QnaWriteServlet extends HttpServlet {
 		b.setqContent(boardContent);
 		b.setFileName(filename);
 		b.setFilepath(filepath);
-		b.setMemberNo(boardNo);
+		b.setMemberNo(qNo);
 		
 		//3. 비즈니스 로직
 		QnaService service = new QnaService();
