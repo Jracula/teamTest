@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.litbooks.member.vo.Member;
 import com.litbooks.orderB.service.OrderBService;
 import com.litbooks.orderB.vo.OrderB;
 
@@ -38,24 +40,21 @@ public class AdminOrderListServlet extends HttpServlet {
 		
 		ArrayList<OrderB> list = service.selectAdminList();
 		
-		/*Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {
-			// 수정가능
-		} else {
-			// 수정 불가능
-		}*/
+		HttpSession session = request.getSession();
+		Member m = (Member)session.getAttribute("m");
 		
-		if(list.isEmpty()) {
+		if(m.getMemberLevel() != 1) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "????");
 			request.setAttribute("msg", "관리자만 이용가능합니다.");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/index.jsp");
-		} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderList.jsp");
-			request.setAttribute("list", list);
-			view.forward(request, response);			
+			view.forward(request, response);
+			return;
 		}
-		
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderList.jsp");
+		request.setAttribute("list", list);
+		view.forward(request, response);
 	}
 
 	/**
