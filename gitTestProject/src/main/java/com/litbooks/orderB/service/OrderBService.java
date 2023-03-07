@@ -21,7 +21,7 @@ public class OrderBService {
 	}
 
 	// 전체 주문내역 조회
-	public OrderBPageData selectAllOrder(int reqPage) {
+	public OrderBPageData selectAllOrder(int reqPage, int memberNo) {
 		Connection conn = JDBCTemplate.getConnection();
 
 		int numPerPage = 10; // 총 게시물 수
@@ -29,7 +29,7 @@ public class OrderBService {
 		int end = numPerPage * reqPage; // 끝번호 10 / 20 / 30
 		int start = end - numPerPage + 1; // 시작번호 1 / 11 / 21
 
-		ArrayList<OrderB> list = dao.selectAllOrder(conn, start, end);
+		ArrayList<OrderB> list = dao.selectAllOrder(conn, memberNo, start, end);
 
 		// 페이징제작 시작
 		// 1. 전체페이지 게시물 수를 계산 -> 총 게시물 수 조회

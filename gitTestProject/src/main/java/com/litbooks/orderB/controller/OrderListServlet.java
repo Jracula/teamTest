@@ -35,11 +35,11 @@ public class OrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		//int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		
 		OrderBService service = new OrderBService();
-		OrderBPageData opd = service.selectAllOrder(reqPage);
+		OrderBPageData opd = service.selectAllOrder(reqPage, memberNo);
 		
 		if(opd == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
