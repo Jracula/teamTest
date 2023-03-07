@@ -7,6 +7,7 @@
     	ArrayList<Faq> list = (ArrayList<Faq>)request.getAttribute("list");
     	String pageNavi = (String)request.getAttribute("pageNavi");
     	int start = (int)request.getAttribute("start");
+
     %>
 <!DOCTYPE html>
 <html>
@@ -83,21 +84,24 @@
 				<th style="width:10%">조회수</th>
 			</tr>
 			
-<%-- 			<%for(int i=0; i<list.size(); i++) {%>
+
+<%--  			<%for(int i=0; i<list.size(); i++) {%>
 			<%Faq f = list.get(i); %>
-				<tr class="tr-1">
-					<td><%=i+start %></td>
-					<td>
-						<a class="detailContent" href="/faqView.do?faqNo=<%=f.getfNo() %>">
-						<%=f.getfContent() %>
-						</a>
-					</td>
-					<td><%=f.getfWriter() %></td>
-					<td><%=f.getfRegDate() %></td>
-					<td><%=f.getfReadCount() %></td>
-				</tr>
-		<%} %>  
-			 --%>
+			
+			<tr class="tr-1">
+				<td><%=i+start %></td>
+				<td>
+					<a class="detailContent" href="/faqView.do?faqNo=<%=f.getfNo() %>">
+					<%=f.getfContent() %>
+					</a>
+				</td>
+				<td><%=f.getfWriter() %></td>
+				<td><%=f.getfRegDate() %></td>
+				<td><%=f.getfReadCount() %></td>
+			</tr>
+				<%} %>
+ --%>
+			 
 		</table>
 		
 		<% if(m != null && m.getMemberLevel() == 1){ %>
@@ -109,7 +113,9 @@
 		<div id="pageNavi"><%=pageNavi %></div>		
 	</div>
 	<script>
-	$(".click-icon-wrap").click(function(){
+	
+	
+$(".click-icon-wrap").click(function(){
 		const value = $(this).children().first().text();
 		const table = (".tbl tbl-hover notice-tbl");
 		
@@ -148,6 +154,7 @@
 			error : function(){
 				console.log("error");
 			}
+			
 		})
 	});
 	
