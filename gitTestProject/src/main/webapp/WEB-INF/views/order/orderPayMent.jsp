@@ -90,8 +90,8 @@
     </div>
     
         <script>
+        	// 결제페이지 총 금액
         	const totalSum = $("#sum").text();
-        	
         
             $("#payMentBtn").on("click", function() {
                 let price = 0;
@@ -121,15 +121,13 @@
                     merchant_uid : "상품번호_"+date,
                     name : "결제 테스트",
                     amount : 100, // price
-                    buyer_email : "jjune41@naver.com",   // 로그인한 회원의 이메일
-                    buyer_name : "홍길동",    // 로그인 한 회원의 이름
-                    buyer_tel : "010-1111-1111",     // 로그인 한 회원의 전화번호
+                    buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
+                    buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
+                    buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
                     buyer_addr : "서울시 영등포구 당산동",    // 로그인 한 회원의 주소
                     buyer_code : "000001"     // 구매코드
                 }, function(rsp) {
                     if(rsp.success) {
-                    	// 1. form hidden
-                    	// --> 장바구니 삭제
                     	
                     	console.log(rsp);
                     	
@@ -143,7 +141,6 @@
                                 if(data == "1"){
                                 	// 결제 정보 저장 성공 시
                                 	location.href="/";
-                                	
                                 }else{
                                 	// 결제 정보 저장 실패 시
                                 	location.href="/orderPayMent.do";

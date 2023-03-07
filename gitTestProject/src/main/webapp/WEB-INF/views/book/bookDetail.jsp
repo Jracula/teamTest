@@ -64,7 +64,7 @@
 		<%} %>
 		<!-- 아래 두 버튼들은 로그인했을 때만 나오도록 표시하던가, 아니면 눌렀을 때 로그인하라는 경고창을 띄우던가 -->
 			<button class="btn bc9" id="addCart">장바구니에 담기</button>
-			<a class="btn bc9" href="#">구매하기</a>
+			<a class="btn bc9" href="/orderPayOne.do">구매하기</a>
 		</div>
 		<div>
 		</div>
