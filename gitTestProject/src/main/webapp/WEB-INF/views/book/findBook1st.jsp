@@ -6,6 +6,7 @@
     ArrayList<Book> books = (ArrayList<Book>)request.getAttribute("books");
     String pageNavi = (String)request.getAttribute("pageNavi");
     int start = (int)request.getAttribute("start");
+    int totalCount = (int)request.getAttribute("totalCount");
     ArrayList<String> genreList = (ArrayList<String>)request.getAttribute("genreList");
     //이전 검색 조건들 ↓
     String recievedTitle = (String)request.getAttribute("recievedTitle");
@@ -27,13 +28,51 @@
     <link rel="stylesheet" href="/css/default.css" />
     <!-- 기본 js -->
     <script src="/js/default.js"></script>
+<style>
+.searchEngine {
+	background-color: #EEEEEE;
+	padding: 20px;
+	border-radius: 14px; 
+}
+.searchEngine>form>* {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+.text-bar {
+	border: none;
+	padding:5px;
+	text-indent: 10px;
+	width: 93%;
+}
+.genre-options>label {
+	margin-left: 3px;
+	margin-right: 8px;
+}
+.result-wrap>h3 {
+	line-height: 400%;
+}
+.result-wrap>div {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.selectBook{
+	float: left;
+	width: 260px;
+	margin-left: 8px;
+	padding:7px;
+	cursor: pointer;
+}
+.selectBook:hover {
+	background-color: #E0F0FF;
+}
+</style>
 </head>
 	<div class="page-content">
 		<div class="searchEngine">
 			<form action="/book1stSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
-				<div>책제목 : <input type="text" name="searchTitle" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
-				<div>저자 : <input type="text" name="searchWriter" value="<%=recievedWriter %>" placeholder="검색할 저자 이름"></div>
-				<div>
+				<div><div style="display:inline-block; width:50px;">책제목</div>　<input class="text-bar" type="text" name="searchTitle" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
+				<div><div style="display:inline-block; width:50px;">저　자</div>　<input class="text-bar" type="text" name="searchWriter" value="<%=recievedWriter %>" placeholder="검색할 저자 이름"></div>
+				<div class="genre-options">
 			<%for(int i=0; i<genreList.size(); i++){%>
 				<%int check=0; %>
 				<%for(int j=0; j<recievedGenre.length; j++){ %>
@@ -42,21 +81,22 @@
 					<%} %>
 				<%} %>
 				<%if(check>0){ %>
-				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
+					<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
 				<%}else if(check==0){ %>
-				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
+					<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
 				<%} %>
             <%} %>
-            		<div><label>
+            	</div>
+            	<div><label>
             	<%if(recievedOnSale==1){ %>
             		<input type="checkbox" name="onSale" value="1" checked="true">
             	<%}else if(recievedOnSale==0){ %>
             		<input type="checkbox" name="onSale" value="1">
             	<%} %>
-            		판매중지 제외</label></div>
+            		판매중지 제외</label>
 				</div>
 				<input type="hidden" name="reqPage" value="1">
-				<button type="submit">검색</button>
+				<button type="submit" style="background-color: #0B6DB7; border: none; border-radius: 5px; cursor: pointer;"><span style="color: white; font-size:16px; padding:16px;">검색</span></button>
 			</form>
 		</div>
 
@@ -96,8 +136,9 @@
 		<div class="result-wrap">
 	<%if(books!=null){%>
 		<%if(books.size()==0) {%>
-			<div>조건을 만족하는 책이 없습니다.</div>
+			<h3>조건을 만족하는 책이 없습니다.</h3>
 		<%}else{ %>
+			<h3>총 <%=totalCount %>건의 검색 결과가 있습니다.</h3>
 			<%for(int i=0; i<books.size(); i++){%>
 			<div class="book-wrap" style="float: left; width: 400px; height: 160px;">
 			<%Book bs = books.get(i); %>
@@ -108,10 +149,10 @@
 					<img src="/upload/book/cover-image/00000000.jpg" width=100px>
 				<%} %>
 				</div>
-				<div class="selectBook" type="button" style="float: left; width: 300px; cursor: pointer;">
+				<div class="selectBook" type="button">
 					<span style="display:none;"><%=bs.getBookNo() %></span>
-					<p><%=bs.getBookTitle() %></p>
-					<p><%=bs.getBookGenre() %></p>
+					<span><%=bs.getBookTitle() %></span><br>
+					<span><%=bs.getBookGenre() %></span><br>
 					<p><span><%=bs.getWriter() %></span> | <span><%=bs.getPublisher() %></span></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<span style="display:none;"><%=bs.getBookPrice() %></span>
