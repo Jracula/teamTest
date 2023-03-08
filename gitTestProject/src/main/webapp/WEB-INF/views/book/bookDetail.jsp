@@ -19,7 +19,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=b.getBookTitle() %> - LITBOOKS</title>
+<title><%=b.getBookTitle() %> - LiTBOOKS</title>
 <link rel="stylesheet" href="/css/recomm.css">
 <link rel="stylesheet" href="/css/bootstrap-modal.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
@@ -43,8 +43,8 @@
 	padding-top: 30px;
 }
 .intro-warp>div {
-	margin-top: 50px;
-	margin-bottom: 50px;
+	margin-top: 100px;
+	margin-bottom: 100px;
 }
 .next-episodes>div {
 	overflow: hidden;
@@ -56,21 +56,29 @@
 	margin-left: 12px;
 	float: left;
 }
+.next-episodes>div>a:hover>div {
+	background-color: #E0F0FF;
+}
+.next-episodes>div>a>div {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	margin-left: 12px;
+	float: left;
+}
 </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<div class="page-content">
-		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>		<!-- bookNo 확인용으로 만든 숨겨진 p태그 -->
-		<div class="book-cover" style="float: left; width: 400px; margin-right: 40px;">
+		<div class="book-cover" style="float: left; width: 300px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
 			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
 		<%}else{ %>
 			<img src="/upload/book/cover-image/00000000.jpg" width=100%>
 		<%} %>
 		</div>
-		<div class="book-card-wrap" style="float: left; margin-top: 100px;">
+		<div class="book-card-wrap" style="float: left;">
 		<%if(b.getBookGenre()!=null){ %>
 			<p class="genre-category">장르 ＞ <%=b.getBookGenre() %></p>
 		<%}else{ %>
@@ -87,7 +95,6 @@
 			<p>출판사 - <%=b.getPublisher() %></p>
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
-			<p id="bookPrice"><%=b.getBookPrice() %></p>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
@@ -128,9 +135,16 @@
 			<a class="btn bc9" id="payOneBtn">구매하기</a>
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
+		<div style="clear: both;"></div>
+	<%if(b.getNonFee()==1) {%>
+		<button class="btn bc66" id="letMeRead" style="width: 48.7%;">이 책은 무료로 감상하실 수 있습니다.</button>
+	<%}else{ %>
+		<button class="btn bc99" id="letMeRead" style="width: 48.7%;">책 읽기</button>
+	<%} %>
 		<div class="intro-warp">
 			<div>
 				<h3>작품 소개</h3>
+				<hr style="margin-top: 10px; margin-bottom: 10px;">
 				<div>
 				<%if (b.getBookIntro()!=null){%>
 				<%=b.getBookIntro() %>
@@ -143,19 +157,20 @@
 		<%if(seriesList.size()>1) {%>
 			<div class="next-episodes">
 				<h3>이 책의 시리즈</h3>
+				<hr style="margin-top: 10px; margin-bottom: 10px;">
 			<%for(int i=0; i<seriesList.size(); i++){%>
 				<%if(i<5){%>
 					<%Book bs = seriesList.get(i); %>
 				<div>
 					<div>
 					<%if (bs.getBookImage()!=null){%>
-						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=80px>
+						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
 					<%}else{ %>
-						<img src="/upload/book/cover-image/00000000.jpg" width=80px>
+						<img src="/upload/book/cover-image/00000000.jpg" width=70px>
 					<%} %>
 					</div>
-					<div>
-						<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p></a>
+					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><div>
+						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
 						<p><%=bs.getBookPrice() %>원</p>
@@ -173,9 +188,9 @@
 					<%if(bs.getBookScore()!=0){ %>
 						<p>평점 - <span><%=Math.round((bs.getBookScore()*100))/100.0 %></span></p>
 					<%}else{ %>
-						<p>&nbsp;</p>
+						<p>평점 없음</p>
 					<%} %>
-					</div>
+					</div></a>
 				</div>
 				<%}else{%>
 				<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
@@ -290,8 +305,16 @@
 	</div>	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
+//url로부터 bookNo값 알아내기
+	const ltrim = /^\S{0,}bookNo=/;
+	const currentUrl = window.location.href;
+	const needRtrim = currentUrl.replace(ltrim, "");
+	const rtrim = /[&]\S{0,}$/;
+	const bookNo = needRtrim.replace(rtrim, "");
+//url로부터 bookNo 도출 끝
+
+	// 장바구니 담기 ajax
 	$("#addCart").on("click", function(){
-		const bookNo = $("#bookNo").text();
 		const onSale = Number($("#realPrice").text());
 		if(onSale>0){
 			$.ajax({
@@ -315,7 +338,6 @@
 	// 책 단권 구매하기 ajax
 	$("#payOneBtn").on("click", function() {
 		const memberNo = $("#memberNo").text();
-		bookNo = $("#bookNo").text();
 		const bookPrice = $("#bookPrice").text();
 		console.log("memberNo : " + memberNo)
 		console.log("bookNo : " + bookNo);
@@ -358,6 +380,33 @@
         });
 	});
 	
+
+	// 책 내용 읽기
+	$("#letMeRead").on("click", function(){
+		$.ajax({
+			url: "/isThisNonFee.do",
+			type: "GET",
+			data: {theBookNo : bookNo},
+			success: function(result){
+				if(result==2){	//무료감상이 아닌데 로그인을 안 함
+					$("#givenMessage").text("로그인이 필요합니다.");
+					$("#modalButton").click();
+				}else if(result==3){
+					//무료감상 가능. 로그인조차 불필요 
+					window.open("/reading.jsp", "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600");
+				}else if(result==1){	//무료감상이 아니지만, 구매완료 이력이 남아 있거나 관리자인 경우
+					window.open("/reading.jsp", "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600");
+				}else if(result==0){	//무료감상이 아닌데, 구매완료 이력이 없음. 관리자도 아님
+					$("#givenMessage").text("책을 먼저 구매해주세요.");
+					$("#modalButton").click();
+				}
+			},
+			error: function(){
+				console.log("알 수 없는 오류가 발생했습니다.");
+			}
+		});
+		
+	});
 	
 	</script>
 	<script src="/js/recomm.js"></script>

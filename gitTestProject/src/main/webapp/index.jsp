@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>LiTBOOKS</title>
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
    <link rel="stylesheet" href="/css/boot.css" />
 
@@ -41,7 +41,6 @@
 	<%-- <a href="/test.do">서블릿테스트</a>--%>
 	<div class="container">
 	<div class="main-title">
-	<a href="/qnaList.do?reqPage=1">장형천 p태그 삽입</a>
   		<%--<h2>LITBOOKS</h2>   --%>
   	</div>
   <div id="myCarousel" class="carousel slide" data-ride="carousel">

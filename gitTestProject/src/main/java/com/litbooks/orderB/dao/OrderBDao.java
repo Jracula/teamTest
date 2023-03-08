@@ -181,8 +181,9 @@ public class OrderBDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
+				float bookScore = rset.getFloat("BOOK_SCORE");
 				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro,
-						bookEpi, book1st, nonFee, bookImage);
+						bookEpi, book1st, nonFee, bookImage, bookScore);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -230,7 +231,7 @@ public class OrderBDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, basketNo);
-			
+
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -245,7 +246,7 @@ public class OrderBDao {
 	public int insertPayOne(Connection conn, int memberNo, int bookNo, int bookPrice, String payMethod) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		
+
 		String query = "INSERT INTO ORDER_B VALUES(ORDER_B_SEQ.NEXTVAL,'결제대기', ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -262,6 +263,44 @@ public class OrderBDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	// 현재 로그인 한 회원이 구매한 책인지 확인하기 위한 함수
+	public int checkPermission(Connection conn, int memberNo, int bookNo) {
+		int check = 0;
+		int answer = 0;
+		for (int i = 1; i<10; i++) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+
+			String queryHead = "SELECT ORDER_NO FROM ORDER_B WHERE MEMBER_NO = ? AND STATUS = 3 AND BOOK_NO";
+			String queryTail = "= ?";
+			String query = queryHead + i + queryTail;
+			if(i==1) {
+				query = queryHead + queryTail;
+			}
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, memberNo);
+				pstmt.setInt(2, bookNo);
+				rset = pstmt.executeQuery();
+				if (rset.next()) {
+					check = rset.getInt("ORDER_NO");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(pstmt);
+				JDBCTemplate.close(rset);
+			}
+			if (check >= 1) {
+				answer=1;
+				break;
+			}
+		}
+		return answer;
+
 	}
 
 }
