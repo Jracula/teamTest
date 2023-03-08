@@ -9,6 +9,7 @@
    <link rel="stylesheet" href="/css/boot.css" />
 
 <style>
+
 .main-top{
 	width: 1200px;
 	margin : 0 auto;
@@ -18,6 +19,13 @@
 	margin : 0 auto;
 }
 
+.star {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
 
 </style>
 
@@ -157,6 +165,23 @@
   	<div class="content-title">
   		<h3>화제의 책소식</h3>
   	</div>
+  	<div class="book-list">
+  		<div class="img">
+  			<img alt="" src="/mainImage/하얼빈.PNG" width="350px;">
+  		</div>
+	  	<div class="count">
+	  		<h3>1</h3>
+	  	</div>
+	    <div class="book-con">
+	    	<h4>하얼빈</h4>
+	    	<p>하얼빈<p>
+	    	<p><span class="material-symbols-outlined star">grade</span><p>
+	    </div>
+  	
+  	</div>
+  
+  
+  
   
   
   
