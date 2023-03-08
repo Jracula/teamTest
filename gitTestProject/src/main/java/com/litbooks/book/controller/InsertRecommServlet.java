@@ -42,7 +42,7 @@ public class InsertRecommServlet extends HttpServlet {
 		rc.setRcWriter(request.getParameter("rcWriter"));
 		rc.setRecommRef(Integer.parseInt(request.getParameter("recommRef")));
 		rc.setBookRef(Integer.parseInt(request.getParameter("bookRef")));
-		//rc.setRating(Integer.parseInt(request.getParameter("rating")));
+		rc.setRating(Integer.parseInt(request.getParameter("rating")));
 		//비로직
 		BookService service = new BookService();
 		int result = service.insertRecomm(rc);

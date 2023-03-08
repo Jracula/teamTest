@@ -23,14 +23,9 @@
 <link rel="stylesheet" href="/css/recomm.css">
 <link rel="stylesheet" href="/css/bootstrap-modal.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
 <style>
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
-}
+
 .page-content>* {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -194,7 +189,19 @@
       <%if (m != null) {%>
       <div class="inputCommentBox">
          <form action="/insertRecomm.do" method="post">
-            <ul>
+					<div class="star-wrap star-wrap1">
+						<div class="score-text-box">
+						<input type="hidden" name="rating" value="<%=b.getBookScore() %>">
+						<span id="star-result-left"> </span><span id="star-result-number">평점을 입력해보세요!</span><span id="star-result-right"> </span>
+						</div>
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span>
+						</div>
+					
+					<ul>
                <li>
                   <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                   <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
@@ -212,7 +219,23 @@
          <%for(Recomm rc : recommList) {%>
          <ul class="posting-comment">
             <li>
-               <span class="material-icons">account_box</span>
+               <span class="material-icons">
+               	<%if(rc.getRating() == 1) {%>
+               		<img src="/countingstar/별1개.png">
+                <%} %>
+               <%if(rc.getRating() == 2) {%>
+               		<img src="/countingstar/별2개.png">
+                <%} %>
+                <%if(rc.getRating() == 3) {%>
+               		<img src="/countingstar/별3개.png">
+                <%} %>
+                <%if(rc.getRating() == 4) {%>
+               		<img src="/countingstar/별4개.png">
+                <%} %>
+                <%if(rc.getRating() == 5) {%>
+               		<img src="/countingstar/별5개.png">
+                <%} %>
+               </span>
             </li>
             <li>
                <p class="comment-info">
