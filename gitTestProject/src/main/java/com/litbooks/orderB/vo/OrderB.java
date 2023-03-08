@@ -74,6 +74,17 @@ public class OrderB {
 		this.publisher = publisher;
 		this.orderCount = orderCount;
 	}
+
+	public OrderB(int orderNo, String memberId, String book_title, int orderPrice, String orderPay, String orderRegDate, String status) {
+		super();
+		this.orderNo = orderNo;
+		this.memberId = memberId;
+		this.book_title = book_title;
+		this.orderPrice = orderPrice;
+		this.orderPay = orderPay;
+		this.orderRegDate = orderRegDate;
+		this.status = status;
+	}
 	
 	public int getOrderCount() {
 		return orderCount;

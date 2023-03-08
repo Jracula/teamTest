@@ -319,6 +319,7 @@ public class OrderBDao {
 				o.setBook_title(rset.getString("book_title"));
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setBookPrice(rset.getInt("book_price"));
+				o.setStatus(rset.getString("status"));
 				list.add(o);
 			}
 		} catch (SQLException e) {

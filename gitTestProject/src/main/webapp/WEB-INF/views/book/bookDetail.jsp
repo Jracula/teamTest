@@ -25,7 +25,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
 <style>
-
 .page-content>* {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -128,25 +127,7 @@
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
 
-<!-- 구매하기 클릭시 Modal를 실행시킬 숨겨진 버튼 -->
-			<button type="button" class="btn btn-info btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal2" style="display: none;">modal용 숨겨진 버튼</button>
 			<a class="btn bc9" id="payOneBtn">구매하기</a>
-			<div class="modal fade" id="myModal2" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title" style="text-align: center;">알림</h4>
-						</div>
-						<div class="modal-body">
-							<p id="giveMessage" style="text-align: center;">일반 회원 로그인이 필요합니다. 관리자는 구매기능을 이용할 수 없습니다.</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal" id="ok">확인</button>
-						</div>
-					</div>
-				</div>
-			</div>
-<!-- 구매하기에 담기 Modal 끝 -->
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
 		<div style="clear: both;"></div>
@@ -187,6 +168,7 @@
 						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
+						<p id="bookPrice" style="display: none;"><%=b.getBookPrice() %></p>
 						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 						<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
@@ -342,8 +324,6 @@
             
          <%}//댓글 출력 for문 끝나는 위치 %>
       </div>
-
-
 	</div>	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
@@ -354,7 +334,6 @@
 	const rtrim = /[&]\S{0,}$/;
 	const bookNo = needRtrim.replace(rtrim, "");
 //url로부터 bookNo 도출 끝
-
 	// 장바구니 담기 ajax
 	$("#addCart").on("click", function(){
 		const onSale = Number($("#realPrice").text());
@@ -378,23 +357,12 @@
 	});
 	
 	// 책 단권 구매하기 ajax
-	$("#payOneBtn").on("click", function() {
-		const memberNo = $("#memberNo").text();
-		const bookPrice = $("#bookPrice").text();
-		console.log("memberNo : " + memberNo)
-		console.log("bookNo : " + bookNo);
-		console.log("bookPrice : " + bookPrice);
-		
 	const memberLevel = $("#memberLevel").text();
-	if(memberLevel == 2) {
 			$("#payOneBtn").on("click", function() {
+				if(memberLevel == 2) {
 			
 			const memberNo = $("#memberNo").text();
-			bookNo = $("#bookNo").text();
 			const bookPrice = $("#bookPrice").text();
-			console.log("memberNo : " + memberNo);
-			console.log("bookNo : " + bookNo);
-			console.log("bookPrice : " + bookPrice);
 			
 			const d = new Date();
 			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
@@ -431,12 +399,12 @@
 	        		});
 	        	}
 	        });
+				} else {
+					// 관리자일 경우 구매버튼 클릭 시 모달창 띄우기
+					$("#givenMessage").text("일반 회원 로그인이 필요합니다.");
+					$("#modalButton").click();
+				}
 		});
-	} else {
-		// 관리자일 경우 구매버튼 클릭 시 모달창 띄우기
-		$("#giveMessage").text("일반 회원 로그인이 필요합니다. 관리자는 구매하기 기능을 이용할 수 없습니다.");
-		$("#modalButton").click();
-	}
 		
 	// 책 내용 읽기
 	$("#letMeRead").on("click", function(){
@@ -464,7 +432,6 @@
 		});
 		
 	});
-
 	</script>
 	<script src="/js/recomm.js"></script>
 </body>
