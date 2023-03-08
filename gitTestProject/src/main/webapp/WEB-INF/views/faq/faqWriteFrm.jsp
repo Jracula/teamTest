@@ -12,35 +12,40 @@
 	<script src="/summernote/lang/summernote-ko-KR.js"></script>
 		<div class="page-content">
 			<div class="page-title">자주하는 질문</div>
-			<form action="/faqWrite.do" method="post" enctype="multipart/form-data">
-		<!-- 
-			첨부파일이 존재하는 경우 
-			일단 양이 많기때문에 method = post
-			파일이 포함되는 경우 enctype="multipart/form-data
-			이 양식을 반드시 지켜줘야한다. 
-		-->
+		<form action="/faqWrite.do" method="post" enctype="multipart/form-data">
 			<table class="tbl" id="faqWrite">
 				<tr class="tr-1">
 					<th class="td-3">제목
-					<td colspan="3">
+					<td colspan="5">
 						<input type="text" name="faqTitle" class="input-form">
 					</td>
 				</tr>
 				<tr class="tr-1">
 					<th class="td-3">작성자
 					<td>
-						<input type="text" name="faqWriter" value="DAMMY">
+						<%=m.getMemberId() %>
+						<input type="hidden" name="faqWriter" value=<%=m.getMemberId() %>>
 					<%--
 						<%=m.getMemberId() %>
 					 --%>
-						<input type="hidden" name="faqWriter" value="DAMMY">
-						<input type="hidden" name="fMemberNo" value="1">
+						<input type="hidden" name="faqWriter" value=<%=m.getMemberId() %>>
+						<input type="hidden" name="fMemberNo" value=<%=m.getMemberNo() %>>
 					</td>
 					<th class="td-3">첨부파일</th>
 					<td><input type="file" name="upfile"></td>
+					<th class="td-3">category</th>
+					<td>
+						<select name="fFlag">
+							<option value="1">회원관리</option>
+							<option value="2">결제/혜택/이벤트</option>
+							<option value="3">도서관련 문의</option>
+							<option value="4">뷰어 문의</option>
+							<option value="5">기타 문의</option>
+						</select>
+					</td>
 				</tr>
 				<tr class="tr-1">
-					<td colspan="4" style="text-align:left">
+					<td colspan="5" style="text-align:left">
 						<textarea id="faqContent" name="faqContent" class="input-form"></textarea>
 					</td>
 				</tr>
@@ -52,7 +57,9 @@
 			</table>
 		</form>
 		</div>
+	<script>
 		
+	</script>
 		<%--
 		<script>
 		$("#faqContent").summernote({

@@ -42,8 +42,8 @@ public class QnaWriteServlet extends HttpServlet {
 		int maxSize = 10*1024*1024;
 		//2-3. 데이터를 꺼내기 위한 객체 변환작업
 		MultipartRequest mRequest = new MultipartRequest(request, saveDirectory, maxSize, "utf-8", new DefaultFileRenamePolicy());
-		int qNo = Integer.parseInt(mRequest.getParameter("qMemberNo"));
-		String boardWriter = mRequest.getParameter("qWrite");
+		int qMemberNo = Integer.parseInt(mRequest.getParameter("qMemberNo"));
+		String boardWriter = mRequest.getParameter("qWriter");
 		String boardTitle = mRequest.getParameter("qTitle");
 		String boardContent = mRequest.getParameter("qContent");
 		String filename = mRequest.getOriginalFileName("upfile");
@@ -54,13 +54,15 @@ public class QnaWriteServlet extends HttpServlet {
 		b.setqContent(boardContent);
 		b.setFileName(filename);
 		b.setFilepath(filepath);
-		b.setMemberNo(qNo);
+		b.setMemberNo(qMemberNo);
 		
 		//3. 비즈니스 로직
 		QnaService service = new QnaService();
 		int result = service.insertBoard(b);
+		
+
 		//4. 결과처리
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common.msg.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 		
 		if(result > 0) {
 			request.setAttribute("title", "게시글 작성 성공");
@@ -71,7 +73,7 @@ public class QnaWriteServlet extends HttpServlet {
 			request.setAttribute("msg", "오류가 발생했습니다.");
 			request.setAttribute("icon", "error");
 		}
-		request.setAttribute("loc", "/faqList.do");
+		request.setAttribute("loc", "/qnaList.do?reqPage=1");
 		view.forward(request, response);
 		
 	}

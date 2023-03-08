@@ -34,12 +34,16 @@ public class FaqListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
+		int fFlag = Integer.parseInt(request.getParameter("fFlag"));
+		
 		//3.비즈니스 로직
 		FaqService service = new FaqService();
-		FaqPageData fpd = service.selectFaqList(reqPage);
+		FaqPageData fpd = service.selectFaqList(reqPage,fFlag);
+		
 		
 		//4. 결과처리
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/faq/faqList.jsp");
+		request.setAttribute("fFlag", fFlag);
 		request.setAttribute("list", fpd.getList());
 		request.setAttribute("pageNavi", fpd.getPageNavi());
 		request.setAttribute("start", fpd.getStart());

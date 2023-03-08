@@ -86,7 +86,7 @@
 				<td colspan="3">
 				<%if(q.getFileName() != null) {%>
 				<img src="/img/file.png" width="16px">
-				<a href="/qnaFileDown.do?qNo=<%=q.getqNo() %>"><%=q.getFileName() %></a>
+				<a href="/qnaFileDown.do?qnaNo=<%=q.getqNo() %>"><%=q.getFileName() %></a>
 				<%} %>
 				<th class="td-3">조회수</th>
 				<td><%=q.getqReadCount() %>
@@ -103,25 +103,15 @@
 			<!-- if(m.getMemberId().equals(n.getNoticeWriter()))
 			 조건을 이렇게만 주면 로그인을 하지 않았을 경우 에러발생 로그인조건을 걸어줘야한다. -->
 			 
-	
-			<%--
+			
 			<%if( m!=null && m.getMemberId().equals(q.getqWriter()) ) {%>
 			<tr>
 				<th colspan="6">
-					<a class="btn bc44" href="/qnaUpdateFrm.do?qNo=<%=q.getqNo() %>">수정</a>
+					<a class="btn bc44" href="/qnaUpdateFrm.do?qnaNo=<%=q.getqNo() %>">수정</a>
 					<button class="btn bc44" onclick="qnaDelete(<%=q.getqNo()%>);">삭제</button>
 				</th>
 			</tr>
 			<%} %>
-			
-			 --%>
-			 <tr>
-				<th colspan="6">
-					<a class="btn bc44" href="/qnaUpdateFrm.do?qNo=<%=q.getqNo() %>">수정</a>
-					<button class="btn bc44" onclick="qnaDelete(<%=q.getqNo()%>);">삭제</button>
-					
-				</th>
-			</tr>
 		</table>
 		<div class="commentBox">
 			<%for(QnaComment qc : commentList) {%>
@@ -164,13 +154,13 @@
 						<textarea name="qcContent" class="input-form" style="min-height:96px;display:none;"><%=qcc.getQcContent() %></textarea>
 						<p class="comment-link">
 						
-						<%-- 
-							<%if(m!=null && m.getMemberId().equals(qcc.getQcWriter())) {%>
-								 수정 삭제 버튼 넣을것
-							<%} %>						
-						--%>
-			<%-- 수정필--%>					<a href="javascript:void(0)" onclick="modifyComment(this, <%=qcc.getQcNo()%>, <%=q.getqNo()%>);">수정</a>
-			<%-- 수정필--%>					<a href="javascript:void(0)" onclick="deleteComment(this, <%=qcc.getQcNo()%>, <%=q.getqNo()%>);">삭제</a>
+ 
+						<%if(m!=null && m.getMemberId().equals(qcc.getQcWriter())) {%>
+								수정 삭제 버튼 넣을것
+						<%} %>						
+
+					<a href="javascript:void(0)" onclick="modifyComment(this, <%=qcc.getQcNo()%>, <%=q.getqNo()%>);">수정</a>
+					<a href="javascript:void(0)" onclick="deleteComment(this, <%=qcc.getQcNo()%>, <%=q.getqNo()%>);">삭제</a>
 						</p>
 					</li>
 				</ul>
@@ -229,12 +219,79 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<script>
-		function qnaDelete(qNo){
-			if(confirm("게시글을 삭제하시겠습니까?")){
-				location.href="/deleteQna.do?qNo="+qNo;
-			}
+	function qnaDelete(qnaNo){
+		if(confirm("게시글을 삭제하시겠습니까?")){
+			location.href="/deleteQna.do?qnaNo="+qnaNo;
+			//방법1.여기서는 noticeNo가 몇번인지 알 수 없으므로 매개변수로 넘겨줌
 		}
+	}
+	$(".recShow").on("click", function(){
+		//몇번째 댓글의 답글달기 버튼을 클릭한지 index번호를 구하기
+		//답글달기 인덱스와 답글폼의 순번이 같으므로 인덱스대로 display:block;을 해줄것
+		const idx = $(".recShow").index(this);
+		if($(this).text() == "답글달기"){
+			$(this).text("취소");
+		}else{
+			$(this).text("답글달기");
+		}
+		$(".inputRecommentBox").eq(idx).toggle();
+		$(".inputRecommentBox").eq(idx).find("textarea").focus();
+	});
 	
+	function modifyComment(obj, qcNo, qnaNo){
+		//숨겨놓은 textarea를 화면에 보여줌
+		$(obj).parent().prev().show();
+		//화면에 있던 댓글내용(p태그)를 숨김
+		$(obj).parent().prev().prev().hide();
+		//수정 -> 수정완료
+		$(obj).text("수정완료");
+		$(obj).attr("onclick", "modifyComplete(this, "+qcNo+", "+qnaNo+")");
+		//삭제 -> 수정취로
+		$(obj).next().text("수정취소");
+		$(obj).next().attr("onclick", "modifyCancel(this, "+qcNo+", "+qnaNo+")");
+		//답글달기버튼 삭제
+		$(obj).next().next().hide();
+	}
+	
+	//수정완료 취소
+	function modifyCancel(obj, qcNo, qnaNo){
+		$(obj).parent().prev().hide(); //textarea숨김
+		$(obj).parent().prev().prev().show(); //기존댓글 다시 보여줌
+		//수정완료 -> 수정
+		$(obj).prev().text("수정");
+		$(obj).prev().attr("onclick", "modifyComment(this, "+qcNo+", "+qnaNo+")");
+		//수정취소 -> 삭제
+		$(obj).text("삭제");
+		$(obj).attr("onclick", "deleteComment(this, "+qcNo+", "+qnaNo+")");
+		//답글달기 버튼 다시 보여줌
+		$(obj).next().show();
+	}	
+	
+	function modifyComplete(obj, qcNo, qnaNo){
+		//form태그를 생성해서 전송
+		//댓글내용, 댓글번호, 공지사항번호
+		//1. form태그 생성
+		const form = $("<form style='display:none;' action='/updateQnaComment.do' method='post'</form>");
+		//2. input태그 2개숨김
+		const qcNoInput = $("<input type='text' name='qcNo'>");
+		qcNoInput.val(qcNo);
+		const qnaNoInput = $("<input type='text' name='qnaNo'>");
+		qnaNoInput.val(qnaNo);
+		//3. textarea
+		const qcContent = $(obj).parent().prev().clone();
+		//4. form 태그에 input, textarea를 모두 포함
+		form.append(qcNoInput).append(qnaNoInput).append(qcContent);
+		//5. 생성된 form태그를 body태그에 추가
+		$("body").append(form);
+		//body의 맨마지막 현재페이지의 footer아래에 생성됨
+		form.submit();
+	}
+	
+	function deleteComment(obj, qcNo, qnaNo){
+		if(confirm("댓글을 삭제하시겠습니까?")){
+			location.href="/deleteQnaComment.do?qcNo="+qcNo+"&qnaNo="+qnaNo;
+		}
+	}
 	</script>
 </body>
 </html>

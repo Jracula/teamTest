@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.litbooks.faq.model.service.FaqService;
 import com.litbooks.ooo.service.OneOnOneService;
 import com.litbooks.ooo.vo.OneOnOnePageData;
+import com.litbooks.qna.model.vo.QnaPageData;
 
 /**
  * Servlet implementation class OneOnOneListServlet
@@ -34,14 +36,24 @@ public class OneOnOneListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
+		int reqPage1 = Integer.parseInt(request.getParameter("reqPage1"));
+		String qMemberNo = request.getParameter("memberNo");
 		//3. 비즈니스로직
-		OneOnOneService service = new OneOnOneService();
-		OneOnOnePageData opd = service.selectNoticeList(reqPage);
+		FaqService service = new FaqService();
+		QnaPageData qpd = service.selectQnaList(reqPage,reqPage1,qMemberNo);
+		OneOnOneService service1 = new OneOnOneService();
+		OneOnOnePageData opd = service1.selectOneOnOneList(reqPage,reqPage1,qMemberNo);
 		
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/OneOnOne/oneOnOneList.jsp");
-		request.setAttribute("list", opd.getList());
-		request.setAttribute("pageNavi", opd.getPageNavi());
-		request.setAttribute("start", opd.getStart());
+		
+		
+		
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/oneOnOne/oneOnOneList.jsp");
+		request.setAttribute("list", qpd.getList());
+		request.setAttribute("list1", opd.getList());
+		request.setAttribute("pageNavi", qpd.getPageNavi());
+		request.setAttribute("pageNavi1", opd.getPageNavi());
+		request.setAttribute("start", qpd.getStart());
+		request.setAttribute("start1", opd.getStart());
 		view.forward(request, response);
 	}
 

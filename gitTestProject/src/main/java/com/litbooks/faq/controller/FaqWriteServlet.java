@@ -43,9 +43,11 @@ public class FaqWriteServlet extends HttpServlet {
 		String faqTitle = mRequest.getParameter("faqTitle");
 		String faqContent = mRequest.getParameter("faqContent");
 		String faqWriter = mRequest.getParameter("faqWriter");
+		int fFlag = Integer.parseInt(mRequest.getParameter("fFlag"));
 		String filename = mRequest.getOriginalFileName("upfile");
 		String filepath = mRequest.getFilesystemName("upfile");
 		int fMemberNo = Integer.parseInt(mRequest.getParameter("fMemberNo"));
+		
 		Faq f = new Faq();
 		f.setfContent(faqContent);
 		f.setfTitle(faqTitle);
@@ -53,6 +55,8 @@ public class FaqWriteServlet extends HttpServlet {
 		f.setFilename(filename);
 		f.setFilepath(filepath);
 		f.setMemberNo(fMemberNo);
+		f.setfFlag(fFlag);
+		
 		
 		//3. 비즈니스 로직
 		FaqService service = new FaqService();
@@ -70,7 +74,7 @@ public class FaqWriteServlet extends HttpServlet {
 			request.setAttribute("msg", "오류가 발생했습니다.");
 			request.setAttribute("icon", "error");
 		}
-		request.setAttribute("loc", "/faqList.do?reqPage=1");
+		request.setAttribute("loc", "/faqList.do?reqPage="+fMemberNo+"&fFlag="+fFlag);
 		view.forward(request, response);
 		
 		

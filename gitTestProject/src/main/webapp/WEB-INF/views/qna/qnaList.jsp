@@ -18,9 +18,15 @@
 	<div class="page-content">
 		<div class="page-title">문의게시판</div>
 			<div class="navi">
-				<a href="/faqList.do?reqPage=1" class="btn bc1" >FAQ</a>
-				<label><a href="/oneOnOneList.do?reqPage=1" class="btn bc1">1:1게시판</a></label>
-				<label><a href="#" class="btn bc1">메일보내기</a></label>
+				<a href="/faqList.do?reqPage=1&fFlag=1" class="btn bc1" >FAQ</a>
+				<%if(m != null && m.getMemberNo() > 0) {%>
+					<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc1">1:1게시판</a></label>
+					<label><a href="/oneOnOneWrite.do?reqPage=1&memberNo=<%=m.getMemberNo() %>" class="btn bc1">메일보내기</a></label>
+				
+				<%}else { %>
+					<label><a href="/oneOnOneList.do" class="btn bc1">1:1게시판</a></label>
+					<label><a href="/oneOnOneWrite.do" class="btn bc1">메일보내기</a></label>
+				<%} %>
 			</div>
 		
 		<table class="tbl tbl-hover board-tbl">
@@ -48,7 +54,11 @@
 			</tr>
 				<%} %>
 		</table>
-		<a class="btn bc2 writeBtn" href="/qnaWriteFrm.do">글쓰기</a>	
+		<%if(m != null && m.getMemberNo() > 0) { %>
+			<a class="btn bc2 writeBtn" href="/qnaWriteFrm.do?reqPage=1">글쓰기</a>			
+		<%} %>
+			
+		<p style="display:none" id="pMemberNo"><%=list.get(0).getMemberNo() %></p>
 		<div id="pageNavi"><%=pageNavi %></div>		
 		</div>
 		

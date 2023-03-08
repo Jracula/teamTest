@@ -13,16 +13,16 @@ import com.litbooks.ooo.service.OneOnOneService;
 import com.litbooks.ooo.vo.OneOnOne;
 
 /**
- * Servlet implementation class OneOnOneViewServlet
+ * Servlet implementation class OneOnOneUpdateFrmServlet
  */
-@WebServlet(name = "OneOnOneView", urlPatterns = { "/oneOnOneView.do" })
-public class OneOnOneViewServlet extends HttpServlet {
+@WebServlet(name = "OneOnOneUpdateFrm", urlPatterns = { "/oneOnOneUpdateFrm.do" })
+public class OneOnOneUpdateFrmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OneOnOneViewServlet() {
+    public OneOnOneUpdateFrmServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,25 +35,13 @@ public class OneOnOneViewServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
 		int oNo = Integer.parseInt(request.getParameter("oNo"));
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		System.out.println(oNo);
 		//3. 비즈니스로직
 		OneOnOneService service = new OneOnOneService();
-		OneOnOne o = service.selectOneOnOne(oNo);
+		OneOnOne o = service.getOneOnOne(oNo);
 		//4. 결과처리
-		if(o == null) {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "조회 실패");
-			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
-			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo="+memberNo);
-			view.forward(request, response);
-		}else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/OneOnOne/oneOnOneView.jsp");
-			request.setAttribute("o", o);
-			view.forward(request, response);
-		}
-
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/noticeUpdateFrm.jsp");
+		request.setAttribute("o", o);
+		view.forward(request, response);
 	}
 
 	/**

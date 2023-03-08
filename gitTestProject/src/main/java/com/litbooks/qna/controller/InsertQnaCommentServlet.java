@@ -1,7 +1,6 @@
 package com.litbooks.qna.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.faq.model.service.FaqService;
-import com.litbooks.faq.model.vo.FaqPageData;
+import com.litbooks.notice.service.NoticeService;
 import com.litbooks.qna.model.service.QnaService;
-import com.litbooks.qna.model.vo.Qna;
-import com.litbooks.qna.model.vo.QnaPageData;
+import com.litbooks.qna.model.vo.QnaComment;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class InsertQnaCommentServlet
  */
-@WebServlet(name = "QnaList", urlPatterns = { "/qnaList.do" })
-public class QnaListServlet extends HttpServlet {
+@WebServlet(name = "InsertQnaComment", urlPatterns = { "/insertQnaComment.do" })
+public class InsertQnaCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaListServlet() {
+    public InsertQnaCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,21 +32,28 @@ public class QnaListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		
-		//3. 비즈니스 로직
+		QnaComment qc = new QnaComment();
+		qc.setQcContent(request.getParameter("qcContent"));
+		qc.setQcWriter(request.getParameter("qcWriter"));
+		qc.setQnaRef(Integer.parseInt(request.getParameter("qnaRef")));
+		qc.setQcRef(Integer.parseInt(request.getParameter("qcRef")));
+		//3. 비즈니스로직
 		QnaService service = new QnaService();
-		QnaPageData qpd = service.selectBoard(reqPage);
-		ArrayList<Qna> list = service.selectBoard();
-		
-		//4. 결과출력
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaList.jsp");
-		request.setAttribute("list", qpd.getList());
-		request.setAttribute("pageNavi", qpd.getPageNavi());
-		request.setAttribute("start", qpd.getStart());
+		int result = service.insertQnaComment(qc);
+		//4. 결과처리
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(result > 0) {
+			request.setAttribute("title", "성공");
+			request.setAttribute("msg", "댓글 작성 완료");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "실패");
+			request.setAttribute("msg", "댓글 작성 실패");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/qnaView.do?qnaNo="+qc.getQnaRef());
 		view.forward(request, response);
 	}
 
