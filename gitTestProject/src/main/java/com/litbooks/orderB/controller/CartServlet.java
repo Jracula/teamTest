@@ -44,7 +44,6 @@ public class CartServlet extends HttpServlet {
 		// 장바구니에서 책번호 조회
 		ArrayList<Basket> list = service.selectBookNumber(memberNo);
 		
-		
 		if(list.isEmpty()) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "장바구니 조회불가");
