@@ -163,7 +163,7 @@ width: 50%;
     cursor: pointer;
 }
 
-.btnBox>#admin-btn{
+.btnBox>.admin-btn{
 	width: 515px;
 	border-radius: 5px;
 	float: right;

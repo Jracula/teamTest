@@ -78,7 +78,11 @@
 		<%} %>
 			<h1><%=b.getBookTitle() %></h1>
 			<p>&nbsp;</p>
-			<div class="avg-score">평점</div>
+		<%if(b.getBookScore()!=0){ %>
+			<p>평점 - <span><%=Math.round((b.getBookScore()*100))/100.0 %></span></p>
+		<%}else{ %>
+			<p>&nbsp;</p>
+		<%} %>
 			<p>저자 - <%=b.getWriter() %></p>
 			<p>출판사 - <%=b.getPublisher() %></p>
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
@@ -164,6 +168,11 @@
 						<%} %>
 					<%}else if (bs.getOnSale()==0) {%>
 						<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
+						<p>&nbsp;</p>
+					<%} %>
+					<%if(bs.getBookScore()!=0){ %>
+						<p>평점 - <span><%=Math.round((bs.getBookScore()*100))/100.0 %></span></p>
+					<%}else{ %>
 						<p>&nbsp;</p>
 					<%} %>
 					</div>

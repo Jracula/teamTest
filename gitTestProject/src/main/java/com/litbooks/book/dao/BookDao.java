@@ -40,7 +40,7 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				int bookScore = rset.getInt("BOOK_SCORE");
+				float bookScore = rset.getFloat("BOOK_SCORE");
 				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 			}
 		} catch (SQLException e) {
@@ -80,7 +80,7 @@ public class BookDao {
 				int bookEpi = rset.getInt("BOOK_EPI");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				int bookScore = rset.getInt("BOOK_SCORE");
+				float bookScore = rset.getFloat("BOOK_SCORE");
 				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
@@ -275,7 +275,7 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				int bookScore = rset.getInt("BOOK_SCORE");
+				float bookScore = rset.getFloat("BOOK_SCORE");
 				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
@@ -356,7 +356,7 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				int bookScore = rset.getInt("BOOK_SCORE");
+				float bookScore = rset.getFloat("BOOK_SCORE");
 				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
@@ -534,7 +534,7 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				int bookScore = rset.getInt("BOOK_SCORE");
+				float bookScore = rset.getFloat("BOOK_SCORE");
 				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
@@ -637,7 +637,7 @@ public class BookDao {
 				b.setBook1st(rset.getInt("book_1st"));
 				b.setNonFee(rset.getInt("nonfee"));
 				b.setBookImage(rset.getString("book_image"));
-				b.setBookScore(rset.getInt("book_score"));
+				b.setBookScore(rset.getFloat("book_score"));
 				list.add(b);
 			}
 		} catch (SQLException e) {

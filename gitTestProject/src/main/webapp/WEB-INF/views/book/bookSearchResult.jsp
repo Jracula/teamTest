@@ -161,6 +161,11 @@
 						<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
 						<p>&nbsp;</p>
 					<%} %>
+					<%if(bs.getBookScore()!=0){ %>
+						<p>평점 - <span><%=Math.round((bs.getBookScore()*100))/100.0 %></span></p>
+					<%}else{ %>
+						<p>&nbsp;</p>
+					<%} %>
 					</div>
 				</a>
 			</div>
