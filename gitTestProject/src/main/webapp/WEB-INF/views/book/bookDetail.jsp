@@ -21,7 +21,9 @@
 <meta charset="UTF-8">
 <title><%=b.getBookTitle() %> - LITBOOKS</title>
 <link rel="stylesheet" href="/css/recomm.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" /><style>
+<link rel="stylesheet" href="/css/bootstrap-modal.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<style>
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
@@ -29,129 +31,30 @@
   'GRAD' 0,
   'opsz' 48
 }
-.modal-open {
-  overflow: hidden;
+.page-content>* {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
-.modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1050;
-  display: none;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  outline: 0;
+.book-card-wrap>* {
+  line-height: 200%;
 }
-.modal.fade .modal-dialog {
-  -webkit-transform: translate(0, -25%);
-  -ms-transform: translate(0, -25%);
-  -o-transform: translate(0, -25%);
-  transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out, -o-transform 0.3s ease-out;
+.intro-warp {
+	clear: both;
+	padding-top: 30px;
 }
-.modal.in .modal-dialog {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
-  transform: translate(0, 0);
+.intro-warp>div {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
-.modal-open .modal {
-  overflow-x: hidden;
-  overflow-y: auto;
+.next-episodes>div {
+	overflow: hidden;
+	clear: both;
 }
-.modal-dialog {
-  position: relative;
-  width: auto;
-  margin: 10px;
-}
-.modal-content {
-  position: relative;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #999;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  outline: 0;
-}
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1040;
-  background-color: #000;
-}
-.modal-backdrop.fade {
-  filter: alpha(opacity=0);
-  opacity: 0;
-}
-.modal-backdrop.in {
-  filter: alpha(opacity=50);
-  opacity: 0.5;
-}
-.modal-header {
-  padding: 15px;
-  border-bottom: 1px solid #e5e5e5;
-}
-.modal-header .close {
-  margin-top: -2px;
-}
-.modal-title {
-  margin: 0;
-  line-height: 1.42857143;
-}
-.modal-body {
-  position: relative;
-  padding: 15px;
-}
-.modal-footer {
-  padding: 15px;
-  text-align: right;
-  border-top: 1px solid #e5e5e5;
-}
-.modal-footer .btn + .btn {
-  margin-bottom: 0;
-  margin-left: 5px;
-}
-.modal-footer .btn-group .btn + .btn {
-  margin-left: -1px;
-}
-.modal-footer .btn-block + .btn-block {
-  margin-left: 0;
-}
-.modal-scrollbar-measure {
-  position: absolute;
-  top: -9999px;
-  width: 50px;
-  height: 50px;
-  overflow: scroll;
-}
-@media (min-width: 768px) {
-  .modal-dialog {
-    width: 600px;
-    margin: 30px auto;
-  }
-  .modal-content {
-    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-  .modal-sm {
-    width: 300px;
-  }
-}
-@media (min-width: 992px) {
-  .modal-lg {
-    width: 900px;
-  }
+.next-episodes>div>div {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	margin-left: 12px;
+	float: left;
 }
 </style>
 </head>
@@ -159,17 +62,22 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<div class="page-content">
-		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>
-		<div class="book-cover">
+		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>		<!-- bookNo 확인용으로 만든 숨겨진 p태그 -->
+		<div class="book-cover" style="float: left; width: 400px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
-			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=400px>
+			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
 		<%}else{ %>
-			<img src="/upload/book/cover-image/00000000.jpg" width=400px>
+			<img src="/upload/book/cover-image/00000000.jpg" width=100%>
 		<%} %>
 		</div>
-		<div class="book-card-wrap">
+		<div class="book-card-wrap" style="float: left; margin-top: 100px;">
+		<%if(b.getBookGenre()!=null){ %>
 			<p class="genre-category">장르 ＞ <%=b.getBookGenre() %></p>
+		<%}else{ %>
+			<p class="genre-category">장르 없음</p>
+		<%} %>
 			<h1><%=b.getBookTitle() %></h1>
+			<p>&nbsp;</p>
 			<div class="avg-score">평점</div>
 			<p>저자 - <%=b.getWriter() %></p>
 			<p>출판사 - <%=b.getPublisher() %></p>
@@ -185,12 +93,12 @@
 			<p>&nbsp;<span id="realPrice" style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 			<%} %>
 		<%}else if (b.getOnSale()==0) {%>
-			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">0</span></p>
+			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">-1</span></p>
 			<p>&nbsp;</p>
 		<%} %>
 	<%if(m!=null){ %>
 		<%if(m.getMemberLevel()==1){%>
-			<a class="btn bc6" href="/bookUpdateFrm.do?bookNo=<%=b.getBookNo() %>">편집</a>
+			<a class="btn bc6" style="padding-left:30px; padding-right:30px;" href="/bookUpdateFrm.do?bookNo=<%=b.getBookNo() %>">편집</a>
 		<%} %>
 	<%} %>
 			<button class="btn bc9" id="addCart">장바구니에 담기</button>
@@ -216,11 +124,9 @@
 			<a class="btn bc9" id="payOneBtn">구매하기</a>
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
-		<div>
-		</div>
-		<div>
+		<div class="intro-warp">
 			<div>
-				<p>작품 소개</p>
+				<h3>작품 소개</h3>
 				<div>
 				<%if (b.getBookIntro()!=null){%>
 				<%=b.getBookIntro() %>
@@ -228,49 +134,48 @@
 				작품 소개가 없습니다.
 				<%} %>
 				</div>
-				<a class="btn bc3">더 보기 버튼</a> <%--누르면 부모 요소의 height를 넓힘--%>
 			</div>
-		</div>
-		
-		<!-- seriesList의 크기가 1보다 크면, 같은 시리즈물을 표시하는 영역 -->
+<!-- seriesList의 크기가 1보다 크면, 같은 시리즈물을 표시하는 영역 -->
 		<%if(seriesList.size()>1) {%>
-		<div>
-			<h3>이 책의 시리즈</h3>
-		<%for(int i=0; i<seriesList.size(); i++){%>
-			<%if(i<5){%>
-			<%Book bs = seriesList.get(i); %>
-			<div>
+			<div class="next-episodes">
+				<h3>이 책의 시리즈</h3>
+			<%for(int i=0; i<seriesList.size(); i++){%>
+				<%if(i<5){%>
+					<%Book bs = seriesList.get(i); %>
 				<div>
-			<%if (bs.getBookImage()!=null){%>
-				<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=80px>
-			<%}else{ %>
-				<img src="/upload/book/cover-image/00000000.jpg" width=80px>
-			<%} %>
-				</div>
-				<div>
-					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p></a>
+					<div>
+					<%if (bs.getBookImage()!=null){%>
+						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=80px>
+					<%}else{ %>
+						<img src="/upload/book/cover-image/00000000.jpg" width=80px>
+					<%} %>
+					</div>
+					<div>
+						<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p></a>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
-				<%if (bs.getOnSale()==1) {%>
-					<p><%=bs.getBookPrice() %>원</p>
+					<%if (bs.getOnSale()==1) {%>
+						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-				<% if (bs.getDiscount()!=0) {%>
-				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
-				<%}else { %>
-				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
-				<%} %>
-				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
-					<p>&nbsp;</p>
-				<%} %>
+						<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+						<%if (bs.getDiscount()!=0) {%>
+						<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+						<%}else { %>
+						<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+						<%} %>
+					<%}else if (bs.getOnSale()==0) {%>
+						<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
+						<p>&nbsp;</p>
+					<%} %>
+					</div>
 				</div>
-			</div>
-			<%}else{%>
-			<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
-			<%break;}%>
+				<%}else{%>
+				<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
+				<%break;}%>
 			<%}%>
-		</div>
+			</div>
 		<%}%>
+		</div>
+	<div style="clear: both;"></div>
 
 		
 		<!-- 댓글 후기 노출 영역 -->
@@ -377,7 +282,9 @@
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
 	$("#addCart").on("click", function(){
-			const bookNo = $("#bookNo").text();
+		const bookNo = $("#bookNo").text();
+		const onSale = Number($("#realPrice").text());
+		if(onSale>0){
 			$.ajax({
 				url: "/insertOneIntoCart.do",
 				type: "GET",
@@ -390,11 +297,15 @@
 					console.log("알 수 없는 오류가 발생했습니다.");
 				}
 			});
+		} else {
+			$("#givenMessage").text("판매가가 없는 상품입니다.");
+			$("#modalButton").click();
+		}
 	});
 	
 	// 책 단권 구매하기 ajax
 	$("#payOneBtn").on("click", function() {
-		const memberNo = <%=m.getMemberNo()%>;
+		const memberNo = $("#memberNo").text();
 		bookNo = $("#bookNo").text();
 		const bookPrice = $("#bookPrice").text();
 		console.log("memberNo : " + memberNo)
