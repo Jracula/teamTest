@@ -187,6 +187,23 @@ header > nav .sub-navi > li:hover {
 }
 
 
+
+/*메뉴아이콘*/
+.main-content{
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.main-content>.main-icon{
+	width: 600px;
+	margin: 40px auto;
+	justify-content : space-between;
+	display: flex;
+}
+
+
+
+
 /*lit의 발견*/
 .product{
 }

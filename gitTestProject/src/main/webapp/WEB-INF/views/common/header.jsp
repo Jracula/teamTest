@@ -22,7 +22,7 @@
 
     <header>
       <div class="site-logo">
-        <a href="/">LITBOOKS</a>
+        <a href="/"><img alt="logo" src="/mainImage/logo.png"></a>
       </div>
       <nav>
       	<form action="/bookSearchInDetail.do" method="get" onsubmit="return checkKeyword();">

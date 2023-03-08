@@ -69,8 +69,15 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+  
   <div class="main-content">
-  	<h2>여기는 신간, 베스트, 이벤트, 신간캘린더 넣을 자리?</h2>
+	  <div class="main-icon">
+	  	<%-- <h2>여기는 신간, 베스트, 이벤트, 신간캘린더 넣을 자리?</h2> --%>
+	  	<a href="/"><img alt="icon" src="/mainImage/main-icon1.png" style="width: 130px;"></a>
+	  	<a href="/"><img alt="icon" src="/mainImage/main-icon2.png" style="width: 130px;"></a>
+	  	<a href="/"><img alt="icon" src="/mainImage/main-icon3.png" style="width: 130px;"></a>
+	  	<a href="/"><img alt="icon" src="/mainImage/main-icon4.png" style="width: 130px;"></a>
+	  </div>
   </div>
   <div class="content-1">
   	<div class="content-title">
