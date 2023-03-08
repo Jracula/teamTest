@@ -41,7 +41,7 @@ color: rgb(226, 1, 1);
 
 .join-box>table>tbody>tr>td{ 
     padding: 20px 0px;
-    background-color:red;
+    /*background-color:red;*/
 }
 
 .join-box>table>tbody>tr>td>button{ 

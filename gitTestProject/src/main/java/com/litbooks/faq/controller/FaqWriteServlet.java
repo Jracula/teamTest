@@ -74,7 +74,7 @@ public class FaqWriteServlet extends HttpServlet {
 			request.setAttribute("msg", "오류가 발생했습니다.");
 			request.setAttribute("icon", "error");
 		}
-		request.setAttribute("loc", "/faqList.do?reqPage="+fMemberNo+"&fFlag="+fFlag);
+		request.setAttribute("loc", "/faqList.do?reqPage="+fMemberNo+"&fFlag="+fFlag+"&fFlag=1");
 		view.forward(request, response);
 		
 		

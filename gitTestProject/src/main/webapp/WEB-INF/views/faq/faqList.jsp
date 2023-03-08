@@ -58,19 +58,19 @@
 	<div class="page-content">
 		<div class="page-title"><h1>FAQ</h1></div>
 		<div class="page-icon">
-			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&fFlag=1';">
+			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&reqPage1=1&fFlag=1';">
 				<div class="click-icon"><span class="material-symbols-outlined">loyalty</span></div>
 				<p>회원관리<p>			
 			</div>
-			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&fFlag=2';">
+			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&reqPage1=1&fFlag=2';">
 				<div class="click-icon"><span class="material-symbols-outlined">payments</span></div>
 				<p>결제/혜택/이벤트</p>		
 			</div>
-			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&fFlag=3';">
+			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&reqPage1=1&fFlag=3';">
 				<div class="click-icon" ><span class="material-symbols-outlined">menu_book</span></div>
 				<p>도서 관련 문의</p>			
 			</div>
-			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&fFlag=4';">
+			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&reqPage1=1&fFlag=4';">
 				<div class="click-icon"><span class="material-symbols-outlined">assistant_on_hub</span></div>
 				<p>뷰어 문의</a>	
 			</div>
@@ -79,7 +79,7 @@
 			
 			<%if(m != null && m.getMemberNo() > 0) {%>
 				<a href="/qnaList.do?reqPage=1" class="btn bc1" >문의게시판</a>
-				<label><a href="/oneOnOneList.do?reqPage=1&memberNo=<%=m.getMemberNo() %>" class="btn bc1">1:1게시판</a></label>
+				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc1">1:1게시판</a></label>
 				<label><a href="#" class="btn bc1">메일보내기</a></label>	
 			<%}else {%>
 				<label><a href="/signinFrm.do" class="btn bc1">로그인을 해주세요</a></label>
@@ -171,7 +171,7 @@
 			
 		
 		<% if(m != null && m.getMemberLevel() == 1){ %>
-			<a class="btn bc2 writeBtn" href="/faqWriteFrm.do?">글쓰기</a>
+			<a class="btn bc2 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
 		
 		<%}else {%>
 		

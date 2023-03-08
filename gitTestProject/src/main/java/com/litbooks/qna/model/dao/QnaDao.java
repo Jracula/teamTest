@@ -176,9 +176,9 @@ public class QnaDao {
 			JDBCTemplate.close(pstmt);
 		
 		
-		return q;
 	}
 		
+		return q;
 
 }
 
