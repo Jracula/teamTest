@@ -331,4 +331,40 @@ public class OrderBDao {
 		return list;
 	}
 
+	// 현재 로그인 한 회원이 결제완료한 책인지 확인하기 위한 함수
+	public int checkPermission(Connection conn, int memberNo, int bookNo) {
+		int check = 0;
+		int answer = 0;
+		for (int i = 1; i<10; i++) {
+			PreparedStatement pstmt = null;
+			ResultSet rset = null;
+
+			String queryHead = "SELECT ORDER_NO FROM ORDER_B WHERE MEMBER_NO = ? AND STATUS = 3 AND BOOK_NO";
+			String queryTail = "= ?";
+			String query = queryHead + i + queryTail;
+			if(i==1) {
+				query = queryHead + queryTail;
+			}
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, memberNo);
+				pstmt.setInt(2, bookNo);
+				rset = pstmt.executeQuery();
+				if (rset.next()) {
+					check = rset.getInt("ORDER_NO");
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				JDBCTemplate.close(pstmt);
+				JDBCTemplate.close(rset);
+			}
+			if (check >= 1) {
+				answer=1;
+				break;
+			}
+		}
+		return answer;
+	}
 }
