@@ -17,7 +17,7 @@ public class FaqDao {
 		PreparedStatement pstmt = null;
 		
 		int result = 0;
-		String query = "insert into faq values(f_no_seq.nextval,?,?,?,?,0,to_char(sysdate,'yyyy-mm-dd'),?)";
+		String query = "insert into faq values(f_no_seq.nextval,?,?,?,?,0,to_char(sysdate,'yyyy-mm-dd'),?,?,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -26,6 +26,8 @@ public class FaqDao {
 			pstmt.setString(3, f.getfTitle());
 			pstmt.setString(4, f.getfContent());
 			pstmt.setInt(5, f.getfFlag());
+			pstmt.setString(6, f.getFilename());
+			pstmt.setString(7, f.getFilepath());
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -264,8 +266,83 @@ public class FaqDao {
 
 		return list;
 	}
-	
-	
 
+	public Faq selectOneBoard(Connection conn, int fNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Faq f = null;
+		String query = "select * from faq where f_no = ? order by 1";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, fNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				f = new Faq();
+				f.setFilename(rset.getString("filename"));
+				f.setFilepath(rset.getString("filepath"));
+				f.setMemberNo(rset.getInt("f_member_no"));
+				f.setfContent(rset.getString("f_content"));
+				f.setfNo(rset.getInt("f_no"));
+				f.setfReadCount(rset.getInt("f_read_count"));
+				f.setfRegDate(rset.getString("f_reg_date"));
+				f.setfTitle(rset.getString("f_title"));
+				f.setfWriter(rset.getString("f_writer"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		
+	}
+	
+		return f;
+	}
 
+	public int updateFaq(Connection conn, Faq f) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update faq set f_title = ?, f_content=?, filename = ?, filepath = ? where f_no=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, f.getfTitle());
+			pstmt.setString(2, f.getfContent());
+			pstmt.setString(3, f.getFilename());
+			pstmt.setString(4, f.getFilepath());
+			pstmt.setInt(5, f.getfNo());
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+		
+	}
+
+	public int deleteFaq(Connection conn, int fNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from faq where f_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, fNo);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		
+		return result;
+	}
 }
+

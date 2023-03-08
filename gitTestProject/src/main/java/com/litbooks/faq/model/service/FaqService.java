@@ -302,6 +302,42 @@ public class FaqService {
 	
 	}
 
+	public Faq getFaq(int fNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Faq f = dao.selectOneBoard(conn, fNo);
+		JDBCTemplate.close(conn);
+		return f;
+		
+		
+	}
+
+	public int updateFaq(Faq f) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateFaq(conn,f);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return result;
+	}
+
+	public Faq deleteFaq(int fNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		Faq f = dao.selectOneBoard(conn, fNo);
+		int result = dao.deleteFaq(conn,fNo);
+		
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		
+		return f;
+	
+	}
+
 
 
 

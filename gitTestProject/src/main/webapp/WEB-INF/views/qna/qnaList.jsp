@@ -55,11 +55,11 @@
 				<%} %>
 		</table>
 		<%if(m != null && m.getMemberNo() > 0) { %>
-			<a class="btn bc2 writeBtn" href="/qnaWriteFrm.do?reqPage=1">글쓰기</a>			
+			<a class="btn bc4 writeBtn" href="/qnaWriteFrm.do?reqPage=1">글쓰기</a>			
 		<%} %>
 			
-		<p style="display:none" id="pMemberNo"><%=list.get(0).getMemberNo() %></p>
-		<div id="pageNavi"><%=pageNavi %></div>		
+			<p style="display:none" id="pMemberNo"><%=list.get(0).getMemberNo() %></p>
+			<div id="pageNavi"><%=pageNavi %></div>		
 		</div>
 		
 		
