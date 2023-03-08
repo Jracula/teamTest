@@ -724,6 +724,7 @@ public class BookDao {
 					rc.setRecommRef(rset.getInt("recomm_ref"));
 					rc.setRcWriter(rset.getString("member_id"));
 					rc.setBookRef(rset.getInt("book_ref"));
+					rc.setRating(rset.getInt("book_score"));
 					list.add(rc);
 				}
 			} catch (SQLException e) {

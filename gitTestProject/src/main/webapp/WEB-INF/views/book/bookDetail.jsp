@@ -19,18 +19,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=b.getBookTitle() %> - LiTBOOKS</title>
+<title><%=b.getBookTitle() %> - LITBOOKS</title>
 <link rel="stylesheet" href="/css/recomm.css">
 <link rel="stylesheet" href="/css/bootstrap-modal.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
 <style>
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
-}
+
 .page-content>* {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -43,8 +38,8 @@
 	padding-top: 30px;
 }
 .intro-warp>div {
-	margin-top: 100px;
-	margin-bottom: 100px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 .next-episodes>div {
 	overflow: hidden;
@@ -56,29 +51,21 @@
 	margin-left: 12px;
 	float: left;
 }
-.next-episodes>div>a:hover>div {
-	background-color: #E0F0FF;
-}
-.next-episodes>div>a>div {
-	margin-top: 12px;
-	margin-bottom: 12px;
-	margin-left: 12px;
-	float: left;
-}
 </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<div class="page-content">
-		<div class="book-cover" style="float: left; width: 300px; margin-right: 40px;">
+		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>		<!-- bookNo 확인용으로 만든 숨겨진 p태그 -->
+		<div class="book-cover" style="float: left; width: 400px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
 			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
 		<%}else{ %>
 			<img src="/upload/book/cover-image/00000000.jpg" width=100%>
 		<%} %>
 		</div>
-		<div class="book-card-wrap" style="float: left;">
+		<div class="book-card-wrap" style="float: left; margin-top: 100px;">
 		<%if(b.getBookGenre()!=null){ %>
 			<p class="genre-category">장르 ＞ <%=b.getBookGenre() %></p>
 		<%}else{ %>
@@ -95,6 +82,7 @@
 			<p>출판사 - <%=b.getPublisher() %></p>
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
+			<p id="bookPrice"><%=b.getBookPrice() %></p>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
@@ -132,19 +120,31 @@
 				</div>
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
+
+<!-- 구매하기 클릭시 Modal를 실행시킬 숨겨진 버튼 -->
+			<button type="button" class="btn btn-info btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal2" style="display: none;">modal용 숨겨진 버튼</button>
 			<a class="btn bc9" id="payOneBtn">구매하기</a>
+			<div class="modal fade" id="myModal2" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align: center;">알림</h4>
+						</div>
+						<div class="modal-body">
+							<p id="giveMessage" style="text-align: center;">일반 회원 로그인이 필요합니다. 관리자는 구매기능을 이용할 수 없습니다.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="ok">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 구매하기에 담기 Modal 끝 -->
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
-		<div style="clear: both;"></div>
-	<%if(b.getNonFee()==1) {%>
-		<button class="btn bc66" id="letMeRead" style="width: 48.7%;">이 책은 무료로 감상하실 수 있습니다.</button>
-	<%}else{ %>
-		<button class="btn bc99" id="letMeRead" style="width: 48.7%;">책 읽기</button>
-	<%} %>
 		<div class="intro-warp">
 			<div>
 				<h3>작품 소개</h3>
-				<hr style="margin-top: 10px; margin-bottom: 10px;">
 				<div>
 				<%if (b.getBookIntro()!=null){%>
 				<%=b.getBookIntro() %>
@@ -157,20 +157,19 @@
 		<%if(seriesList.size()>1) {%>
 			<div class="next-episodes">
 				<h3>이 책의 시리즈</h3>
-				<hr style="margin-top: 10px; margin-bottom: 10px;">
 			<%for(int i=0; i<seriesList.size(); i++){%>
 				<%if(i<5){%>
 					<%Book bs = seriesList.get(i); %>
 				<div>
 					<div>
 					<%if (bs.getBookImage()!=null){%>
-						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
+						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=80px>
 					<%}else{ %>
-						<img src="/upload/book/cover-image/00000000.jpg" width=70px>
+						<img src="/upload/book/cover-image/00000000.jpg" width=80px>
 					<%} %>
 					</div>
-					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><div>
-						<p><%=bs.getBookTitle() %></p>
+					<div>
+						<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p></a>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
 						<p><%=bs.getBookPrice() %>원</p>
@@ -188,9 +187,9 @@
 					<%if(bs.getBookScore()!=0){ %>
 						<p>평점 - <span><%=Math.round((bs.getBookScore()*100))/100.0 %></span></p>
 					<%}else{ %>
-						<p>평점 없음</p>
+						<p>&nbsp;</p>
 					<%} %>
-					</div></a>
+					</div>
 				</div>
 				<%}else{%>
 				<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
@@ -209,7 +208,19 @@
       <%if (m != null) {%>
       <div class="inputCommentBox">
          <form action="/insertRecomm.do" method="post">
-            <ul>
+					<div class="star-wrap star-wrap1">
+						<div class="score-text-box">
+						<input type="hidden" name="rating" value="<%=b.getBookScore() %>">
+						<span id="star-result-left"> </span><span id="star-result-number">평점을 입력해보세요!</span><span id="star-result-right"> </span>
+						</div>
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span>
+						</div>
+					
+					<ul>
                <li>
                   <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                   <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
@@ -227,7 +238,23 @@
          <%for(Recomm rc : recommList) {%>
          <ul class="posting-comment">
             <li>
-               <span class="material-icons">account_box</span>
+               <span class="material-icons">
+               	<%if(rc.getRating() == 1) {%>
+               		<img src="/countingstar/별1개.png">
+                <%} %>
+               <%if(rc.getRating() == 2) {%>
+               		<img src="/countingstar/별2개.png">
+                <%} %>
+                <%if(rc.getRating() == 3) {%>
+               		<img src="/countingstar/별3개.png">
+                <%} %>
+                <%if(rc.getRating() == 4) {%>
+               		<img src="/countingstar/별4개.png">
+                <%} %>
+                <%if(rc.getRating() == 5) {%>
+               		<img src="/countingstar/별5개.png">
+                <%} %>
+               </span>
             </li>
             <li>
                <p class="comment-info">
@@ -305,16 +332,8 @@
 	</div>	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
-//url로부터 bookNo값 알아내기
-	const ltrim = /^\S{0,}bookNo=/;
-	const currentUrl = window.location.href;
-	const needRtrim = currentUrl.replace(ltrim, "");
-	const rtrim = /[&]\S{0,}$/;
-	const bookNo = needRtrim.replace(rtrim, "");
-//url로부터 bookNo 도출 끝
-
-	// 장바구니 담기 ajax
 	$("#addCart").on("click", function(){
+		const bookNo = $("#bookNo").text();
 		const onSale = Number($("#realPrice").text());
 		if(onSale>0){
 			$.ajax({
@@ -338,76 +357,66 @@
 	// 책 단권 구매하기 ajax
 	$("#payOneBtn").on("click", function() {
 		const memberNo = $("#memberNo").text();
+		bookNo = $("#bookNo").text();
 		const bookPrice = $("#bookPrice").text();
 		console.log("memberNo : " + memberNo)
 		console.log("bookNo : " + bookNo);
 		console.log("bookPrice : " + bookPrice);
 		
-		const d = new Date();
-		const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
-		
-		IMP.init("imp36057035");
-        IMP.request_pay({
-            pg: "html5_inicis",
-            pay_method : "card",
-            merchant_uid : "상품번호_"+date,
-            name : "결제 테스트",
-            amount : 100, // price
-            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
-            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
-            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
-            buyer_addr : "서울시 영등포구 당산동",    // 로그인 한 회원의 주소
-            buyer_code : "000001"     // 구매코드
-        }, function(rsp) {
-        	if(rsp.success) {
-        		$.ajax({
-        			url : "/orderPayOne.do",
-        			type : "POST",
-        			dataType : "JSON",
-        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
-        			success : function(data) {
-        				if(data == "1") {
-        					location.href="/";
-        				} else {
-        					location.href="/orderPayOne.do";
-        				}
-        			},
-        			error : function() {
-        				alert("알 수 없는 이유로 결제에 실패했습니다.");
-        			}
-        		});
-        	}
-        });
-	});
-	
-
-	// 책 내용 읽기
-	$("#letMeRead").on("click", function(){
-		$.ajax({
-			url: "/isThisNonFee.do",
-			type: "GET",
-			data: {theBookNo : bookNo},
-			success: function(result){
-				if(result==2){	//무료감상이 아닌데 로그인을 안 함
-					$("#givenMessage").text("로그인이 필요합니다.");
-					$("#modalButton").click();
-				}else if(result==3){
-					//무료감상 가능. 로그인조차 불필요 
-					window.open("/reading.jsp", "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600");
-				}else if(result==1){	//무료감상이 아니지만, 구매완료 이력이 남아 있거나 관리자인 경우
-					window.open("/reading.jsp", "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600");
-				}else if(result==0){	//무료감상이 아닌데, 구매완료 이력이 없음. 관리자도 아님
-					$("#givenMessage").text("책을 먼저 구매해주세요.");
-					$("#modalButton").click();
-				}
-			},
-			error: function(){
-				console.log("알 수 없는 오류가 발생했습니다.");
-			}
+	const memberLevel = $("#memberLevel").text();
+	if(memberLevel == 2) {
+			$("#payOneBtn").on("click", function() {
+			
+			const memberNo = $("#memberNo").text();
+			bookNo = $("#bookNo").text();
+			const bookPrice = $("#bookPrice").text();
+			console.log("memberNo : " + memberNo);
+			console.log("bookNo : " + bookNo);
+			console.log("bookPrice : " + bookPrice);
+			
+			const d = new Date();
+			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+			
+			IMP.init("imp36057035");
+	        IMP.request_pay({
+	            pg: "html5_inicis",
+	            pay_method : "card",
+	            merchant_uid : "상품번호_"+date,
+	            name : "결제 테스트",
+	            amount : 100, // price
+	            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
+	            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
+	            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
+	            buyer_addr : "서울시 영등포구 당산동",   // 로그인 한 회원의 주소
+	            buyer_code : "000001"     // 구매코드
+	        }, function(rsp) {
+	        	if(rsp.success) {
+	        		$.ajax({
+	        			url : "/orderPayOne.do",
+	        			type : "POST",
+	        			dataType : "JSON",
+	        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
+	        			success : function(data) {
+	        				if(data == "1") {
+	        					location.href="/orderList.do?reqPage=1&memberNo="+memberNo;
+	        				} else {
+	        					location.href="/bookDetail.do";
+	        				}
+	        			},
+	        			error : function() {
+	        				alert("알 수 없는 이유로 결제에 실패했습니다.");
+	        			}
+	        		});
+	        	}
+	        });
 		});
+	} else {
+		// 관리자일 경우 구매버튼 클릭 시 모달창 띄우기
+		$("#giveMessage").text("일반 회원 로그인이 필요합니다. 관리자는 구매하기 기능을 이용할 수 없습니다.");
+		$("#modalButton").click();
+	}
 		
-	});
-	
+
 	</script>
 	<script src="/js/recomm.js"></script>
 </body>

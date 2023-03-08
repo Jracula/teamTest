@@ -105,7 +105,9 @@ stars.on("mouseover",function(){
     for(let i=0;i<=index;i++){
         stars.eq(i).css("color","gold");
     }
-    $("#star-result").text(index+1);
+    $("#star-result-left").text("별이");
+    $("#star-result-number").text(index+1);
+    $("#star-result-right").text("개!");
 });
 
 			
