@@ -14,7 +14,7 @@ import common.JDBCTemplate;
 
 public class OrderBDao {
 
-	// 전체주문 조회하기
+	// 전체주문 조회하기 (OrderList.do)
 	public ArrayList<OrderB> selectAllOrder(Connection conn, int memberNo, int start, int end) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -32,7 +32,6 @@ public class OrderBDao {
 				o.setOrderNo(rset.getInt("order_no"));
 				o.setBook_title(rset.getString("book_title"));
 				o.setOrderPrice(rset.getInt("book_price"));
-				;
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));
 				list.add(o);
@@ -48,14 +47,15 @@ public class OrderBDao {
 	}
 
 	// 결제 게시물 수 조회
-	public int selectOrderCount(Connection conn) {
+	public int selectOrderCount(Connection conn, int memberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int totalCount = 0;
 
-		String query = "select count(*) as cnt from order_B";
+		String query = "select count(*) as cnt from order_B WHERE MEMBER_NO=?";
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				totalCount = rset.getInt("cnt");
@@ -76,13 +76,13 @@ public class OrderBDao {
 		ResultSet rset = null;
 		OrderB o = new OrderB();
 
-		String query = "select m.member_no, b.book_no, b.book_price, b.publisher, b.book_title, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no) where m.member_no=? and book_no=?";
+		String query = "select m.member_no, b.book_no, b.book_price, b.publisher, b.book_title, o.order_price, o.order_reg_date, o.status from member m left join book b on (m.member_no = b.book_no) left join order_b o on (o.order_no = m.member_no) where m.member_no=? and b.book_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
 			pstmt.setInt(2, bookNo);
 			rset = pstmt.executeQuery();
-			if (rset.next()) {
+			while (rset.next()) {
 				o = new OrderB();
 				o.setMemberNo(rset.getInt("member_no"));
 				o.setBookNo(rset.getInt("book_no"));
@@ -103,15 +103,17 @@ public class OrderBDao {
 		return o;
 	}
 
-	// (관리자페이지) 주문내역 전체조회
-	public ArrayList<OrderB> selectAdminList(Connection conn) {
+	// (관리자페이지) 주문내역 전체조회 (adminOrderList.do)
+	public ArrayList<OrderB> selectAdminList(Connection conn, int start, int end) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
 
-		String query = "select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no) order by 1";
+		String query = "select * from(select rownum as rnum, n.* from (select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date, o.status from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no))n) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				OrderB o = new OrderB();
@@ -246,7 +248,7 @@ public class OrderBDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "INSERT INTO ORDER_B VALUES(ORDER_B_SEQ.NEXTVAL,'결제대기', ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
+		String query = "INSERT INTO ORDER_B VALUES(ORDER_B_SEQ.NEXTVAL,'3', ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
@@ -262,6 +264,59 @@ public class OrderBDao {
 			JDBCTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	// 관리자페이지 결제내역 총 게시물 조회
+	public int selectAdminCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int totalCount = 0;
+		
+		String query = "select count(*) as cnt from order_b";
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				totalCount = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return totalCount;
+	}
+
+	// 관리자페이지 구매내역 조회
+	public ArrayList<OrderB> selectAdminAllList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<OrderB> list = new ArrayList<>();
+		
+		String query = "select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date, o.status from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no) order by 1";
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				OrderB o = new OrderB();
+				o.setOrderNo(rset.getInt("order_no"));
+				o.setMemberId(rset.getString("member_id"));
+				o.setOrderRegDate(rset.getString("order_reg_date"));
+				o.setBook_title(rset.getString("book_title"));
+				o.setOrderPay(rset.getString("order_pay"));
+				o.setBookPrice(rset.getInt("book_price"));
+				list.add(o);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return list;
 	}
 
 }

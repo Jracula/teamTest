@@ -35,36 +35,11 @@ public class AdminOrderUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		OrderBService service = new OrderBService();
-		ArrayList<OrderB> list = service.selectAdminList();
+		ArrayList<OrderB> list = service.selectAdminAllList();
 		
-		/*Member m = (Member)session.getAttribute("m");
-		if(m.getMemberLevel() == 1) {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderUpdate.jsp");
-			request.setAttribute("list", list);
-			view.forward(request, response);
-		}
-		*/
-		if(list.isEmpty()) {
-			request.setAttribute("title", "????");
-			request.setAttribute("msg", "관리자만 접근가능합니다.");
-			request.setAttribute("icon", "warning");
-			request.setAttribute("loc", "/index.jsp");
-		} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderUpdate.jsp");
-			request.setAttribute("list", list);
-			view.forward(request, response);
-			/*int result = service.orderCancel();
-			if(result > 0 ) {
-				request.setAttribute("title", "결제수정 완료");
-				request.setAttribute("msg", "결제수정을 완료하였습니다.");
-				request.setAttribute("icon", "success");
-			} else {
-				request.setAttribute("title", "결제수정 실패");
-				request.setAttribute("msg", "알 수 없는 이유로 실패했습니다.");
-				request.setAttribute("icon", "error");
-			}
-			*/
-		}
+		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderUpdate.jsp");
+		request.setAttribute("list", list);
+		view.forward(request, response);
 	}
 
 	/**

@@ -213,7 +213,26 @@
 				</div>
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
+
+<!-- 구매하기 클릭시 Modal를 실행시킬 숨겨진 버튼 -->
+			<button type="button" class="btn btn-info btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal2" style="display: none;">modal용 숨겨진 버튼</button>
 			<a class="btn bc9" id="payOneBtn">구매하기</a>
+			<div class="modal fade" id="myModal2" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align: center;">알림</h4>
+						</div>
+						<div class="modal-body">
+							<p id="giveMessage" style="text-align: center;">일반 회원 로그인이 필요합니다. 관리자는 구매기능을 이용할 수 없습니다.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="ok">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 구매하기에 담기 Modal 끝 -->
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
 		<div>
@@ -393,52 +412,60 @@
 	});
 	
 	// 책 단권 구매하기 ajax
-	$("#payOneBtn").on("click", function() {
-		const memberNo = <%=m.getMemberNo()%>;
-		bookNo = $("#bookNo").text();
-		const bookPrice = $("#bookPrice").text();
-		console.log("memberNo : " + memberNo)
-		console.log("bookNo : " + bookNo);
-		console.log("bookPrice : " + bookPrice);
+	const memberLevel = $("#memberLevel").text();
+	if(memberLevel == 2) {
+			$("#payOneBtn").on("click", function() {
+			
+			const memberNo = $("#memberNo").text();
+			bookNo = $("#bookNo").text();
+			const bookPrice = $("#bookPrice").text();
+			console.log("memberNo : " + memberNo);
+			console.log("bookNo : " + bookNo);
+			console.log("bookPrice : " + bookPrice);
+			
+			const d = new Date();
+			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+			
+			IMP.init("imp36057035");
+	        IMP.request_pay({
+	            pg: "html5_inicis",
+	            pay_method : "card",
+	            merchant_uid : "상품번호_"+date,
+	            name : "결제 테스트",
+	            amount : 100, // price
+	            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
+	            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
+	            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
+	            buyer_addr : "서울시 영등포구 당산동",   // 로그인 한 회원의 주소
+	            buyer_code : "000001"     // 구매코드
+	        }, function(rsp) {
+	        	if(rsp.success) {
+	        		$.ajax({
+	        			url : "/orderPayOne.do",
+	        			type : "POST",
+	        			dataType : "JSON",
+	        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
+	        			success : function(data) {
+	        				if(data == "1") {
+	        					location.href="/orderList.do?reqPage=1&memberNo="+memberNo;
+	        				} else {
+	        					location.href="/bookDetail.do";
+	        				}
+	        			},
+	        			error : function() {
+	        				alert("알 수 없는 이유로 결제에 실패했습니다.");
+	        			}
+	        		});
+	        	}
+	        });
+		});
+	} else {
+		// 관리자일 경우 구매버튼 클릭 시 모달창 띄우기
+		$("#giveMessage").text("일반 회원 로그인이 필요합니다. 관리자는 구매하기 기능을 이용할 수 없습니다.");
+		$("#modalButton").click();
+	}
 		
-		const d = new Date();
-		const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
-		
-		IMP.init("imp36057035");
-        IMP.request_pay({
-            pg: "html5_inicis",
-            pay_method : "card",
-            merchant_uid : "상품번호_"+date,
-            name : "결제 테스트",
-            amount : 100, // price
-            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
-            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
-            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
-            buyer_addr : "서울시 영등포구 당산동",    // 로그인 한 회원의 주소
-            buyer_code : "000001"     // 구매코드
-        }, function(rsp) {
-        	if(rsp.success) {
-        		$.ajax({
-        			url : "/orderPayOne.do",
-        			type : "POST",
-        			dataType : "JSON",
-        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
-        			success : function(data) {
-        				if(data == "1") {
-        					location.href="/";
-        				} else {
-        					location.href="/orderPayOne.do";
-        				}
-        			},
-        			error : function() {
-        				alert("알 수 없는 이유로 결제에 실패했습니다.");
-        			}
-        		});
-        	}
-        });
-	});
-	
-	
+
 	</script>
 	<script src="/js/recomm.js"></script>
 </body>

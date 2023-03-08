@@ -43,10 +43,12 @@
             <span id="memberNo" style="display:none;"><%=m.getMemberNo() %></span>
         </div>
         <hr>
-		<span class="material-symbols-outlined">warning</span>다운로드 또는 열람 시점부터 대여가 시작됩니다.
+        <br>
+        <span class="material-symbols-outlined" style="margin: 0">warning</span>
+		다운로드 또는 열람 시점부터 대여가 시작됩니다.
         <div>비공제 도서</div>
         <br>
-        <table class="table-content">
+        <table class="tbl table-content">
         	<tr class="tr-2">
         		<th></th>
         		<th>책제목</th>
@@ -58,22 +60,22 @@
         	<% Book b = list.get(i); %>
 	        	
         	<tr class="tr-1 point">
-        		<td><img src="https://cdn-icons-png.flaticon.com/512/4416/4416261.png" width="200px" ></td>        		
+        		<td><img src="/upload/book/cover-image/00000000.jpg" width="200px" ></td>        		
         		<td><%=b.getBookTitle() %><span class="bookNo" style="display:none;"><%=b.getBookNo() %></span></td>
         		<td><%=b.getPublisher() %></td>
         		<td><%=b.getBookPrice() %></td>
         	</tr>
         	<% } %>
         </table>
-        <span class="material-symbols-outlined">alarm</span>대여기간 : 3일 <br>        	
-        <span class="material-symbols-outlined">warning</span>PC뷰어, 페이퍼에서는 열람할 수 없습니다.<br><br>
+        <span class="material-symbols-outlined" style="margin: 0">alarm</span>대여기간 : 3일 <br>        	
+        <span class="material-symbols-outlined" style="margin: 0">warning</span>PC뷰어, 페이퍼에서는 열람할 수 없습니다.<br><br>
         
         <div class="order-content">
             <div class="order-info"><h2>결제정보</h2>                
                 <h3>구매동의</h3>
                 <table>
                 	<tr>
-                		<th>총 결제 금액</th>
+                		<th>총 결제 금액 : </th>
         		<% int totalSum = 0; %>
                 <% for(int i=0; i<list.size(); i++) { %>
         		<% Book b = list.get(i); %>
@@ -140,7 +142,7 @@
                             success : function(data) {
                                 if(data == "1"){
                                 	// 결제 정보 저장 성공 시
-                                	location.href="/";
+                                	location.href="/orderList.do?reqPage=1&memberNo="+memberNo1;
                                 }else{
                                 	// 결제 정보 저장 실패 시
                                 	location.href="/orderPayMent.do";
