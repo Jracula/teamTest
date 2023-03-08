@@ -61,17 +61,20 @@ function modifyCancel(obj, recommNo, bookNo) {
 	$(obj).parent().prev().hide(); // textarea 숨김
 	$(obj).parent().prev().prev().show();//기존댓글 다시 보여줌
 	//수정완료 -> 수정
+	
 	$(obj).prev().text("edit");
+	
 	$(obj).prev().attr("onclick", "modifyComment(this," + recommNo + "," + bookNo + ")");
 	//수정취소 -> 삭제
 	$(obj).text("delete");
+	
 	$(obj).attr("onclick", "deleteComment(this," + recommNo + "," + bookNo + ")");
 	//답글달기 버튼 다시 버보여줌
 	$(obj).next().show();
 }
 function modifyComplete(obj, recommNo, bookNo) {
 	//form태그를 생성해서 전송, a(location.href)
-	//댓글 내용, 댓글번호,공지사항번호
+	//댓글 내용, 댓글번호,게시판번호
 	//1.form 태그 생성
 	const form = $("<form style='display:none;' action='/updateRecomm.do' method='post'></form>");
 	//2. input 태그 2개 숨김
@@ -96,11 +99,9 @@ function deleteCommnet(obj, recommNo, bookNo) {
 }
 
 const stars = $(".star");
-stars.on("mouseover",function(){
-	
+stars.on("click",function(){
     stars.css("color","lightgrey");
     const index = stars.index(this);
-    console.log(index);
 
     for(let i=0;i<=index;i++){
         stars.eq(i).css("color","gold");
@@ -109,5 +110,19 @@ stars.on("mouseover",function(){
     $("#star-result-number").text(index+1);
     $("#star-result-right").text("개!");
 });
+
+const rating = $("#star-result-number");
+const ratingForm =$("#rating-form");
+const recommbtn = $("#recommbtn");
+recommbtn.on("click", function insertrating(){
+	let ratingNumber = Number(rating.text());
+	console.log(ratingNumber); 
+	$('input[name=rating]').val(ratingNumber); 
+	$('#insertrating').val(ratingNumber); 
+	ratingForm.submit();	
+});
+
+
+
 
 			

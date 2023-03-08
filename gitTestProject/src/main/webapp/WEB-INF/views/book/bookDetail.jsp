@@ -164,7 +164,8 @@
 						<img src="/upload/book/cover-image/00000000.jpg" width=70px>
 					<%} %>
 					</div>
-					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><div>
+					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>">
+					<div>
 						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
@@ -203,34 +204,39 @@
 		
 		<%-- 로그인 되어있는 경우에만 댓글 작성 화면을 띄움 --%>
       <%if (m != null) {%>
-      <div class="inputCommentBox">
-         <form action="/insertRecomm.do" method="post">
+			<div class="inputCommentBox">
+				
+				<form id="rating-form" action="/insertRecomm.do" method="post">
 					<div class="star-wrap star-wrap1">
 						<div class="score-text-box">
-						<input type="hidden" name="rating" value="<%=b.getBookScore() %>">
-						<span id="star-result-left"> </span><span id="star-result-number">평점을 입력해보세요!</span><span id="star-result-right"> </span>
+							<input type="hidden" id="insertRating" name="rating" value="">
+							<span id="star-result-left"> </span> 
+							<span id="star-result-number">평점을 입력해보세요!</span> 
+							<span id="star-result-right"> </span>
 						</div>
 						<span class="material-symbols-outlined star">star</span> 
 						<span class="material-symbols-outlined star">star</span> 
 						<span class="material-symbols-outlined star">star</span> 
 						<span class="material-symbols-outlined star">star</span> 
 						<span class="material-symbols-outlined star">star</span>
-						</div>
+					</div>
 					
 					<ul>
-               <li>
-                  <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
-                  <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
-                  <input type="hidden" name="recommRef" value="0">
-                  <textarea name="recommContent" class="input-form" style="border-radius: 8px;"placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "></textarea>
-               </li>
-               <li>
-                  <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
-               </li>
-            </ul>
-         </form>
-      </div>   
-      <%} %>
+						<li><input type="hidden" name="rcWriter"
+							value="<%=m.getMemberId() %>"> <input type="hidden"
+							name="bookRef" value="<%=b.getBookNo() %>"> <input
+							type="hidden" name="recommRef" value="0"> <textarea
+								name="recommContent" class="input-form"
+								style="border-radius: 8px;"
+								placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "></textarea>
+						</li>
+						<li>
+							<button type="submit" id="recommbtn" class="recommbtn recommbc1 recommbs1">등록</button>
+						</li>
+					</ul>
+				</form>
+			</div>
+			<%} %>
 		
          <%for(Recomm rc : recommList) {%>
          <ul class="posting-comment">

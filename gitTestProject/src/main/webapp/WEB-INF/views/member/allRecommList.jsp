@@ -1,5 +1,4 @@
 <%@page import="com.litbooks.book.vo.Recomm"%>
-<%@page import="com.litbooks.member.vo.Member"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -8,7 +7,7 @@
     	ArrayList<Member> list = (ArrayList<Member>)request.getAttribute("list"); 
     	String pageNavi = (String)request.getAttribute("pageNavi");
         int start = (int)request.getAttribute("start");
-        ArrayList<Recomm> Recommlist = (ArrayList<Recomm>)request.getAttribute("Recommlist"); 
+        ArrayList<Recomm> recommlist = (ArrayList<Recomm>)request.getAttribute("recommlist"); 
     %>
     
 <!DOCTYPE html>
@@ -37,24 +36,37 @@
 	<div class="allMember-title"><h2>후기(평점)조회</h2></div>
 		<table class="tbl tbl-hover">
 			<tr class="tr-3">
-				<th> Checkbox </th>
-				<th> 댓글번호</th>
+				<th>No </th>
+				<th>댓글번호</th>
+				<th>평점</th>
 				<th>아이디</th>
-				<th>댓글위치</th>
 				<th>댓글내용</th>
+				<th>댓글/대댓글</th>
 				<th>작성일</th>
-				<th> Button</th>
+				<th>게시판번호</th>
 			</tr>
-			<%for(int i=0;i<list.size();i++) {%>
-				<%Recomm rc = Recommlist.get(i); %>
+			<%for(int i=0;i<recommlist.size();i++) {%>
+				<%Recomm rc = recommlist.get(i); %>
 				<tr class="tr-1">
 					<td><%=i+start %></td>
 					<td><%=rc.getRecommNo() %></td>
+					<%if(rc.getRating() > 0) {%>
+						<td><%=rc.getRating()%></td>
+					<% }%>
+					<%if(rc.getRating() == 0) {%>
+						<td>평점 없음</td>
+					<% }%>
 					<td><%=rc.getRcWriter() %></td>
-					<td><%= %></td>
+					
 					<td><%=rc.getRecommContent() %></td>
-					<td><%=rc.getRecommDate() %></td>
-					<td><%=%></td>
+					<%if(rc.getRecommRef() > 0) {%>
+						<td>대댓글</td>
+					<% }%>
+					<%if(rc.getRecommRef() == 0) {%>
+						<td>댓글</td>
+					<% }%>
+					<td><%=rc.getRecommDate()%></td>
+					<td><%=rc.getBookRef()%></td>
 				</tr>
 			<%} %>
 		</table>
