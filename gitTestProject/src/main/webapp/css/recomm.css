@@ -269,6 +269,7 @@ textarea{
 .rerecommbox{
 	margin-left: 180px;
 	font-size: 15px;
+	border-radius: 8px;
 }
 
 .rerecommbtn {

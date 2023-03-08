@@ -2,33 +2,28 @@ package com.litbooks.member.controller;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.litbooks.book.vo.BookView;
 import com.litbooks.member.sevice.MemberService;
 import com.litbooks.member.vo.AllMemberData;
-import com.litbooks.member.vo.Member;
 
 /**
- * Servlet implementation class SelectAllMemberServlet
+ * Servlet implementation class selectAllRecommServlet
  */
-@WebServlet(
-		name = "selectAllMember", 
-		urlPatterns = { "/selectAllMember.do" })
-public class SelectAllMemberServlet extends HttpServlet {
+@WebServlet(name = "selectAllRecomm", urlPatterns = { "/selectAllRecomm.do" })
+public class selectAllRecommServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectAllMemberServlet() {
+    public selectAllRecommServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,21 +31,22 @@ public class SelectAllMemberServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//인코딩
+    	request.setCharacterEncoding("utf-8");
 		
-		//2
+		//값추출
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 
-		//3
+		//비로직
 		MemberService service = new MemberService();
-	    AllMemberData amd = service.allMemberList(reqPage);
+	    BookView bv = service.allRecommList(reqPage);
 	    
 	    //4
-	    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/member/allMemberList.jsp");
-	    request.setAttribute("list", amd.getList());
-		request.setAttribute("pageNavi", amd.getPageNavi());
-		request.setAttribute("start", amd.getStart());
+	    RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/member/allRecommList.jsp");
+	    request.setAttribute("recommlist", bv.getRecommList());
+		request.setAttribute("pageNavi", bv.getPageNavi());
+		request.setAttribute("start", bv.getStart());
 	    view.forward(request, response);
 	}
 
