@@ -301,4 +301,11 @@ public class OrderBService {
 		return list;
 	}
 
+	// 현재 로그인 한 회원이 결제완료한 책인지 확인하기 위한 함수
+	public int checkPermission(int memberNo, int bookNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int answer = dao.checkPermission(conn, memberNo, bookNo);
+		JDBCTemplate.close(conn);
+		return answer;
+	}
 }
