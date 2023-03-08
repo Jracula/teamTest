@@ -45,9 +45,9 @@ public class QnaUpdateServlet extends HttpServlet {
 				//2-3. request -> MultipartRequest 객체로 변환(파일업로드시점)
 				MultipartRequest mRequest = new MultipartRequest(request, saveDirectory, maxSize, "utf-8", new DefaultFileRenamePolicy());
 				
-				int qNo = Integer.parseInt(mRequest.getParameter("qNo"));
-				String qTitle = mRequest.getParameter("qTitle");
-				String qContent = mRequest.getParameter("qContent");
+				int qNo = Integer.parseInt(mRequest.getParameter("qnaNo"));
+				String qTitle = mRequest.getParameter("qnaTitle");
+				String qContent = mRequest.getParameter("qnaContent");
 				
 				//기존파일이 지워졌으면 "delete", 그외에는 모두 "stay"(원래 파일이없거나, 지워지지않았을경우)
 				String status = mRequest.getParameter("status"); 
@@ -73,7 +73,7 @@ public class QnaUpdateServlet extends HttpServlet {
 			
 				//3.비즈니스로직
 				QnaService service = new QnaService();
-				int result = service.updateNotice(q);
+				int result = service.updateQna(q);
 				//4.결과처리
 				RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 				if(result > 0) {

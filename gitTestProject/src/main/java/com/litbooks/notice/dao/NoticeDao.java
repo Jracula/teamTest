@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.notice.vo.Notice;
+import com.litbooks.qna.model.vo.QnaComment;
 
 import common.JDBCTemplate;
 

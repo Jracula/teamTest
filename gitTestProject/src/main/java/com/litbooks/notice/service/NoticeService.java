@@ -8,6 +8,7 @@ import com.litbooks.notice.dao.NoticeDao;
 import com.litbooks.notice.vo.Notice;
 import com.litbooks.notice.vo.NoticePageData;
 import com.litbooks.notice.vo.NoticeViewData;
+import com.litbooks.qna.model.vo.QnaComment;
 
 import common.JDBCTemplate;
 
@@ -119,6 +120,6 @@ public class NoticeService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
-	
+
 	
 }

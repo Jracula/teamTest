@@ -32,9 +32,9 @@ public class QnaUpdateFrmServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		int qNo = Integer.parseInt(request.getParameter("qNo"));
+		int qnaNo = Integer.parseInt(request.getParameter("qnaNo"));
 		QnaService service = new QnaService();
-		Qna q = service.getQna(qNo);
+		Qna q = service.getQna(qnaNo);
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/qna/qnaUpdateFrm.jsp");
 		request.setAttribute("q", q);
 		view.forward(request, response);

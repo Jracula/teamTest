@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.faq.model.vo.Faq;
+import com.litbooks.qna.model.vo.Qna;
 
 import common.JDBCTemplate;
 
@@ -16,7 +17,7 @@ public class FaqDao {
 		PreparedStatement pstmt = null;
 		
 		int result = 0;
-		String query = "insert into faq values(f_no_seq.nextval,?,?,?,?,0,to_char(sysdate,'yyyy-mm-dd'))";
+		String query = "insert into faq values(f_no_seq.nextval,?,?,?,?,0,to_char(sysdate,'yyyy-mm-dd'),?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -24,6 +25,7 @@ public class FaqDao {
 			pstmt.setString(2, f.getfWriter());
 			pstmt.setString(3, f.getfTitle());
 			pstmt.setString(4, f.getfContent());
+			pstmt.setInt(5, f.getfFlag());
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -75,7 +77,7 @@ public class FaqDao {
 		ResultSet rset = null;
 		ArrayList<Faq> list = new ArrayList<Faq>();
 		String query = "select * from (select rownum as rnum, n.* from(select f_no, f_title, f_content, f_read_count, f_reg_date, f_writer, f_flag "
-				+ "from faq order by 1 desc)n where f_flag=?) where rnum between ? and ?";
+				+ "from faq where f_flag=? order by 1 desc)n) where rnum between ? and ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -106,12 +108,60 @@ public class FaqDao {
 		return list;
 	}
 	
+	public int selectFaqCount(Connection conn, int fFlag) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int totalCount = 0;
+		
+		String query = "select count(*) as cnt from faq where f_flag=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, fFlag);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				totalCount = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		
+		return totalCount;
+	}
 	public int selectFaqCount(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int totalCount = 0;
 		
 		String query = "select count(*) as cnt from faq";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				totalCount = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		
+		return totalCount;
+	}
+	
+	public int selectQnaCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int totalCount = 0;
+		
+		String query = "select count(*) as cnt from qna";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -178,6 +228,43 @@ public class FaqDao {
 		
 		return f;
 	}
+
+	public ArrayList<Qna> selectQnaList(Connection conn, int start, int end, String qMemberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Qna> list = new ArrayList<Qna>();
+		String query = "select * from (select rownum as rnum, n.* from(select q_no, q_title, q_content, q_read_count, q_reg_date, q_writer, q_flag "
+				+ "from qna where q_member_no=? order by 1 desc)n) where rnum between ? and ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, qMemberNo);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Qna q = new Qna();
+				q.setqNo(rset.getInt("q_no"));
+				q.setqTitle(rset.getString("q_title"));
+				q.setqContent(rset.getString("q_content"));
+				q.setqRegDate(rset.getString("q_reg_date"));
+				q.setqWriter(rset.getString("q_writer"));
+				q.setqFlag(rset.getInt("q_flag"));
+				list.add(q);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		
+
+		return list;
+	}
+	
 	
 
 

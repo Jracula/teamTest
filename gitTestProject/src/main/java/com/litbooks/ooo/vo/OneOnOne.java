@@ -3,29 +3,31 @@ package com.litbooks.ooo.vo;
 public class OneOnOne {
 	private int oNo;
 	private String oTitle;
-	private int memberNo;
+	private int oMemberNo;
 	private String oWriter;
 	private String oContent;
 	private int oReadCount;
 	private String oRegDate;
 	private String fileName;
 	private String filepath;
+	private int oflag;
 	public OneOnOne() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public OneOnOne(int oNo, String oTitle, int memberNo, String oWriter, String oContent, int oReadCount,
-			String oRegDate, String fileName, String filepath) {
+	public OneOnOne(int oNo, String oTitle, int oMemberNo, String oWriter, String oContent, int oReadCount,
+			String oRegDate, String fileName, String filepath, int oflag) {
 		super();
 		this.oNo = oNo;
 		this.oTitle = oTitle;
-		this.memberNo = memberNo;
+		this.oMemberNo = oMemberNo;
 		this.oWriter = oWriter;
 		this.oContent = oContent;
 		this.oReadCount = oReadCount;
 		this.oRegDate = oRegDate;
 		this.fileName = fileName;
 		this.filepath = filepath;
+		this.oflag = oflag;
 	}
 	public int getoNo() {
 		return oNo;
@@ -39,11 +41,11 @@ public class OneOnOne {
 	public void setoTitle(String oTitle) {
 		this.oTitle = oTitle;
 	}
-	public int getMemberNo() {
-		return memberNo;
+	public int getoMemberNo() {
+		return oMemberNo;
 	}
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setoMemberNo(int oMemberNo) {
+		this.oMemberNo = oMemberNo;
 	}
 	public String getoWriter() {
 		return oWriter;
@@ -81,9 +83,17 @@ public class OneOnOne {
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
+	public int getOflag() {
+		return oflag;
+	}
+	public void setOflag(int oflag) {
+		this.oflag = oflag;
+	}
 	
-	
-	
+	public String getoContentBr() {
+		return oContent.replaceAll("\r\n", "<br>");
+	}
 }
+
 
 

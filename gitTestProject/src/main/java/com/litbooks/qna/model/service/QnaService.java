@@ -28,6 +28,7 @@ public class QnaService {
 		int numPerPage = 5;
 		int end = numPerPage*reqPage;
 		int start = end-numPerPage+1;
+		
 		ArrayList<Qna> list = dao.selectBoard(conn,end,start);
 		int totalCount = dao.selectBoardCount(conn);
 		
@@ -155,7 +156,7 @@ public class QnaService {
 	}
 
 
-	public int updateNotice(Qna q) {
+	public int updateQna(Qna q) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.updateQna(conn,q);
 		if(result > 0) {
@@ -164,6 +165,19 @@ public class QnaService {
 			JDBCTemplate.rollback(conn);
 		}
 		
+		return result;
+	}
+
+
+	public int insertQnaComment(QnaComment qc) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.insertQnaCommnet(conn, qc);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
 		return result;
 	}
 	

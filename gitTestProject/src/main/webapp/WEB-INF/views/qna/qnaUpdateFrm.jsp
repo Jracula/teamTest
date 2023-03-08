@@ -13,15 +13,15 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
-		<div class="page-title">공지사항수정</div>
+		<div class="page-title">문의사항수정</div>
 		<form action="/qnaUpdate.do" method="post" enctype="multipart/form-data">
 			<table class="tbl" id="qnaUpdateFrm">
 				<tr class="tr-1">
 					<th class="td-3">제목</th>
 					<td>
-						<input type="text" name="qTitle" class="input-form" value="<%=q.getqTitle() %>">
+						<input type="text" name="qnaTitle" class="input-form" value="<%=q.getqTitle() %>">
 						<input type="hidden" name="status" value="stay">
-						<input type="hidden" name="qNo" value="<%=q.getqNo() %>">
+						<input type="hidden" name="qnaNo" value="<%=q.getqNo() %>">
 					</td>
 				</tr>
 				<tr class="tr-1">
@@ -75,6 +75,14 @@
 			</table>
 		</form>
 	</div>
+	<script>
+	$("button.delFile").on("click", function(){
+		$(".delFile").hide();
+		$(this).next().show();
+		//첨부파일이 있는 경우에 삭제를 누른 경우에만 stay -> delete
+		$("[name=status]").val("delete");
+	});
+	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

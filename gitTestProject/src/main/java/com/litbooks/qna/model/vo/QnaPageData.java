@@ -8,6 +8,7 @@ public class QnaPageData {
 	private ArrayList<Qna> list;
 	private String pageNavi;
 	private int start;
+	
 	public QnaPageData() {
 		super();
 		// TODO Auto-generated constructor stub
