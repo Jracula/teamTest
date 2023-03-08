@@ -187,6 +187,10 @@ header > nav .sub-navi > li:hover {
 }
 
 
+.content-title>h3{
+	margin : 25px 0;
+}
+
 
 /*메뉴아이콘*/
 .main-content{
@@ -195,25 +199,124 @@ header > nav .sub-navi > li:hover {
 }
 
 .main-content>.main-icon{
-	width: 600px;
-	margin: 40px auto;
+	width: 800px;
+	margin: 50px auto;
 	justify-content : space-between;
 	display: flex;
 }
 
+.main-content>.main-icon>a{
+	cursor: pointer;
+}
 
+
+
+/*탑버튼*/
+
+.top-btn{	
+	display:block;
+	position: fixed;
+	bottom: 30px;
+	right: 10px;
+	z-index:9999;
+	margin-right: 35px;
+}
+
+.top-btn:hover{	
+	cursor: pointer;
+}
 
 
 /*lit의 발견*/
-.product{
-}
 
 .content-1>.content-list{
 	display: flex;
 	justify-content : space-between;
 	width: 1200px;
 	margin: 0 auto;
+	margin-bottom: 100px;
 }
+
+
+/*화제의 책*/
+.list-wrap { 
+	display : flex;
+    justify-content: space-between;
+} 
+.book-list{
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.count>h3{
+	margin : 0;
+	font-size: 18px;
+}
+
+.list-con{
+	width: 110px;
+	padding: 10px;
+}
+
+.list-con>p:last-child{
+	display: flex;
+	align-items: center;
+}
+
+.list-con>p > span {
+	display: block;
+	height:18px;
+}
+
+.list-con>.con{
+	padding-bottom: 5px;
+}
+
+.list-con>.con-1{
+	font-size: 15px;
+}
+.list-con>.con-2{
+	font-size: 15px;
+	color:  rgb(155, 155, 155);
+}
+
+.list-con>p{
+	margin: 0;
+}
+.list-con>p>.score{
+	color:   rgb(218, 69, 69);
+}
+.star{
+	color : rgb(218, 69, 69);
+	font-size: 18px;
+}
+.img>img{
+	border-radius: 5px;
+}
+
+.banner-zone>img{
+	margin-top: 90px;
+	margin-bottom: 80px;
+}
+
+.book-info{
+	margin-top: 10px;
+}
+
+
+.book-info>.info2{
+	color : rgb(155, 155, 155);
+}
+
+.book-info>.info2:hover{
+	text-decoration: none;
+}
+
+.bottom{
+	margin-bottom: 150px;
+	}
+
 
 
 
