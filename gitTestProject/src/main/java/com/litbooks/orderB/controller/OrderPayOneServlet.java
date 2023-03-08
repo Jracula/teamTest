@@ -1,7 +1,7 @@
 package com.litbooks.orderB.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,22 +9,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.litbooks.member.vo.Member;
 import com.litbooks.orderB.service.OrderBService;
-import com.litbooks.orderB.vo.OrderB;
-import com.litbooks.orderB.vo.OrderBPageData;
 
 /**
- * Servlet implementation class OrderListServlet
+ * Servlet implementation class OrderPayOneServlet
  */
-@WebServlet(name = "OrderList", urlPatterns = { "/orderList.do" })
-public class OrderListServlet extends HttpServlet {
+@WebServlet(name = "OrderPayOne", urlPatterns = { "/orderPayOne.do" })
+public class OrderPayOneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OrderListServlet() {
+    public OrderPayOneServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,25 +36,16 @@ public class OrderListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
+		int bookNo = Integer.parseInt(request.getParameter("bookNo"));
+		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
+		String payMethod = request.getParameter("payMethod");
 		
 		OrderBService service = new OrderBService();
-		OrderBPageData opd = service.selectAllOrder(reqPage, memberNo);
+		int result = service.insertPayOne(memberNo, bookNo, bookPrice, payMethod);
 		
-		if(opd == null) {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("title", "조회 실패");
-			request.setAttribute("msg", "결제하지 않은 회원입니다.");
-			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/index.jsp");
-			view.forward(request, response);
-		} else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/orderList.jsp");
-			request.setAttribute("list", opd.getList());
-			request.setAttribute("pageNavi", opd.getPageNavi());
-			request.setAttribute("start", opd.getStart());
-			view.forward(request, response);
-		}
+		PrintWriter out = response.getWriter();
+		out.print(result);
+		
 		
 	}
 

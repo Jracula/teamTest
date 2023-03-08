@@ -22,11 +22,11 @@
 
     <header>
       <div class="site-logo">
-        <a href="/">LITBOOKS</a>
+        <a href="/"><img alt="logo" src="/mainImage/logo.png"></a>
       </div>
       <nav>
       	<form action="/bookSearchInDetail.do" method="get" onsubmit="return checkKeyword();">
-      		<div class="search-bar" style="width: 600px; ">
+      		<div class="search-bar" style="width: 400px; ">
       			<input type="text" name="searchKeyword" placeholder="책제목을 입력하세요.">
       			<button type="submit" ><span class="material-symbols-outlined">search</span></button>
 			</div>

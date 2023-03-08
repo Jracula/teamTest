@@ -14,8 +14,9 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
-			<div class="page-title">(관리자페이지) 주문내역 취소</div>
-			<form action="/adminOrderUpdate.do">
+		<% if(m.getMemberLevel() == 1) { %>
+			<div class="page-title">(관리자페이지) 주문내역 변경</div>
+			<!-- <form action="/adminOrderUpdate.do"> -->
 			
 				<table class="tbl tbl-hover">
 					<tr class="tr-3">
@@ -44,7 +45,7 @@
 							<select>
 								<option value=1>결제대기</option>
 								<option value=2>결제취소</option>
-								<option value=3>결제완료</option>
+								<option value=3 selected>결제완료</option>
 							</select>
 						</td>
 						<td>
@@ -59,7 +60,8 @@
 						</th>
 					</tr>
 				</table>
-			</form>
+			<!-- </form> -->
+			<% } %>
 		</div>
 		
 		<script>

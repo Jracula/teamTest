@@ -60,6 +60,7 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<div class="page-content">
 		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>		<!-- bookNo 확인용으로 만든 숨겨진 p태그 -->
 		<div class="book-cover" style="float: left; width: 400px; margin-right: 40px;">
@@ -82,6 +83,7 @@
 			<p>출판사 - <%=b.getPublisher() %></p>
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
+			<p id="bookPrice"><%=b.getBookPrice() %></p>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
@@ -119,7 +121,8 @@
 				</div>
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
-			<a class="btn bc9" href="/orderPayOne.do">구매하기</a>
+			<a class="btn bc9" id="payOneBtn">구매하기</a>
+			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
 		<div class="intro-warp">
 			<div>
@@ -299,6 +302,54 @@
 			$("#modalButton").click();
 		}
 	});
+	
+	// 책 단권 구매하기 ajax
+	$("#payOneBtn").on("click", function() {
+		const memberNo = <%=m.getMemberNo()%>;
+		bookNo = $("#bookNo").text();
+		const bookPrice = $("#bookPrice").text();
+		console.log("memberNo : " + memberNo)
+		console.log("bookNo : " + bookNo);
+		console.log("bookPrice : " + bookPrice);
+		
+		const d = new Date();
+		const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+		
+		IMP.init("imp36057035");
+        IMP.request_pay({
+            pg: "html5_inicis",
+            pay_method : "card",
+            merchant_uid : "상품번호_"+date,
+            name : "결제 테스트",
+            amount : 100, // price
+            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
+            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
+            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
+            buyer_addr : "서울시 영등포구 당산동",    // 로그인 한 회원의 주소
+            buyer_code : "000001"     // 구매코드
+        }, function(rsp) {
+        	if(rsp.success) {
+        		$.ajax({
+        			url : "/orderPayOne.do",
+        			type : "POST",
+        			dataType : "JSON",
+        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
+        			success : function(data) {
+        				if(data == "1") {
+        					location.href="/";
+        				} else {
+        					location.href="/orderPayOne.do";
+        				}
+        			},
+        			error : function() {
+        				alert("알 수 없는 이유로 결제에 실패했습니다.");
+        			}
+        		});
+        	}
+        });
+	});
+	
+	
 	</script>
 	<script src="/js/recomm.js"></script>
 </body>

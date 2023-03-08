@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.book.vo.Book;
+import com.litbooks.member.vo.Member;
 import com.litbooks.orderB.vo.OrderB;
 
 import common.JDBCTemplate;
@@ -14,16 +15,17 @@ import common.JDBCTemplate;
 public class OrderBDao {
 
 	// 전체주문 조회하기
-	public ArrayList<OrderB> selectAllOrder(Connection conn, int start, int end) {
+	public ArrayList<OrderB> selectAllOrder(Connection conn, int memberNo, int start, int end) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
 
-		String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.book_no))n) where rnum between ? and ?";
+		String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.book_no) where member_no=?)n) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, start);
-			pstmt.setInt(2, end);
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
 				OrderB o = new OrderB();
@@ -229,6 +231,29 @@ public class OrderBDao {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, basketNo);
 			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	// 책 단권 구매
+	public int insertPayOne(Connection conn, int memberNo, int bookNo, int bookPrice, String payMethod) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO ORDER_B VALUES(ORDER_B_SEQ.NEXTVAL,'결제대기', ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, bookNo);
+			pstmt.setInt(3, bookPrice);
+			pstmt.setInt(4, bookPrice);
+			pstmt.setString(5, payMethod);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

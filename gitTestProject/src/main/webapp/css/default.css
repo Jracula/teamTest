@@ -82,7 +82,7 @@ header > .site-logo > a {
 header > nav {
   flex-grow: 1;
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
 }
 
@@ -148,7 +148,6 @@ header > nav .sub-navi > li:hover {
 	border : 0;
 	border-radius: 5px;
 	position: absolute;
-	margin-left: 330px;
 }
 
 .search-bar>input[type=text]{
@@ -158,8 +157,8 @@ header > nav .sub-navi > li:hover {
 .material-symbols-outlined{
 	position : relative;
 	background-color:transparent;
-	margin-left: 640px;
 	margin-top: 8px;
+	margin-left : 310px;
 	color:rgb(202, 202, 202);
 }
 
@@ -186,6 +185,23 @@ header > nav .sub-navi > li:hover {
   padding: 20px 0px;
   font-size: 1.5rem;
 }
+
+
+
+/*메뉴아이콘*/
+.main-content{
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.main-content>.main-icon{
+	width: 600px;
+	margin: 40px auto;
+	justify-content : space-between;
+	display: flex;
+}
+
+
 
 
 /*lit의 발견*/
