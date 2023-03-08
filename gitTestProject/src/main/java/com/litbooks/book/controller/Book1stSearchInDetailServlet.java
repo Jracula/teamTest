@@ -38,6 +38,7 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 		BookService service = new BookService();
 		request.setAttribute("pageNavi", "");
 		request.setAttribute("start", 1);
+		request.setAttribute("totalCount", 0);
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
 		request.setAttribute("recievedTitle", "");
@@ -69,6 +70,7 @@ public class Book1stSearchInDetailServlet extends HttpServlet {
 		request.setAttribute("books", bsr.getList());
 		request.setAttribute("pageNavi", bsr.getPageNavi());
 		request.setAttribute("start", bsr.getStart());
+		request.setAttribute("totalCount", bsr.getTotalCount());
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
 		request.setAttribute("recievedTitle", searchTitle);

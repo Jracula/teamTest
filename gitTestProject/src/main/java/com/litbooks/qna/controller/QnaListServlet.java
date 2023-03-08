@@ -39,6 +39,7 @@ public class QnaListServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
 		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
+		
 		//3. 비즈니스 로직
 		QnaService service = new QnaService();
 		QnaPageData qpd = service.selectBoard(reqPage);

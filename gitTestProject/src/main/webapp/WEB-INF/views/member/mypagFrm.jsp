@@ -64,8 +64,13 @@ Member member = (Member)request.getAttribute("m");
 			<div class="btnBox">
 				<%if(m.getMemberLevel() == 1) {%>
 					<a class="button" href="/updateMemberFrm.do?memberId=<%=m.getMemberId()%>" id="update-btn">관리자 정보 수정</a>
+					<a class="button admin-btn" href="/selectAllMember.do?reqPage=1">전체회원 정보</a>
+					<a class="button admin-btn" href="/selectAllRecomm.do?reqPage=1">평점(후기)조회</a>
+					<a class="button admin-btn" href="/adminOrderList.do">구매(결제)내역 조회</a>
+					<a class="button admin-btn" href="/adminOrderUpdate.do">구매(결제)내역 변경</a>
+					<a class="button admin-btn" style="color: #C00065; border-color: #C00065" href="/bookWriteFrm.do">신규 도서 등록</a>
 					<a class="button" href="/selectAllMember.do?reqPage=1" id="admin-btn">전체회원 정보</a>
-					<a class="button" href="/adminOrderList.do" id="admin-btn">구매(결제)내역 조회</a>
+					<a class="button" href="/adminOrderList.do?reqPage=1" id="admin-btn">구매(결제)내역 조회</a>
 					<a class="button" href="/adminOrderUpdate.do" id="admin-btn">구매(결제)내역 변경</a>
 				<%}else{ %>
 					<a class="button" href="/updateMemberFrm.do?memberId=<%=m.getMemberId()%>" id="update-btn">내정보 수정</a>

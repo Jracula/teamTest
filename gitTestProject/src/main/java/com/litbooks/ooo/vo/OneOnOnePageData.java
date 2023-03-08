@@ -6,6 +6,7 @@ public class OneOnOnePageData {
 	private ArrayList<OneOnOne> list;
 	private String pageNavi;
 	private int start;
+	
 	public OneOnOnePageData() {
 		super();
 		// TODO Auto-generated constructor stub

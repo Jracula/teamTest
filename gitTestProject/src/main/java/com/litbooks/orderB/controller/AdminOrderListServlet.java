@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.litbooks.member.vo.Member;
 import com.litbooks.orderB.service.OrderBService;
+import com.litbooks.orderB.vo.AdminPageData;
 import com.litbooks.orderB.vo.OrderB;
 
 /**
@@ -36,9 +37,10 @@ public class AdminOrderListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		OrderBService service = new OrderBService();
+		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
 		
-		ArrayList<OrderB> list = service.selectAdminList();
+		OrderBService service = new OrderBService();
+		AdminPageData apd = service.selectAdminList(reqPage);
 		
 		HttpSession session = request.getSession();
 		Member m = (Member)session.getAttribute("m");
@@ -53,7 +55,9 @@ public class AdminOrderListServlet extends HttpServlet {
 			return;
 		}
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/order/adminOrderList.jsp");
-		request.setAttribute("list", list);
+		request.setAttribute("list", apd.getList());
+		request.setAttribute("pageNavi", apd.getPageNavi());
+		request.setAttribute("start", apd.getStart());
 		view.forward(request, response);
 	}
 

@@ -14,7 +14,7 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="page-title">공지사항</div>
-		<table class="tbl" id="noticeView">
+		<table class="tbl" id="oneOnOneView">
 			<tr class="tr-3">
 				<th colspan="6"><%=o.getoTitle() %>
 			</tr>
@@ -42,12 +42,15 @@
 					</div>
 				</td>
 			</tr>
+			<tr>
+				<th></th>
+			</tr>
 			<!-- if(m.getMemberId().equals(n.getNoticeWriter()))
 			 조건을 이렇게만 주면 로그인을 하지 않았을 경우 에러발생 로그인조건을 걸어줘야한다. -->
 			<%if( m!=null && m.getMemberId().equals(o.getoWriter()) ) {%>
 			<tr>
 				<th colspan="6">
-					<a class="btn bc44" href="/noticeUpdateFrm.do?noticeNo=<%=o.getoNo() %>">수정</a>
+					<a class="btn bc44" href="/oneOnOneUpdateFrm.do?oNo=<%=o.getoNo() %>">수정</a>
 					<button class="btn bc44" onclick="noticeDelete(<%=o.getoNo()%>);">삭제</button>
 				</th>
 			</tr>

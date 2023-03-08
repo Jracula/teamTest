@@ -20,15 +20,53 @@
 <head>
 <meta charset="UTF-8">
 <title>책 검색 결과</title>
+<style>
+.searchEngine {
+	background-color: #EEEEEE;
+	padding: 20px;
+	border-radius: 14px; 
+}
+.searchEngine>form>* {
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+.text-bar {
+	border: none;
+	padding:5px;
+	text-indent: 10px;
+	width: 93%;
+}
+.genre-options>label {
+	margin-left: 3px;
+	margin-right: 8px;
+}
+.result-wrap>h3 {
+	line-height: 400%;
+}
+.result-wrap>div {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.a-book {
+	float: left;
+	width: 260px;
+	height: 100%;
+	margin-left: 8px;
+	padding: 3px;
+}
+.a-book:hover {
+	background-color: #E0F0FF;
+}
+</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="searchEngine">
 			<form action="/bookSearchInDetail.do" method="post" onsubmit="return checkKeyword();">
-				<div>책제목 : <input type="text" name="searchTitle" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
-				<div>저자 : <input type="text" name="searchWriter" value="<%=recievedWriter %>" placeholder="검색할 저자 이름"></div>
-				<div>
+				<div><div style="display:inline-block; width:50px;">책제목</div>　<input class="text-bar" type="text" name="searchTitle" value="<%=recievedTitle %>" placeholder="검색할 책 제목"></div>
+				<div><div style="display:inline-block; width:50px;">저　자</div>　<input class="text-bar" type="text" name="searchWriter" value="<%=recievedWriter %>" placeholder="검색할 저자 이름"></div>
+				<div class="genre-options">
 			<%for(int i=0; i<genreList.size(); i++){%>
 				<%int check=0; %>
 				<%for(int j=0; j<recievedGenre.length; j++){ %>
@@ -37,21 +75,22 @@
 					<%} %>
 				<%} %>
 				<%if(check>0){ %>
-				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
+					<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>" checked="true"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
 				<%}else if(check==0){ %>
-				<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
+					<input type="checkbox" name="selectedGenre" id=<%="genre"+i%> value="<%=genreList.get(i) %>"><label for=<%="genre"+i%>><%=genreList.get(i) %></label>
 				<%} %>
             <%} %>
-            		<div><label>
+            	</div>
+            	<div><label>
             	<%if(recievedOnSale==1){ %>
             		<input type="checkbox" name="onSale" value="1" checked="true">
             	<%}else if(recievedOnSale==0){ %>
             		<input type="checkbox" name="onSale" value="1">
             	<%} %>
-            		판매중지 제외</label></div>
+            		판매중지 제외</label>
 				</div>
 				<input type="hidden" name="reqPage" value="1">
-				<button type="submit">검색</button>
+				<button type="submit" style="background-color: #0B6DB7; border: none; border-radius: 5px; cursor: pointer;"><span style="color: white; font-size:16px; padding:16px;">검색</span></button>
 			</form>
 		</div>
 
@@ -91,11 +130,11 @@
 		<div class="result-wrap">
 	<%if(books!=null){%>
 		<%if(books.size()==0) {%>
-			<div>조건을 만족하는 책이 없습니다.</div>
+			<h3>조건을 만족하는 책이 없습니다.</h3>
 		<%}else{ %>
-			<div>총 <%=totalCount %>건의 검색 결과가 있습니다.</div>
+			<h3>총 <%=totalCount %>건의 검색 결과가 있습니다.</h3>
 			<%for(int i=0; i<books.size(); i++){%>
-			<div class="book-wrap" style="float: left; width: 400px; height: 160px;">
+			<div class="book-wrap" style="float: left; width: 400px; height: 142px;">
 			<%Book bs = books.get(i); %>
 				<div style="float: left;">
 				<%if (bs.getBookImage()!=null){%>
@@ -104,24 +143,31 @@
 					<img src="/upload/book/cover-image/00000000.jpg" width=100px>
 				<%} %>
 				</div>
-				<div style="float: left; width: 300px;">
-					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p>
-					<p><%=bs.getWriter() %> | <%=bs.getPublisher() %></p></a>
+				<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>">
+					<div class="a-book">
+						<span><%=bs.getBookTitle() %></span><br>
+						<span><%=bs.getWriter() %> | <%=bs.getPublisher() %></span>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
-				<%if (bs.getOnSale()==1) {%>
-					<p><%=bs.getBookPrice() %>원</p>
+					<%if (bs.getOnSale()==1) {%>
+						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-				<% if (bs.getDiscount()!=0) {%>
-				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
-				<%}else { %>
-				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
-				<%} %>
-				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
-					<p>&nbsp;</p>
-				<%} %>
-				</div>
+					<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+					<% if (bs.getDiscount()!=0) {%>
+					<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+					<%}else { %>
+					<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+					<%} %>
+					<%}else if (bs.getOnSale()==0) {%>
+						<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
+						<p>&nbsp;</p>
+					<%} %>
+					<%if(bs.getBookScore()!=0){ %>
+						<p>평점 - <span><%=Math.round((bs.getBookScore()*100))/100.0 %></span></p>
+					<%}else{ %>
+						<p>&nbsp;</p>
+					<%} %>
+					</div>
+				</a>
 			</div>
 			<%} %>
 		<%} %>

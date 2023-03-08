@@ -35,19 +35,27 @@ public class OrderPayOneServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		int bookNo = Integer.parseInt(request.getParameter("bookNo"));
-		int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
-		String payMethod = request.getParameter("payMethod");
+		HttpSession session = request.getSession(false);
+		Member m = (Member) session.getAttribute("m");
 		
-		OrderBService service = new OrderBService();
-		int result = service.insertPayOne(memberNo, bookNo, bookPrice, payMethod);
-		
-		PrintWriter out = response.getWriter();
-		out.print(result);
-		
-		
-	}
+		if (m == null) {
+			PrintWriter out = response.getWriter();
+			out.print(false);
+		} else {
+			if (m.getMemberLevel() == 2) {
+				int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+				int bookNo = Integer.parseInt(request.getParameter("bookNo"));
+				int bookPrice = Integer.parseInt(request.getParameter("bookPrice"));
+				String payMethod = request.getParameter("payMethod");
+				
+				OrderBService service = new OrderBService();
+				int result = service.insertPayOne(memberNo, bookNo, bookPrice, payMethod);
+
+				PrintWriter out = response.getWriter();
+				out.print(result);
+				}
+			}
+		}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

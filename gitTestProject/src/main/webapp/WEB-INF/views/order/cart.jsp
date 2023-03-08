@@ -91,9 +91,10 @@
         </table>
         
        	<div class="pay-content">
-            <span class="material-symbols-outlined">check_circle</span><span id="checkCount">O</span>개를 선택하셨습니다.
-            <div>총 상품 금액 : <span id="allPrice"> 원</span></div>
-            <div>합계 : <span id="allPrice2"> 원</span></div>
+            <span class="material-symbols-outlined" style="margin: 0">check_circle</span>
+            <span id="checkCount">O</span>개를 선택하셨습니다.
+            <div>총 상품 금액 : <span id="allPrice">0</span>원</div>
+            <div>합계 : <span id="allPrice2">0</span>원</div>
             <button id="buyBook">구매하기</button>
         </div>
         <% } %>
@@ -123,7 +124,6 @@
 			
 			totalPrice();
 		});
-		
 		
 		// 선택삭제 버튼 클릭 시 장바구니 테이블 삭제
 		// → 체크박스를 배열로 저장 후 Ajax로 넘겨준다.

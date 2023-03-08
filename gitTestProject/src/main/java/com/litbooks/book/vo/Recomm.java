@@ -8,6 +8,7 @@ public class Recomm {
 	    private String recommContent;
 	    private String recommDate;
 		private int recommRef;
+		private int rating;
 
 		public Recomm() {
 			super();
@@ -61,9 +62,16 @@ public class Recomm {
 		public void setRecommRef(int recommRef) {
 			this.recommRef = recommRef;
 		}
+		public int getRating() {
+			return rating;
+		}
+
+		public void setRating(int rating) {
+			this.rating = rating;
+		}
 
 		public Recomm(int recommNo, int bookRef, String rcWriter, String recommContent, String recommDate,
-				int recommRef) {
+				int recommRef, int rating) {
 			super();
 			this.recommNo = recommNo;
 			this.bookRef = bookRef;
@@ -71,6 +79,7 @@ public class Recomm {
 			this.recommContent = recommContent;
 			this.recommDate = recommDate;
 			this.recommRef = recommRef;
+			this.rating = rating;
 		}
 
 		

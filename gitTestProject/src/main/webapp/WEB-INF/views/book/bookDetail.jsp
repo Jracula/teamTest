@@ -19,139 +19,46 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title><%=b.getBookTitle() %> - LITBOOKS</title>
+<title><%=b.getBookTitle() %> - LiTBOOKS</title>
 <link rel="stylesheet" href="/css/recomm.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" /><style>
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
+<link rel="stylesheet" href="/css/bootstrap-modal.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+<style>
+
+.page-content>* {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
-.modal-open {
-  overflow: hidden;
+.book-card-wrap>* {
+  line-height: 200%;
 }
-.modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1050;
-  display: none;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-  outline: 0;
+.intro-warp {
+	clear: both;
+	padding-top: 30px;
 }
-.modal.fade .modal-dialog {
-  -webkit-transform: translate(0, -25%);
-  -ms-transform: translate(0, -25%);
-  -o-transform: translate(0, -25%);
-  transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out, -o-transform 0.3s ease-out;
+.intro-warp>div {
+	margin-top: 100px;
+	margin-bottom: 100px;
 }
-.modal.in .modal-dialog {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  -o-transform: translate(0, 0);
-  transform: translate(0, 0);
+.next-episodes>div {
+	overflow: hidden;
+	clear: both;
 }
-.modal-open .modal {
-  overflow-x: hidden;
-  overflow-y: auto;
+.next-episodes>div>div {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	margin-left: 12px;
+	float: left;
 }
-.modal-dialog {
-  position: relative;
-  width: auto;
-  margin: 10px;
+.next-episodes>div>a:hover>div {
+	background-color: #E0F0FF;
 }
-.modal-content {
-  position: relative;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #999;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-  outline: 0;
-}
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1040;
-  background-color: #000;
-}
-.modal-backdrop.fade {
-  filter: alpha(opacity=0);
-  opacity: 0;
-}
-.modal-backdrop.in {
-  filter: alpha(opacity=50);
-  opacity: 0.5;
-}
-.modal-header {
-  padding: 15px;
-  border-bottom: 1px solid #e5e5e5;
-}
-.modal-header .close {
-  margin-top: -2px;
-}
-.modal-title {
-  margin: 0;
-  line-height: 1.42857143;
-}
-.modal-body {
-  position: relative;
-  padding: 15px;
-}
-.modal-footer {
-  padding: 15px;
-  text-align: right;
-  border-top: 1px solid #e5e5e5;
-}
-.modal-footer .btn + .btn {
-  margin-bottom: 0;
-  margin-left: 5px;
-}
-.modal-footer .btn-group .btn + .btn {
-  margin-left: -1px;
-}
-.modal-footer .btn-block + .btn-block {
-  margin-left: 0;
-}
-.modal-scrollbar-measure {
-  position: absolute;
-  top: -9999px;
-  width: 50px;
-  height: 50px;
-  overflow: scroll;
-}
-@media (min-width: 768px) {
-  .modal-dialog {
-    width: 600px;
-    margin: 30px auto;
-  }
-  .modal-content {
-    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-  .modal-sm {
-    width: 300px;
-  }
-}
-@media (min-width: 992px) {
-  .modal-lg {
-    width: 900px;
-  }
+.next-episodes>div>a>div {
+	margin-top: 12px;
+	margin-bottom: 12px;
+	margin-left: 12px;
+	float: left;
 }
 </style>
 </head>
@@ -159,23 +66,30 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<div class="page-content">
-		<p id="bookNo" style="display: none;"><%=b.getBookNo() %></p>
-		<div class="book-cover">
+		<div class="book-cover" style="float: left; width: 300px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
-			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=400px>
+			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
 		<%}else{ %>
-			<img src="/upload/book/cover-image/00000000.jpg" width=400px>
+			<img src="/upload/book/cover-image/00000000.jpg" width=100%>
 		<%} %>
 		</div>
-		<div class="book-card-wrap">
+		<div class="book-card-wrap" style="float: left;">
+		<%if(b.getBookGenre()!=null){ %>
 			<p class="genre-category">장르 ＞ <%=b.getBookGenre() %></p>
+		<%}else{ %>
+			<p class="genre-category">장르 없음</p>
+		<%} %>
 			<h1><%=b.getBookTitle() %></h1>
-			<div class="avg-score">평점</div>
+			<p>&nbsp;</p>
+		<%if(b.getBookScore()!=0){ %>
+			<p>평점 - <span><%=Math.round((b.getBookScore()*100))/100.0 %></span></p>
+		<%}else{ %>
+			<p>&nbsp;</p>
+		<%} %>
 			<p>저자 - <%=b.getWriter() %></p>
 			<p>출판사 - <%=b.getPublisher() %></p>
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
-			<p id="bookPrice"><%=b.getBookPrice() %></p>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
@@ -185,12 +99,12 @@
 			<p>&nbsp;<span id="realPrice" style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 			<%} %>
 		<%}else if (b.getOnSale()==0) {%>
-			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">0</span></p>
+			<p style="color: gray;">판매중지된 상품입니다.<span id="realPrice" style="display:none;">-1</span></p>
 			<p>&nbsp;</p>
 		<%} %>
 	<%if(m!=null){ %>
 		<%if(m.getMemberLevel()==1){%>
-			<a class="btn bc6" href="/bookUpdateFrm.do?bookNo=<%=b.getBookNo() %>">편집</a>
+			<a class="btn bc6" style="padding-left:30px; padding-right:30px;" href="/bookUpdateFrm.do?bookNo=<%=b.getBookNo() %>">편집</a>
 		<%} %>
 	<%} %>
 			<button class="btn bc9" id="addCart">장바구니에 담기</button>
@@ -213,14 +127,38 @@
 				</div>
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
+
+<!-- 구매하기 클릭시 Modal를 실행시킬 숨겨진 버튼 -->
+			<button type="button" class="btn btn-info btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal2" style="display: none;">modal용 숨겨진 버튼</button>
 			<a class="btn bc9" id="payOneBtn">구매하기</a>
+			<div class="modal fade" id="myModal2" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align: center;">알림</h4>
+						</div>
+						<div class="modal-body">
+							<p id="giveMessage" style="text-align: center;">일반 회원 로그인이 필요합니다. 관리자는 구매기능을 이용할 수 없습니다.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="ok">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 구매하기에 담기 Modal 끝 -->
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
-		<div>
-		</div>
-		<div>
+		<div style="clear: both;"></div>
+	<%if(b.getNonFee()==1) {%>
+		<button class="btn bc66" id="letMeRead" style="width: 48.7%;">이 책은 무료로 감상하실 수 있습니다.</button>
+	<%}else{ %>
+		<button class="btn bc99" id="letMeRead" style="width: 48.7%;">책 읽기</button>
+	<%} %>
+		<div class="intro-warp">
 			<div>
-				<p>작품 소개</p>
+				<h3>작품 소개</h3>
+				<hr style="margin-top: 10px; margin-bottom: 10px;">
 				<div>
 				<%if (b.getBookIntro()!=null){%>
 				<%=b.getBookIntro() %>
@@ -228,49 +166,54 @@
 				작품 소개가 없습니다.
 				<%} %>
 				</div>
-				<a class="btn bc3">더 보기 버튼</a> <%--누르면 부모 요소의 height를 넓힘--%>
 			</div>
-		</div>
-		
-		<!-- seriesList의 크기가 1보다 크면, 같은 시리즈물을 표시하는 영역 -->
+<!-- seriesList의 크기가 1보다 크면, 같은 시리즈물을 표시하는 영역 -->
 		<%if(seriesList.size()>1) {%>
-		<div>
-			<h3>이 책의 시리즈</h3>
-		<%for(int i=0; i<seriesList.size(); i++){%>
-			<%if(i<5){%>
-			<%Book bs = seriesList.get(i); %>
-			<div>
+			<div class="next-episodes">
+				<h3>이 책의 시리즈</h3>
+				<hr style="margin-top: 10px; margin-bottom: 10px;">
+			<%for(int i=0; i<seriesList.size(); i++){%>
+				<%if(i<5){%>
+					<%Book bs = seriesList.get(i); %>
 				<div>
-			<%if (bs.getBookImage()!=null){%>
-				<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=80px>
-			<%}else{ %>
-				<img src="/upload/book/cover-image/00000000.jpg" width=80px>
-			<%} %>
-				</div>
-				<div>
-					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><p><%=bs.getBookTitle() %></p></a>
+					<div>
+					<%if (bs.getBookImage()!=null){%>
+						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
+					<%}else{ %>
+						<img src="/upload/book/cover-image/00000000.jpg" width=70px>
+					<%} %>
+					</div>
+					<a href="/bookDetail.do?bookNo=<%=bs.getBookNo()%>"><div>
+						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
-				<%if (bs.getOnSale()==1) {%>
-					<p><%=bs.getBookPrice() %>원</p>
+					<%if (bs.getOnSale()==1) {%>
+						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-				<% if (bs.getDiscount()!=0) {%>
-				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
-				<%}else { %>
-				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
-				<%} %>
-				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
-					<p>&nbsp;</p>
-				<%} %>
+						<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+						<%if (bs.getDiscount()!=0) {%>
+						<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+						<%}else { %>
+						<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+						<%} %>
+					<%}else if (bs.getOnSale()==0) {%>
+						<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
+						<p>&nbsp;</p>
+					<%} %>
+					<%if(bs.getBookScore()!=0){ %>
+						<p>평점 - <span><%=Math.round((bs.getBookScore()*100))/100.0 %></span></p>
+					<%}else{ %>
+						<p>평점 없음</p>
+					<%} %>
+					</div></a>
 				</div>
-			</div>
-			<%}else{%>
-			<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
-			<%break;}%>
+				<%}else{%>
+				<div>이 책의 시리즈는 6권 이상이 있습니다.</div>
+				<%break;}%>
 			<%}%>
-		</div>
+			</div>
 		<%}%>
+		</div>
+	<div style="clear: both;"></div>
 
 		
 		<!-- 댓글 후기 노출 영역 -->
@@ -280,12 +223,24 @@
       <%if (m != null) {%>
       <div class="inputCommentBox">
          <form action="/insertRecomm.do" method="post">
-            <ul>
+					<div class="star-wrap star-wrap1">
+						<div class="score-text-box">
+						<input type="hidden" name="rating" value="<%=b.getBookScore() %>">
+						<span id="star-result-left"> </span><span id="star-result-number">평점을 입력해보세요!</span><span id="star-result-right"> </span>
+						</div>
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span> 
+						<span class="material-symbols-outlined star">star</span>
+						</div>
+					
+					<ul>
                <li>
                   <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                   <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                   <input type="hidden" name="recommRef" value="0">
-                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "> </textarea>
+                  <textarea name="recommContent" class="input-form" style="border-radius: 8px;"placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "></textarea>
                </li>
                <li>
                   <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
@@ -298,7 +253,23 @@
          <%for(Recomm rc : recommList) {%>
          <ul class="posting-comment">
             <li>
-               <span class="material-icons">account_box</span>
+               <span class="material-icons">
+               	<%if(rc.getRating() == 1) {%>
+               		<img src="/countingstar/별1개.png">
+                <%} %>
+               <%if(rc.getRating() == 2) {%>
+               		<img src="/countingstar/별2개.png">
+                <%} %>
+                <%if(rc.getRating() == 3) {%>
+               		<img src="/countingstar/별3개.png">
+                <%} %>
+                <%if(rc.getRating() == 4) {%>
+               		<img src="/countingstar/별4개.png">
+                <%} %>
+                <%if(rc.getRating() == 5) {%>
+               		<img src="/countingstar/별5개.png">
+                <%} %>
+               </span>
             </li>
             <li>
                <p class="comment-info">
@@ -359,7 +330,7 @@
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
-                        <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;"></textarea>
+                        <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;" placeholder="바르고 고운말 사용 부탁드립니다, Please use sweety wording"></textarea>
                      </li>
                      <li>
                         <button type="submit" class="rerecommbtn recommbc1 recommbs1" style="margin-left: 1100px; border-radius: 10px  ">등록</button>
@@ -376,8 +347,18 @@
 	</div>	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
+//url로부터 bookNo값 알아내기
+	const ltrim = /^\S{0,}bookNo=/;
+	const currentUrl = window.location.href;
+	const needRtrim = currentUrl.replace(ltrim, "");
+	const rtrim = /[&]\S{0,}$/;
+	const bookNo = needRtrim.replace(rtrim, "");
+//url로부터 bookNo 도출 끝
+
+	// 장바구니 담기 ajax
 	$("#addCart").on("click", function(){
-			const bookNo = $("#bookNo").text();
+		const onSale = Number($("#realPrice").text());
+		if(onSale>0){
 			$.ajax({
 				url: "/insertOneIntoCart.do",
 				type: "GET",
@@ -390,55 +371,100 @@
 					console.log("알 수 없는 오류가 발생했습니다.");
 				}
 			});
+		} else {
+			$("#givenMessage").text("판매가가 없는 상품입니다.");
+			$("#modalButton").click();
+		}
 	});
 	
 	// 책 단권 구매하기 ajax
 	$("#payOneBtn").on("click", function() {
-		const memberNo = <%=m.getMemberNo()%>;
-		bookNo = $("#bookNo").text();
+		const memberNo = $("#memberNo").text();
 		const bookPrice = $("#bookPrice").text();
 		console.log("memberNo : " + memberNo)
 		console.log("bookNo : " + bookNo);
 		console.log("bookPrice : " + bookPrice);
 		
-		const d = new Date();
-		const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+	const memberLevel = $("#memberLevel").text();
+	if(memberLevel == 2) {
+			$("#payOneBtn").on("click", function() {
+			
+			const memberNo = $("#memberNo").text();
+			bookNo = $("#bookNo").text();
+			const bookPrice = $("#bookPrice").text();
+			console.log("memberNo : " + memberNo);
+			console.log("bookNo : " + bookNo);
+			console.log("bookPrice : " + bookPrice);
+			
+			const d = new Date();
+			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
+			
+			IMP.init("imp36057035");
+	        IMP.request_pay({
+	            pg: "html5_inicis",
+	            pay_method : "card",
+	            merchant_uid : "상품번호_"+date,
+	            name : "결제 테스트",
+	            amount : 100, // price
+	            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
+	            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
+	            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
+	            buyer_addr : "서울시 영등포구 당산동",   // 로그인 한 회원의 주소
+	            buyer_code : "000001"     // 구매코드
+	        }, function(rsp) {
+	        	if(rsp.success) {
+	        		$.ajax({
+	        			url : "/orderPayOne.do",
+	        			type : "POST",
+	        			dataType : "JSON",
+	        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
+	        			success : function(data) {
+	        				if(data == "1") {
+	        					location.href="/orderList.do?reqPage=1&memberNo="+memberNo;
+	        				} else {
+	        					location.href="/bookDetail.do";
+	        				}
+	        			},
+	        			error : function() {
+	        				alert("알 수 없는 이유로 결제에 실패했습니다.");
+	        			}
+	        		});
+	        	}
+	        });
+		});
+	} else {
+		// 관리자일 경우 구매버튼 클릭 시 모달창 띄우기
+		$("#giveMessage").text("일반 회원 로그인이 필요합니다. 관리자는 구매하기 기능을 이용할 수 없습니다.");
+		$("#modalButton").click();
+	}
 		
-		IMP.init("imp36057035");
-        IMP.request_pay({
-            pg: "html5_inicis",
-            pay_method : "card",
-            merchant_uid : "상품번호_"+date,
-            name : "결제 테스트",
-            amount : 100, // price
-            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
-            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
-            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
-            buyer_addr : "서울시 영등포구 당산동",    // 로그인 한 회원의 주소
-            buyer_code : "000001"     // 구매코드
-        }, function(rsp) {
-        	if(rsp.success) {
-        		$.ajax({
-        			url : "/orderPayOne.do",
-        			type : "POST",
-        			dataType : "JSON",
-        			data : {memberNo : memberNo, bookNo : bookNo, bookPrice : bookPrice, payMethod:rsp.pay_method},
-        			success : function(data) {
-        				if(data == "1") {
-        					location.href="/";
-        				} else {
-        					location.href="/orderPayOne.do";
-        				}
-        			},
-        			error : function() {
-        				alert("알 수 없는 이유로 결제에 실패했습니다.");
-        			}
-        		});
-        	}
-        });
+	// 책 내용 읽기
+	$("#letMeRead").on("click", function(){
+		$.ajax({
+			url: "/isThisNonFee.do",
+			type: "GET",
+			data: {theBookNo : bookNo},
+			success: function(result){
+				if(result==2){	//무료감상이 아닌데 로그인을 안 함
+					$("#givenMessage").text("로그인이 필요합니다.");
+					$("#modalButton").click();
+				}else if(result==3){
+					//무료감상 가능. 로그인조차 불필요 
+					window.open("/reading.jsp", "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600");
+				}else if(result==1){	//무료감상이 아니지만, 구매완료 이력이 남아 있거나 관리자인 경우
+					window.open("/reading.jsp", "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600");
+				}else if(result==0){	//무료감상이 아닌데, 구매완료 이력이 없음. 관리자도 아님
+					$("#givenMessage").text("책을 먼저 구매해주세요.");
+					$("#modalButton").click();
+				}
+			},
+			error: function(){
+				console.log("알 수 없는 오류가 발생했습니다.");
+			}
+		});
+		
 	});
-	
-	
+
 	</script>
 	<script src="/js/recomm.js"></script>
 </body>

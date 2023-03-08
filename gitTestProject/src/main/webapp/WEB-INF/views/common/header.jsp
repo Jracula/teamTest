@@ -7,7 +7,7 @@
 
     <!-- 구글 아이콘 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- jquery -->
     <script src="/js/jquery-3.6.0.js"></script>
@@ -51,6 +51,7 @@
 
       	<a class="btn bc11" href="/logout.do">LOGOUT</a>
 <!-- memberNo 가져오기용 -->	<span id="memberNo" style="display: none;"><%=m.getMemberNo() %></span>
+<!-- memberLevel 가져오기용 --> <p id="memberLevel" style="display: none;"><%=m.getMemberLevel() %></p>
       <%} %>
       </div>
       

@@ -50,7 +50,7 @@ public class QnaDao {
 	public int insertBoard(Connection conn, Qna q) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into qna values(q_no_seq.nextval, ?, ?, ?, ?, 0, to_char(sysdate,'yyyy-mm-dd',? ,?)";
+		String query = "insert into qna values(q_no_seq.nextval, ?, ?, ?, ?, 0, to_char(sysdate,'yyyy-mm-dd'),?,?,?)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -58,8 +58,9 @@ public class QnaDao {
 			pstmt.setString(2, q.getqWriter());
 			pstmt.setString(3, q.getqTitle());
 			pstmt.setString(4, q.getqContent());
-			pstmt.setString(5, q.getFileName());
-			pstmt.setString(6, q.getFilepath());
+			pstmt.setInt(5, q.getqFlag());
+			pstmt.setString(6, q.getFileName());
+			pstmt.setString(7, q.getFilepath());
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -101,7 +102,7 @@ public class QnaDao {
 		ResultSet rset = null;
 		ArrayList<Qna> list = new ArrayList<Qna>();
 		
-		String query = "select q_no, q_title, q_writer, q_read_count, q_reg_date from qna";
+		String query = "select q_no, q_title, q_writer, q_read_count, q_reg_date from qna order by 1 desc";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -149,7 +150,7 @@ public class QnaDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Qna q = null;
-		String query = "select * from qna where q_no = ?";
+		String query = "select * from qna where q_no = ? order by 1";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -271,7 +272,7 @@ public class QnaDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, q.getqTitle());
-			pstmt.setString(2, q.getqTitle());
+			pstmt.setString(2, q.getqContent());
 			pstmt.setString(3, q.getFileName());
 			pstmt.setString(4, q.getFilepath());
 			pstmt.setInt(5, q.getqNo());
@@ -285,6 +286,39 @@ public class QnaDao {
 		}
 		return result;
 		
+	}
+
+	public int insertQnaCommnet(Connection conn, QnaComment qc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into qna_comment values(qc_no_seq.nextval, ?, ?, ?, ?, to_char(sysdate, 'yyyy-mm-dd'))";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, qc.getQcWriter());
+			pstmt.setString(2, qc.getQcContent());
+			
+			//NcRef에 0을 넣어줬는데 insert될 때 references조건을 만족하지X
+			//댓글의 경우 nc_no == 0에 해당하는 값이 없으므로 에러발생
+			//댓글일 경우 null / 대댓글의경우 해당번호를 넣어줘야함
+			if(qc.getQnaRef() == 0) {
+				pstmt.setString(3, null);
+			}else {
+				pstmt.setInt(3, qc.getQnaRef());								
+			} 
+			pstmt.setInt(4, qc.getQcRef());
+			//3항연산자
+			//pstmt.setString(4, (nc.getNcRef()==0)?null:String.valueOf(nc.getNcRef()));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
 	}
 }
 

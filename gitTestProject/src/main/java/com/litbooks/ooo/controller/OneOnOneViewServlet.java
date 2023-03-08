@@ -34,7 +34,9 @@ public class OneOnOneViewServlet extends HttpServlet {
 		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
-		int oNo = Integer.parseInt(request.getParameter("oneOnOneNo"));
+		int oNo = Integer.parseInt(request.getParameter("oNo"));
+		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		System.out.println(oNo);
 		//3. 비즈니스로직
 		OneOnOneService service = new OneOnOneService();
 		OneOnOne o = service.selectOneOnOne(oNo);
@@ -44,10 +46,10 @@ public class OneOnOneViewServlet extends HttpServlet {
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
 			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/onOnOneList.do?reqPage=1");
+			request.setAttribute("loc", "/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo="+memberNo);
 			view.forward(request, response);
 		}else {
-			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/OneOnOne/onOnOneView.jsp");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/OneOnOne/oneOnOneView.jsp");
 			request.setAttribute("o", o);
 			view.forward(request, response);
 		}

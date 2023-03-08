@@ -26,7 +26,8 @@
 				<tr class="tr-1">
 					<th class="td-3">작성자</th>
 					<td>
-						<%=m.getMemberId() %>					
+						<%=m.getMemberId() %>
+						<input type="hidden" name="qWriter" value="<%=m.getMemberId()%>">				
 					</td>					
 					<td>
 						<input type="hidden" name="qMemberNo" value="<%=m.getMemberNo()%>">
