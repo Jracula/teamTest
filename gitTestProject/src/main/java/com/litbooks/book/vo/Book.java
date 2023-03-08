@@ -18,6 +18,7 @@ public class Book {
 	private int book1st;	//1권인 책의 bookNo를 기입. 단권 또는 1권이면 자기자신 object의 bookNo와 동일.
 	private int nonFee;	//0이면 유료, 1이면 무료. 기본값은 0
 	private String bookImage;	//그림파일의 파일명 또는 파일경로
+	private int bookScore;	//후기 평점. 기본값은 0(=후기 없음)
 	
 	public Book() {
 		super();
@@ -25,7 +26,7 @@ public class Book {
 	}
 
 	// 전체 parameter 생성자
-	public Book(int bookNo, String bookTitle, String bookGenre, String writer, String publisher, int bookPrice, int discount, int onSale, String bookIntro, int bookEpi, int book1st, int nonFee, String bookImage) {
+	public Book(int bookNo, String bookTitle, String bookGenre, String writer, String publisher, int bookPrice, int discount, int onSale, String bookIntro, int bookEpi, int book1st, int nonFee, String bookImage, int bookScore) {
 		super();
 		this.bookNo = bookNo;
 		this.bookTitle = bookTitle;
@@ -40,6 +41,7 @@ public class Book {
 		this.book1st = book1st;
 		this.nonFee = nonFee;
 		this.bookImage = bookImage;
+		this.bookScore = bookScore;
 	}
 
 	// 신규 책 등록용 생성자
@@ -181,4 +183,12 @@ public class Book {
 	public void setBookImage(String bookImage) {
 		this.bookImage = bookImage;
 	}
+
+	public int getBookScore() {
+		return bookScore;
+	}
+
+	public void setBookScore(int bookScore) {
+		this.bookScore = bookScore;
+	}	
 }
