@@ -199,7 +199,7 @@
                   <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                   <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                   <input type="hidden" name="recommRef" value="0">
-                  <textarea name="recommContent" class="input-form" placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "> </textarea>
+                  <textarea name="recommContent" class="input-form" style="border-radius: 8px;"placeholder="후기&감상평을 남겨보세요!  욕설과 비속어 사용시 해당 후기&감상평이 제재될 수 있습니다. 타인을 비방하는 문구 사용을 주세요 "></textarea>
                </li>
                <li>
                   <button type="submit" class="recommbtn recommbc1 recommbs1">등록</button>
@@ -273,7 +273,7 @@
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
-                        <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;"></textarea>
+                        <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;" placeholder="바르고 고운말 사용 부탁드립니다, Please use sweety wording"></textarea>
                      </li>
                      <li>
                         <button type="submit" class="rerecommbtn recommbc1 recommbs1" style="margin-left: 1100px; border-radius: 10px  ">등록</button>

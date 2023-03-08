@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.litbooks.book.vo.Recomm;
 import com.litbooks.member.vo.Member;
 
 import common.JDBCTemplate;
@@ -285,6 +286,62 @@ public class MemberDao {
 		int totalCount = 0;
 		
 		String query = "select count(*) as cnt from member";
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				totalCount = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return totalCount;
+	}
+
+
+	public ArrayList<Recomm> allRecommList(Connection conn, int start, int end) {
+		PreparedStatement pstmt= null;
+		ResultSet rset = null;
+		ArrayList<Recomm> recommlist = new ArrayList<Recomm>();
+		
+		String query = "select*from(select rownum as rnum, n.*from(select recomm_no, book_ref, member_id, recomm_content, recomm_date, recomm_ref, book_score from recomm order by 1 desc)n)where rnum between ? and ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				Recomm rc = new Recomm();
+				rc.setRecommNo(rset.getInt("recomm_no"));
+				rc.setRecommDate(rset.getString("recomm_date"));
+				rc.setRcWriter(rset.getString("member_id"));
+				rc.setRecommContent(rset.getString("recomm_content"));
+				rc.setRecommRef(rset.getInt("recomm_ref"));
+				rc.setRating(rset.getInt("book_score"));
+				rc.setBookRef(rset.getInt("book_ref"));
+				recommlist.add(rc);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}
+		return recommlist;
+	}
+
+	//댓글수 카운트(대댓글 포함)
+	public int selectRecommCount(Connection conn) {
+		PreparedStatement pstmt= null;
+		ResultSet rset = null;
+		int totalCount = 0;
+		
+		String query = "select count(*) as cnt from recomm";
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();

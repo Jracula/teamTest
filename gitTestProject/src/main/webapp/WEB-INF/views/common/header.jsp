@@ -28,7 +28,7 @@
       	<form action="/bookSearchInDetail.do" method="get" onsubmit="return checkKeyword();">
       		<div class="search-bar" style="width: 400px; ">
       			<input type="text" name="searchKeyword" placeholder="책제목을 입력하세요.">
-      			<button type="submit" ><span class="material-symbols-outlined">search</span></button>
+      			<button type="submit" ><span class="material-symbols-outlined search">search</span></button>
 			</div>
       	</form>
       </nav>

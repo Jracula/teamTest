@@ -203,14 +203,22 @@
 	width: 75%;
 }
 
-.inputCommentBox>form>ul>li:nth-child(2)>textarea {
-	height: 96px;
-	min-height: 96px;
-	width: 800px;
-}
 
 .inputCommentBox>form>ul>li:last-child {
 	width: 10%;
+}
+.plusholder{
+	width: 800px;
+	height: 250px;
+    display: block;
+    padding: 0.8rem;
+    background-color: #fff;
+    outline: none;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    resize: none;
+    border-radius: 15px; 
+    margin-left: 150px;
 }
 
 .inputRecommentBox {
@@ -253,12 +261,15 @@ textarea{
   transition-duration: 0.5s;
   font-size: 20px;
   font-family: ns-light;
+  border-radius: 5px;
+  margin-top: 5px;
   
 }
 
 .rerecommbox{
 	margin-left: 180px;
 	font-size: 15px;
+	border-radius: 8px;
 }
 
 .rerecommbtn {
@@ -288,11 +299,66 @@ a.reshow{
 	margin-bottom: 5px;
 	color: white;
 	padding: 3px;
+	display: block;
+	float: right;
+	text-align: center;
 }
 .plusborder{
 	border-right: 2px solid #ccc; 
 	padding: 5px;
+	box-sizing: border-box;
+	text-align: center;
+	padding-right: 17px;
 }
+
+.star-wrap{
+  overflow: hidden;
+  text-align: center;
+  list-style-type: none;
+}
+
+.star-wrap>span{
+    float:left;
+    color: lightgray;
+    font-size: 30px
+}
+
+.star-wrap2{
+    position: relative;
+}
+
+.star-on-wrap>span{
+    color: gold;
+}
+
+.star-on{
+    position: absolute;
+    width: 0px;
+    overflow: hidden;
+}
+.star-on-wrap{
+    width: 150px;
+}
+.star-wrap1>p{
+	margin-left: 150px;
+	width: 800px;
+	font-size: x-large;
+}
+.rating-wrapper{
+	height: 70px;
+	width: 300px;
+	text-align: center;	
+	border-color: transparent;
+	outline: none;
+}
+
+.rating-wrapper::placeholder{
+	font-size: xx-large;	
+}
+.posting-comment-reft{
+	list-style-type: none;
+}
+
 .comment-link{
 	width: 300px;
 }
