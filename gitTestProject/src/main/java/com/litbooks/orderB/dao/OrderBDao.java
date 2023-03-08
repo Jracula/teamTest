@@ -132,6 +132,7 @@ public class OrderBDao {
 				}else {
 					o.setBook_title(rset.getString("book_title"));
 				}
+				o.setStatus(rset.getString("status"));
 				o.setBookPrice(rset.getInt("book_price"));
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));

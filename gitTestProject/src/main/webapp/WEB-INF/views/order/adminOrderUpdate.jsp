@@ -42,6 +42,7 @@
 						<td><%=o.getOrderPay() %></td>
 						<td><%=o.getOrderRegDate() %></td>
 						<td>
+						<%-- <p><%=o.getStatus() %></p>
 						<%if(o.getStatus() == "1") { %>
 							<select>
 								<option value=1 selected>결제대기</option>
@@ -60,7 +61,8 @@
 								<option value=2>결제취소</option>
 								<option value=3 selected>결제완료</option>
 							</select>						
-						<% } %>
+						<% } %> --%>
+						
 						</td>
 						<td>
 							<button type="button" class="btn bc5 adminChangePay">적용</button>
