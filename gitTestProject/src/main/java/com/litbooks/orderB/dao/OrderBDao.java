@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.book.vo.Book;
-import com.litbooks.member.vo.Member;
 import com.litbooks.orderB.vo.OrderB;
 
 import common.JDBCTemplate;
@@ -109,7 +108,9 @@ public class OrderBDao {
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
 
-		String query = "select * from(select rownum as rnum, n.* from (select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date, o.status from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no))n) where rnum between ? and ?";
+		//String query = "select * from(select rownum as rnum, n.* from (select o.order_no, m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date, o.status from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no))n) where rnum between ? and ?";
+		
+		String query = "select * from(select rownum as rnum, n.* from (select o.order_no, order_count(o.order_no) order_count ,m.member_id, b.book_title, b.book_price, o.order_pay, o.order_reg_date, o.status from order_b o join book b on (b.book_no = o.book_no) join member m on (o.member_no = m.member_no))n) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, start);
@@ -119,7 +120,12 @@ public class OrderBDao {
 				OrderB o = new OrderB();
 				o.setOrderNo(rset.getInt("order_no"));
 				o.setMemberId(rset.getString("member_id"));
-				o.setBook_title(rset.getString("book_title"));
+				o.setOrderCount(rset.getInt("order_count")-1);
+				if(o.getOrderCount() != 0) {
+					o.setBook_title(rset.getString("book_title") + " 외 " + o.getOrderCount() + " 권");
+				}else {
+					o.setBook_title(rset.getString("book_title"));
+				}
 				o.setBookPrice(rset.getInt("book_price"));
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));
@@ -248,7 +254,7 @@ public class OrderBDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "INSERT INTO ORDER_B VALUES(ORDER_B_SEQ.NEXTVAL,'3', ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))";
+		String query = "INSERT INTO ORDER_B VALUES(ORDER_B_SEQ.NEXTVAL, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, ?, ?, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 3)";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);

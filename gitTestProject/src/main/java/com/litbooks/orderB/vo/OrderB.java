@@ -30,6 +30,7 @@ public class OrderB {
 	private String book_title; // 책 제목
 	private String memberId; // 회원 아이디
 	private String publisher; // 출판사
+	private int orderCount;
 	
 	public OrderB() {
 		super();
@@ -40,7 +41,7 @@ public class OrderB {
 			int bookNo5, int bookNo6, int bookNo7, int bookNo8, int bookNo9, int bookNo10, int bookPrice,
 			int bookPrice2, int bookPrice3, int bookPrice4, int bookPrice5, int bookPrice6, int bookPrice7,
 			int bookPrice8, int bookPrice9, int bookPrice10, int orderPrice, String orderPay, String orderRegDate,
-			String book_title, String memberId, String publisher) {
+			String book_title, String memberId, String publisher, int orderCount) {
 		super();
 		this.orderNo = orderNo;
 		this.status = status;
@@ -71,6 +72,15 @@ public class OrderB {
 		this.book_title = book_title;
 		this.memberId = memberId;
 		this.publisher = publisher;
+		this.orderCount = orderCount;
+	}
+	
+	public int getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(int orderCount) {
+		this.orderCount = orderCount;
 	}
 
 	public int getOrderNo() {
