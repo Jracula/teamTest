@@ -9,10 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.litbooks.basket.Service.BasketService;
 import com.litbooks.basket.vo.Basket;
 import com.litbooks.book.vo.Book;
+import com.litbooks.member.vo.Member;
 
 /**
  * Servlet implementation class CartServlet
@@ -43,10 +45,13 @@ public class CartServlet extends HttpServlet {
 		ArrayList<Basket> list = service.selectBookNumber(memberNo);
 		
 		if(list.isEmpty()) {
-			request.setAttribute("title", "카트 조회불가");
-			request.setAttribute("msg", "책을 담아주세요");
-			request.setAttribute("icon", "warning");
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("title", "장바구니 조회불가");
+			request.setAttribute("msg", "책을 장바구니에 담아주세요");
+			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/index.jsp");
+			view.forward(request, response);
+			return;
 		} else {
 			// 장바구니에서 회원이 담은 책 제목, 책 가격 조회
 			ArrayList<Book> bask = service.selectBookDetail(memberNo);

@@ -4,6 +4,8 @@
     pageEncoding="UTF-8"%>
     <%
     	ArrayList<OrderB> list = (ArrayList<OrderB>)request.getAttribute("list");
+    	String pageNavi = (String)request.getAttribute("pageNavi");
+    	int start = (int)request.getAttribute("start");
     %>
 <!DOCTYPE html>
 <html>
@@ -25,8 +27,9 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
+		<% if(m.getMemberLevel() == 1) { %>
 		<div class="page-title">(관리자페이지) 주문내역 조회</div>
-		<form action="/adminOrderList.do" method="post">
+		<!-- <form action="/adminOrderList.do" method="post"> -->
 			<table class="tbl tbl-hober orberB-tbl">
 				<tr class="tr-2">
 					<th>주문번호</th>
@@ -40,7 +43,7 @@
 				<%for(int i=0; i<list.size(); i++) { %>
 					<%OrderB o = list.get(i); %>
 				<tr class="tr-1">
-					<td><%=o.getOrderNo() %></td>
+					<td><%=i+start %></td>
 					<td><%=o.getMemberId() %></td>
 					<td><%=o.getBook_title() %></td>
 					<td><%=o.getBookPrice() %></td>
@@ -48,8 +51,11 @@
 					<td><%=o.getOrderRegDate() %></td>
 				<% } %>
 				</tr>
+			<% } %>
 			</table>
-		</form>
+			
+			<div id="pageNavi"><%=pageNavi %></div>
+		<!-- </form> -->
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

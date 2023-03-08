@@ -148,14 +148,14 @@ public class BasketDao {
 	}
 
 	// 장바구니 일괄체크 후 삭제
-	public int cartDelete(Connection conn, int bookNo) {
+	public int cartDelete(Connection conn, int basketNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "delete from basket where book_no=?";
+		String query = "delete from basket where basket_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, bookNo);
+			pstmt.setInt(1, basketNo);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

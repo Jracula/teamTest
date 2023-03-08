@@ -58,6 +58,7 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
     <div class="page-content">
+        <% if(m != null && m.getMemberLevel() != 1) { %>
         <div class="page-title">장바구니(카트)</div>
         
         <table class="table-content">
@@ -82,20 +83,21 @@
 					<img src="/upload/book/cover-image/00000000.jpg" height=150px>
 				<%} %>
                 </td>
-                <td><span style="display: none;" id="bookNo"><%=detail.getBookNo() %></span></td> 
+                <td><span style="display: none;" id="bookNo" class="bkn"><%=detail.getBookNo() %></span></td> 
 				<td><%=detail.getBookTitle() %></td> <!-- 책 이름 -->
                 <td class="amountPrice"><%=detail.getBookPrice() %></td>
-
     		</tr>
     		<% } %>
         </table>
         
        	<div class="pay-content">
-            <span class="material-symbols-outlined">check_circle</span><span id="checkCount">O</span>개를 선택하셨습니다.
-            <div>총 상품 금액 : <span id="allPrice"> 원</span></div>
-            <div>합계 : <span id="allPrice2"> 원</span></div>
+            <span class="material-symbols-outlined" style="margin: 0">check_circle</span>
+            <span id="checkCount">O</span>개를 선택하셨습니다.
+            <div>총 상품 금액 : <span id="allPrice">0</span>원</div>
+            <div>합계 : <span id="allPrice2">0</span>원</div>
             <button id="buyBook">구매하기</button>
         </div>
+        <% } %>
 	</div>
 
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
@@ -110,6 +112,8 @@
 			$(".chk").prop("checked",status);
 			const checkCount = $(".chk:checked").length;
 			$("#checkCount").text(checkCount);
+			
+			totalPrice();
 		});
 		
 		// 일괄 선택
@@ -117,68 +121,77 @@
 			$(this).prop("checked");
 			const checkCount = $(".chk:checked").length;
 			$("#checkCount").text(checkCount);
+			
+			totalPrice();
 		});
 		
-		// 선택삭제
+		// 선택삭제 버튼 클릭 시 장바구니 테이블 삭제
+		// → 체크박스를 배열로 저장 후 Ajax로 넘겨준다.
 		$(".removeBtn").on("click", function() {
-			const chk = document.querySelectorAll(".chk");
-			for(let i=0; i<chk.length; i++) {
-				if(chk[i].checked) {
-					chk[i].parentElement.parentElement.remove();
-				}
-			}
-			
-			// 수정필요
-			const check = $(".chk:checked");
-			
+			// 체크박스를 저장할 배열
 			const no = new Array();
+			const checkBox = $(".chk:checked");
 			
-			check.each(function(index, item) {				
-				const bookNo = $(this).parent().parent().next().children().find("span").text();
-				console.log("bookNo = " + bookNo);
+			checkBox.each(function(index, item) {
+				const value = $(item).val();
+				no.push(value);
 			});
-			
-			// 체크 후 선택삭제 시 장바구니 DB에 해당하는 책 번호 삭제
-			location.href="/cartDelete.do?no="+no.join("/");
+
+			console.log(no.join("/"));
+
+			$.ajax({
+				url : "/cartDelete.do",
+				type : "POST",
+				dataType : "JSON",
+				data : { no : no.join("/")},
+				success : function(data) {
+					console.log(data);
+					if(data){
+						checkBox.each(function(index, item){
+							$(item).parent().parent().remove();
+							totalPrice()
+						});
+					}else{
+
+					}
+				},
+				error : function() {
+					alert("알 수 없는 이유로 삭제에 실패했습니다.");
+					location.href="/cart.do";
+				}
+			});
 		});
-		
-		
-		let totalPrice = 0;
-		function allPrice() {
-			const price = $(".amountPrice");
-			for(let i=0; i<price.length; i++) {
-				sum += Number(price.eq(i).text());
-			}
-			$("#allPrice").text(sum);
-			$("#allPrice2").text(sum);
-		}
-		
-		/*
+
 		// 총 상품 금액, 합계 --> 함수처리
-		let sum = 0;
-		const price = $(".amountPrice");
-		//console.log(price);
-		for(let i=0; i<price.length; i++) {
-			//console.log(price.eq(i).text());
-			sum += Number(price.eq(i).text());
-			//console.log(sum);
+		function totalPrice() {
+			let sum = 0;
+			const price = $(".amountPrice");
+			price.each(function(index, item) {
+				const checkbox = $(item).parent().find("input[type=checkbox]");
+				if (checkbox.is(":checked")) {
+					const bookPrice = $(item).text();
+					sum += Number(bookPrice);
+				}
+			});
 			$("#allPrice").text(sum);
 			$("#allPrice2").text(sum);
 		}
-		*/
-	
+
 		// 결제페이지로 이동
-		$("#buyBook").on("click", function() {
-			const memberNo = $("#memberNo").text();
-			const bookNo = $("#bookNo").text(); // id, class / eq(0)~eq(9) / book 1~10
-			const basketNo = new Array();
-			$(".chk:checked").each(function(index,item){
-				basketNo.push($(item).val());
-			});
-			//console.log(basketNo.join("/"));
-			location.href="/orderPayMent.do?memberNo="+memberNo+"&basketNo="+basketNo.join("/");
-			 //memberNo(헤더), bookNo
-		});
+		$("#buyBook").on(
+				"click",
+				function() {
+					const memberNo = $("#memberNo").text();
+					const bookNo = $("#bookNo").text(); // id, class / eq(0)~eq(9) / book 1~10
+					const basketNo = new Array();
+					$(".chk:checked").each(function(index, item) {
+						basketNo.push($(item).val());
+					});
+					//console.log(basketNo.join("/"));
+					location.href = "/orderPayMent.do?memberNo=" + memberNo
+							+ "&basketNo=" + basketNo.join("/");
+					//memberNo(헤더), bookNo
+				});
 	</script>
 	
 	

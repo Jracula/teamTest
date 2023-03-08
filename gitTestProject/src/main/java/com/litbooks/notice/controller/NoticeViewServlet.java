@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.notice.service.NoticeService;
 import com.litbooks.notice.vo.Notice;
-import com.litbooks.notice.vo.NoticeViewData;
 
 /**
  * Servlet implementation class NoticeViewServlet
@@ -37,9 +36,9 @@ public class NoticeViewServlet extends HttpServlet {
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
 		NoticeService service = new NoticeService();
-		NoticeViewData nvd = service.selectOneNotice(noticeNo);
+		Notice n = service.selectOneNotice(noticeNo);
 		
-		if(nvd == null) {
+		if(n == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
@@ -48,7 +47,7 @@ public class NoticeViewServlet extends HttpServlet {
 			view.forward(request, response);
 		} else { 
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
-			request.setAttribute("n", nvd.getN());
+			request.setAttribute("n", n);
 			view.forward(request, response);
 		}
 	}

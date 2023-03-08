@@ -14,7 +14,8 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
-			<div class="page-title">(관리자페이지) 주문내역 취소</div>
+		<% if(m.getMemberLevel() == 1) { %>
+			<div class="page-title">(관리자페이지) 주문내역 변경</div>
 			<form action="/adminOrderUpdate.do">
 			
 				<table class="tbl tbl-hover">
@@ -41,11 +42,25 @@
 						<td><%=o.getOrderPay() %></td>
 						<td><%=o.getOrderRegDate() %></td>
 						<td>
+						<%if(o.getStatus() == "결제대기") { %>
 							<select>
-								<option value=1>결제대기</option>
+								<option value=1 selected>결제대기</option>
 								<option value=2>결제취소</option>
 								<option value=3>결제완료</option>
 							</select>
+						<% } else if(o.getStatus() == "결제취소") { %>
+							<select>
+								<option value=1>결제대기</option>
+								<option value=2 selected>결제취소</option>
+								<option value=3>결제완료</option>
+							</select>						
+						<% } else if(o.getStatus() == "결제완료") { %>
+							<select>
+								<option value=1>결제대기</option>
+								<option value=2>결제취소</option>
+								<option value=3 selected>결제완료</option>
+							</select>						
+						<% } %>
 						</td>
 						<td>
 							<button type="button" class="btn bc5 adminChangePay">적용</button>
@@ -60,6 +75,7 @@
 					</tr>
 				</table>
 			</form>
+			<% } %>
 		</div>
 		
 		<script>

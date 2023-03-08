@@ -61,10 +61,10 @@ function modifyCancel(obj, recommNo, bookNo) {
 	$(obj).parent().prev().hide(); // textarea 숨김
 	$(obj).parent().prev().prev().show();//기존댓글 다시 보여줌
 	//수정완료 -> 수정
-	$(obj).prev().text("수정");
+	$(obj).prev().text("edit");
 	$(obj).prev().attr("onclick", "modifyComment(this," + recommNo + "," + bookNo + ")");
 	//수정취소 -> 삭제
-	$(obj).text("삭제");
+	$(obj).text("delete");
 	$(obj).attr("onclick", "deleteComment(this," + recommNo + "," + bookNo + ")");
 	//답글달기 버튼 다시 버보여줌
 	$(obj).next().show();
@@ -94,4 +94,20 @@ function deleteCommnet(obj, recommNo, bookNo) {
 		location.href = "/deleteRecomm.do?recommNo="+ recommNo +"&bookNo="+ bookNo;
 	}
 }
+
+const stars = $(".star");
+stars.on("mouseover",function(){
+	
+    stars.css("color","lightgrey");
+    const index = stars.index(this);
+    console.log(index);
+
+    for(let i=0;i<=index;i++){
+        stars.eq(i).css("color","gold");
+    }
+    $("#star-result-left").text("별이");
+    $("#star-result-number").text(index+1);
+    $("#star-result-right").text("개!");
+});
+
 			

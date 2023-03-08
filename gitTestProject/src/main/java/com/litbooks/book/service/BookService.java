@@ -1,6 +1,7 @@
 package com.litbooks.book.service;
 
 import java.sql.Connection;
+
 import java.util.ArrayList;
 
 import com.litbooks.basket.vo.Basket;
@@ -88,7 +89,21 @@ public class BookService {
 		return result;
 	}
 
-	
+
+	//책 1권 정보 수정
+	public int updateBook(Book b) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateBook(conn, b);
+		if (result > 0) {
+			JDBCTemplate.commit(conn);
+		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+
 	//가장 마지막으로 등록된 책의 bookNo를 알아오기 위한 함수  
 	public int getLatestBookNo() {
 		Connection conn = JDBCTemplate.getConnection();
@@ -271,7 +286,7 @@ public class BookService {
 		int start = numPerPage*(reqPage-1)+1;
 		ArrayList<Book> list = dao.selectBook1stByWish(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre, start, end);
 		// 최대 페이지 수
-		int totalCount = dao.selectSearchResultCount(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
+		int totalCount = dao.selectSearchResult1stCount(conn, searchTitle, searchWriter, onlyOnSale, selectedGenre);
 		int maxPage = 0;
 		if(totalCount%numPerPage == 0) {
 			maxPage = totalCount/numPerPage;
@@ -386,5 +401,5 @@ public class BookService {
 
 
 
-	
+
 }

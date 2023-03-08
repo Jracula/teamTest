@@ -79,9 +79,9 @@ public class BasketService {
 		boolean result = true;
 		
 		while(sT1.hasMoreTokens()) {
-			int bookNo = Integer.parseInt(sT1.nextToken());
+			int basketNo = Integer.parseInt(sT1.nextToken());
 			
-			int changeResult = dao.cartDelete(conn, bookNo);
+			int changeResult = dao.cartDelete(conn, basketNo);
 			if(changeResult == 0) {
 				result = false;
 				break;

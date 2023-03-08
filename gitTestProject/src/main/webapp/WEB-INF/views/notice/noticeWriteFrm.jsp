@@ -13,6 +13,11 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
+	
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	
 		<div class="page-content">
 			<div class="page-title">공지사항 작성</div>
 			<!-- ★ 첨부파일이 있는 경우 메소드를 post로 설정 / 첨부파일이 있는 경우 enctype="multipart/form-data"를 필수로 작성해줘야함 -->
@@ -38,8 +43,8 @@
 					</tr>
 					
 					<tr class="tr-1">
-						<td colspan="4">
-							<textarea name="noticeContent" class="input-form"></textarea>
+						<td colspan="4" style="text-align: left;">
+							<textarea name="noticeContent" id="noticeContent" class="input-form"></textarea>
 						</td>
 					</tr>
 					
@@ -52,6 +57,35 @@
 				</table>
 			</form>
 		</div>
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>	
+		
+		<script>
+			$("#noticeContent").summernote({
+				height : 400,
+				lang : "ko-KR",
+				callbacks : {
+					onImageUpload : function(files) {
+						uploadImage(files[0], this);
+					}
+				}	
+			});
+			
+			function uploadImage(file, editor) {
+				const form = new FormData();
+				form.append("file", file);
+				$.ajax({
+					url : "/uploadImage.do",
+					type : "POST",
+					data : form,
+					processData : false,
+					contentType : false,
+					success : function(data) {
+						$(editor).summernote("insertImage", data);
+					}
+				});
+			}
+			
+		</script>
+		
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

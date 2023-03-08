@@ -1,6 +1,7 @@
 package com.litbooks.book.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,7 +41,8 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				float bookScore = rset.getFloat("BOOK_SCORE");
+				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -79,7 +81,8 @@ public class BookDao {
 				int bookEpi = rset.getInt("BOOK_EPI");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				float bookScore = rset.getFloat("BOOK_SCORE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
 		} catch (SQLException e) {
@@ -125,7 +128,7 @@ public class BookDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
-		String query = "INSERT INTO BOOK VALUES (BOOK_SEQ.NEXTVAL, ?, ?, NVL(?, '작자미상'), NVL(?, '출판사불명'), ?, ?, DEFAULT, ?, ?, CASE WHEN ?=0 THEN BOOK_SEQ.NEXTVAL ELSE ? END, ?, '')";
+		String query = "INSERT INTO BOOK VALUES (BOOK_SEQ.NEXTVAL, ?, ?, NVL(?, '작자미상'), NVL(?, '출판사불명'), ?, ?, DEFAULT, ?, ?, CASE WHEN ?=0 THEN BOOK_SEQ.NEXTVAL ELSE ? END, ?, '', 0)";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -141,6 +144,41 @@ public class BookDao {
 			pstmt.setInt(9, b.getBook1st());
 			pstmt.setInt(10, b.getBook1st());	//book1st에 0이 아닌 특정 값을 줬다면, bookNo가 그 값인 책이 1권으로 지정됨
 			pstmt.setInt(11, b.getNonFee());
+			//bookImage 파일명은 다시 명명할 것이므로 지금 정해줄 필요 없음
+			//신규이므로 평점은 DEFAULT인 0
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+
+
+	//책 1권 정보 수정. 이미지는 여기서 수정 안 함
+	public int updateBook(Connection conn, Book b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE BOOK SET BOOK_TITLE = ?, BOOK_GENRE = ?, WRITER = NVL(?, '작자미상'), PUBLISHER = NVL(?, '출판사불명'), BOOK_PRICE = ?, DISCOUNT = ?, ONSALE = ?, BOOK_INTRO = ?, BOOK_EPI = ?, BOOK_1ST = ?, NONFEE = ? WHERE BOOK_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getBookTitle());
+			pstmt.setString(2, b.getBookGenre());
+			pstmt.setString(3, b.getWriter());
+			pstmt.setString(4, b.getPublisher());
+			pstmt.setInt(5, b.getBookPrice());
+			pstmt.setInt(6, b.getDiscount());
+			pstmt.setInt(7, b.getOnSale());
+			pstmt.setString(8, b.getBookIntro());
+			pstmt.setInt(9, b.getBookEpi());
+			pstmt.setInt(10, b.getBook1st());
+			pstmt.setInt(11, b.getNonFee());
+			pstmt.setInt(12, b.getBookNo());
 			//bookImage 파일명은 다시 명명할 것이므로 지금 정해줄 필요 없음
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -238,7 +276,8 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				float bookScore = rset.getFloat("BOOK_SCORE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
 		} catch (SQLException e) {
@@ -318,7 +357,8 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				float bookScore = rset.getFloat("BOOK_SCORE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
 		} catch (SQLException e) {
@@ -435,8 +475,18 @@ public class BookDao {
 		ResultSet rset = null;
 
 		ArrayList<Book> list = new ArrayList<Book>();
+		String[] titles = searchTitle.split(" ");
+		String[] writers = searchWriter.split(" ");
 
-		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND (BOOK_TITLE LIKE ?) AND (WRITER LIKE ?";
+		String queryHead = "SELECT * FROM (SELECT ROWNUM AS RN, RESULT. * FROM (SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND ((BOOK_TITLE LIKE ?)";
+		String queryHead2 = "";
+		for(int i=1; i<titles.length; i++) {
+			queryHead2 += " AND (BOOK_TITLE LIKE ?)";
+		}
+		String queryHead3 = ") AND ((WRITER LIKE ?)";
+		for(int i=1; i<writers.length; i++) {
+			queryHead3 += " AND (WRITER LIKE ?)";
+		}
 		String queryBody = "";
 		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
 			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
@@ -450,21 +500,25 @@ public class BookDao {
 		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
 			queryOnsale =" AND (ONSALE=1)";
 		}
-		String query = queryHead+queryBody+queryTail+queryOnsale+")RESULT) WHERE RN BETWEEN ? AND ?";	//완성된 query문
+		String query = queryHead+queryHead2+queryHead3+queryBody+queryTail+queryOnsale+")RESULT) WHERE RN BETWEEN ? AND ?";	//완성된 query문
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, '%'+searchTitle+'%');	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
-			pstmt.setString(2, '%'+searchWriter+'%');
+			for(int i=0; i<titles.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+1, '%'+titles[i]+'%');
+			}
+			for(int i=0; i<writers.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+titles.length+1, '%'+writers[i]+'%');
+			}
 			if(selectedGenre!=null) {
 				for(int i=0; i<selectedGenre.length; i++) {
-					pstmt.setString(i+3, selectedGenre[i]);
+					pstmt.setString(i+titles.length+writers.length+1, selectedGenre[i]);
 				}
-				pstmt.setInt(selectedGenre.length+3, start);
-				pstmt.setInt(selectedGenre.length+4, end);
+				pstmt.setInt(selectedGenre.length+titles.length+writers.length+1, start);
+				pstmt.setInt(selectedGenre.length+titles.length+writers.length+2, end);
 			} else {
-				pstmt.setInt(3, start);
-				pstmt.setInt(4, end);
+				pstmt.setInt(titles.length+writers.length+1, start);
+				pstmt.setInt(titles.length+writers.length+2, end);
 			}
 			rset = pstmt.executeQuery();
 			while (rset.next()) {
@@ -481,7 +535,8 @@ public class BookDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				float bookScore = rset.getFloat("BOOK_SCORE");
+				Book b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookScore);
 				list.add(b);
 			}
 		} catch (SQLException e) {
@@ -495,6 +550,67 @@ public class BookDao {
 	}
 
 
+	//검색결과물의 수 - 1권인 책만 상세 검색
+	public int selectSearchResult1stCount(Connection conn, String searchTitle, String searchWriter, int onlyOnSale, String selectedGenre[]) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int totalCount = 0;
+		String[] titles = searchTitle.split(" ");
+		String[] writers = searchWriter.split(" ");
+
+		String queryHead = "SELECT COUNT(*) AS CNT FROM (SELECT * FROM BOOK WHERE (BOOK_EPI=1) AND ((BOOK_TITLE LIKE ?)";
+		String queryHead2 = "";
+		for(int i=1; i<titles.length; i++) {
+			queryHead2 += " AND (BOOK_TITLE LIKE ?)";
+		}
+		String queryHead3 = ") AND ((WRITER LIKE ?)";
+		for(int i=1; i<writers.length; i++) {
+			queryHead3 += " AND (WRITER LIKE ?)";
+		}
+		String queryBody = "";
+		if(selectedGenre!=null) {	//체크박스로 장르들을 선택한 것이 1개 이상이면
+			queryBody=") AND (BOOK_GENRE IN (?";	//WHERE에 BOOK_GENRE도 걸어줌
+			for(int i=1; i<selectedGenre.length; i++) {
+				queryBody += ", ?";
+			}
+			queryBody += ")";
+		}
+		String queryTail = ")";
+		String queryOnsale ="";
+		if(onlyOnSale==1) {	//판매중지 제외에 체크되었으면, WHERE에 ONSALE=1도 추가
+			queryOnsale =" AND (ONSALE=1)";
+		}
+		String query = queryHead+queryHead2+queryHead3+queryBody+queryTail+queryOnsale+")";	//완성된 query문
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			for(int i=0; i<titles.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+1, '%'+titles[i]+'%');
+			}
+			for(int i=0; i<writers.length; i++) {	//키워드를 포함해야 하는 조건이므로 앞뒤에 %
+				pstmt.setString(i+titles.length+1, '%'+writers[i]+'%');
+			}
+			if(selectedGenre!=null) {
+				for(int i=0; i<selectedGenre.length; i++) {
+					pstmt.setString(i+titles.length+writers.length+1, selectedGenre[i]);
+				}
+			}
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				totalCount = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return totalCount;
+	}
+
+	
 	// 장바구니 조회를 위한 책 테이블 전체조회
 	public ArrayList<Book> selectAllBook(Connection conn, int bookNo) {
 		PreparedStatement pstmt = null;
@@ -522,6 +638,7 @@ public class BookDao {
 				b.setBook1st(rset.getInt("book_1st"));
 				b.setNonFee(rset.getInt("nonfee"));
 				b.setBookImage(rset.getString("book_image"));
+				b.setBookScore(rset.getFloat("book_score"));
 				list.add(b);
 			}
 		} catch (SQLException e) {
@@ -566,14 +683,16 @@ public class BookDao {
 		public int insertRecomm(Connection conn, Recomm rc) {
 			PreparedStatement pstmt = null;
 			int result = 0;
-			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?)";
-			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜
+			String qurey = "insert into recomm values(recomm_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?,?)";
+			//댓글번호,책(게시글)번호,회원ID,댓글내용,날짜,대댓글참조번호,평점
 			try {
 				pstmt = conn.prepareStatement(qurey);
 		        pstmt.setInt(1, rc.getBookRef());
 		        pstmt.setString(2, rc.getRcWriter());
 		        pstmt.setString(3, rc.getRecommContent());
 		        pstmt.setString(4, (rc.getRecommRef()==0)?null:String.valueOf(rc.getRecommRef()));
+		        pstmt.setInt(5, rc.getRating());
+		        
 		        result= pstmt.executeUpdate();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -605,6 +724,7 @@ public class BookDao {
 					rc.setRecommRef(rset.getInt("recomm_ref"));
 					rc.setRcWriter(rset.getString("member_id"));
 					rc.setBookRef(rset.getInt("book_ref"));
+					rc.setRating(rset.getInt("book_score"));
 					list.add(rc);
 				}
 			} catch (SQLException e) {
@@ -695,5 +815,4 @@ public class BookDao {
 				return result;
 			}
 
-	
 }

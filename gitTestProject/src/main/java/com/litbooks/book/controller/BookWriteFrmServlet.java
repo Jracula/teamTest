@@ -38,18 +38,27 @@ public class BookWriteFrmServlet extends HttpServlet {
 		BookService service = new BookService();
 		ArrayList<String> list = service.selectGenre();	//GENRE 테이블 읽어오기
 		request.setAttribute("genreList", list);
-	/*	Member m = (Member) session.getAttribute("m");
-		if (m.getMemberLevel() == 1) {*/
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookWriteFrm.jsp");
-		view.forward(request, response);
-	/*	} else {
+		Member m = (Member) session.getAttribute("m");
+		if (m == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "접근 제한");
-			request.setAttribute("msg", "신규 도서 등록은 관리자만 가능합니다.");
+			request.setAttribute("msg", "비회원은 접근 불가능합니다.");
 			request.setAttribute("icon", "error");
 			request.setAttribute("loc", "/index.jsp");
 			view.forward(request, response);
-		}*/
+		} else {
+			if (m.getMemberLevel() == 1) {
+				RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/book/bookWriteFrm.jsp");
+				view.forward(request, response);
+			} else {
+				RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+				request.setAttribute("title", "접근 제한");
+				request.setAttribute("msg", "신규 도서 등록은 관리자만 가능합니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/index.jsp");
+				view.forward(request, response);
+			}
+		}
 	}
 
 	/**
