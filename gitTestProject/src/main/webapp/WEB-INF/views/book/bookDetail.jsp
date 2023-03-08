@@ -305,7 +305,7 @@
 	
 	// 책 단권 구매하기 ajax
 	$("#payOneBtn").on("click", function() {
-		const memberNo = <%=m.getMemberNo()%>;
+		const memberNo = $("#memberNo").text();
 		bookNo = $("#bookNo").text();
 		const bookPrice = $("#bookPrice").text();
 		console.log("memberNo : " + memberNo)
