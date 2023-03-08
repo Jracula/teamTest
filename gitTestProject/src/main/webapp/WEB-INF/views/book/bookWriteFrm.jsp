@@ -90,6 +90,7 @@
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	<script>
+	//무료 감상 체크 전환에 따라 정가와 할인율의 서식 변경
 	$("[name=nonFee]").on("change", function(){
 		if($(this).is(":checked")){
 			$("[name=bookPrice]").css({'text-decoration' : 'line-through'});
@@ -99,6 +100,8 @@
 			$("[name=discount]").css("color","#252A34");
 		}		
 	});
+	
+	//책 권수에 따라 1권인 책의 bookNo 지정 여부 등 전환
 	$("#bookEpi").on("keyup change", function(){
 		if($(this).val()>1){
 			$("#book1st").attr("placeholder", "1권인 책의 bookNo를 지정");
@@ -114,6 +117,7 @@
 		}
 	});
 
+	//1권의 bookNo를 찾기 위해 자식창 열기
 	$("#findSimilar").on("click",function(){
 		window.open("/book1stSearchInDetail.do", "findBook1st", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=1240, height=680");
 	});
