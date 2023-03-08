@@ -13,13 +13,14 @@ import common.JDBCTemplate;
 
 public class OrderBDao {
 
-	// 전체주문 조회하기 (OrderList.do)
+	// 전체주문 조회하기 (OrderList.do) // 수정필요
 	public ArrayList<OrderB> selectAllOrder(Connection conn, int memberNo, int start, int end) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		ArrayList<OrderB> list = new ArrayList<>();
 
-		String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.book_no) where member_no=?)n) where rnum between ? and ?";
+		//String query = "select * from(select rownum as rnum, n.* from (select order_no, order_reg_date, book_title, order_pay, b.book_price from book b left join order_b o on(b.book_no = o.book_no) where member_no=?)n) where rnum between ? and ?";
+		String query = "select * from(select rownum as rnum, n.* from(select order_no, order_count(o.order_no) order_count, order_reg_date, book_title, order_pay, b.book_price from order_b o left join book b on(b.book_no = o.book_no) where member_no=?)n) where rnum between ? and ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
@@ -29,7 +30,12 @@ public class OrderBDao {
 			while (rset.next()) {
 				OrderB o = new OrderB();
 				o.setOrderNo(rset.getInt("order_no"));
-				o.setBook_title(rset.getString("book_title"));
+				o.setOrderCount(rset.getInt("order_count")-1);
+				if(o.getOrderCount() != 0) {
+					o.setBook_title(rset.getString("book_title") + " 외 " + o.getOrderCount() + " 권");
+				}else {
+					o.setBook_title(rset.getString("book_title"));
+				}
 				o.setOrderPrice(rset.getInt("book_price"));
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));
@@ -189,9 +195,9 @@ public class OrderBDao {
 				int book1st = rset.getInt("BOOK_1ST");
 				int nonFee = rset.getInt("NONFEE");
 				String bookImage = rset.getString("BOOK_IMAGE");
-				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro,
-						bookEpi, book1st, nonFee, bookImage);
-			}
+				b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage, bookNo);
+				//b = new Book(bookNo, bookTitle, bookGenre, writer, publisher, bookPrice, discount, onSale, bookIntro, bookEpi, book1st, nonFee, bookImage);
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

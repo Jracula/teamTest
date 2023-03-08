@@ -42,19 +42,19 @@
 						<td><%=o.getOrderPay() %></td>
 						<td><%=o.getOrderRegDate() %></td>
 						<td>
-						<%if(o.getStatus() == "결제대기") { %>
+						<%if(o.getStatus() == "1") { %>
 							<select>
 								<option value=1 selected>결제대기</option>
 								<option value=2>결제취소</option>
 								<option value=3>결제완료</option>
 							</select>
-						<% } else if(o.getStatus() == "결제취소") { %>
+						<% } else if(o.getStatus() == "2") { %>
 							<select>
 								<option value=1>결제대기</option>
 								<option value=2 selected>결제취소</option>
 								<option value=3>결제완료</option>
 							</select>						
-						<% } else if(o.getStatus() == "결제완료") { %>
+						<% } else if(o.getStatus() == "3") { %>
 							<select>
 								<option value=1>결제대기</option>
 								<option value=2>결제취소</option>
