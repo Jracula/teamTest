@@ -61,7 +61,6 @@ public class FaqWriteServlet extends HttpServlet {
 		//3. 비즈니스 로직
 		FaqService service = new FaqService();
 		int result = service.insertFaq(f);
-		System.out.println(result);
 		
 		//4. 결과 처리
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");

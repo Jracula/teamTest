@@ -29,6 +29,9 @@
     <!-- 기본 js -->
     <script src="/js/default.js"></script>
 <style>
+.coverImage:hover {
+  cursor: zoom-in;
+}
 .searchEngine {
 	background-color: #EEEEEE;
 	padding: 20px;
@@ -144,15 +147,15 @@
 			<%Book bs = books.get(i); %>
 				<div style="float: left;">
 				<%if (bs.getBookImage()!=null){%>
-					<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=100px>
+					<img class="coverImage" src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=100px>
 				<%}else{ %>
 					<img src="/upload/book/cover-image/00000000.jpg" width=100px>
 				<%} %>
 				</div>
 				<div class="selectBook" type="button">
-					<span style="display:none;"><%=bs.getBookNo() %></span>
-					<span><%=bs.getBookTitle() %></span><br>
-					<span><%=bs.getBookGenre() %></span><br>
+					<p style="display:none;"><%=bs.getBookNo() %></p>
+					<p><%=bs.getBookTitle() %></p>
+					<p><%=bs.getBookGenre() %></p>
 					<p><span><%=bs.getWriter() %></span> | <span><%=bs.getPublisher() %></span></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<span style="display:none;"><%=bs.getBookPrice() %></span>
@@ -213,6 +216,12 @@
 		window.opener.document.getElementById("writer").value = writer;
 		window.opener.document.getElementById("publisher").value = publisher;
 		window.close();
+	});
+
+	// 커머이미지 크게 보기
+	$(".coverImage").on("click", function(){
+		const imgUrl = $(this).attr("src");
+		window.open(imgUrl, "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
 	});
 	</script>
 </body>

@@ -29,7 +29,7 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="page-title">FAQ
-				<a class="btn bc44" href="/faqList.do?reqPage=1&fFlag=1" id="goList">목록</a>
+				<a class="btn bc200" href="/faqList.do?reqPage=1&fFlag=1" id="goList">목록</a>
 			</div>
 			<table class="tbl" id="faqView">
 				<tr class="tr-3">
@@ -62,13 +62,14 @@
 				<%if( m!=null && m.getMemberId().equals(f.getfWriter()) ) {%>
 				<tr>
 					<th colspan="6">
-						<a class="btn bc44" href="/faqUpdateFrm.do?faqNo=<%=f.getfNo() %>">수정</a>
-						<button class="btn bc44" onclick="faqDelete(<%=f.getfNo()%>);">삭제</button>
+						<a class="btn bc200" href="/faqUpdateFrm.do?faqNo=<%=f.getfNo() %>">수정</a>
+						<button class="btn bc200" onclick="faqDelete(<%=f.getfNo()%>);">삭제</button>
 					</th>
 				</tr>
 				<%} %>
 			</table>
 		</div>
+
 
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 	

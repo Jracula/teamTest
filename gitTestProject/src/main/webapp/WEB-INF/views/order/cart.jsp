@@ -12,6 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니(카트)</title>
+<link rel="stylesheet" href="/css/bootstrap-modal.css" />
 <style>
 	#buyBook{
         border: none;
@@ -93,8 +94,29 @@
        	<div class="pay-content">
             <span class="material-symbols-outlined" style="margin: 0">check_circle</span>
             <span id="checkCount">O</span>개를 선택하셨습니다.
-            <div>총 상품 금액 : <span id="allPrice">0</span>원</div>
             <div>합계 : <span id="allPrice2">0</span>원</div>
+            <br>
+            
+            <!-- 장바구니에서 책을 선택하지 않을 시 실행시킬 버튼 숨기기 -->
+			<button type="button" class="btn btn-info btn-lg" id="modalButton" data-toggle="modal" data-target="#myModal" style="display: none;">modal용 숨겨진 버튼</button>
+			<!-- 장바구니에서 책 선택하지 않을 시 실행시킬 Modal -->
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align: center;">알림</h4>
+						</div>
+						<div class="modal-body">
+							<p id="givenMessage" style="text-align: center;">장바구니 결과 메세지</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 모달창 끝 -->
+            
             <button id="buyBook">구매하기</button>
         </div>
         <% } %>
@@ -173,7 +195,6 @@
 					sum += Number(bookPrice);
 				}
 			});
-			$("#allPrice").text(sum);
 			$("#allPrice2").text(sum);
 		}
 
@@ -188,8 +209,14 @@
 						basketNo.push($(item).val());
 					});
 					//console.log(basketNo.join("/"));
-					location.href = "/orderPayMent.do?memberNo=" + memberNo
-							+ "&basketNo=" + basketNo.join("/");
+					if(basketNo == "") {
+						// 장바구니에서 책을 선택하지 않을 경우 모달창 출력
+						$("#givenMessage").text("책을 선택해주세요.");
+						$("#modalButton").click();
+					} else {
+						location.href = "/orderPayMent.do?memberNo=" + memberNo
+								+ "&basketNo=" + basketNo.join("/");						
+					}
 					//memberNo(헤더), bookNo
 				});
 	</script>

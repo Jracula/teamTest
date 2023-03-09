@@ -1,28 +1,28 @@
-package com.litbooks.ooo.controller;
+package com.litbooks.faq.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.litbooks.ooo.service.OneOnOneService;
-import com.litbooks.ooo.vo.OneOnOne;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 /**
- * Servlet implementation class OneOnOneUpdateFrmServlet
+ * Servlet implementation class UploadImageServlet
  */
-@WebServlet(name = "OneOnOneUpdateFrm", urlPatterns = { "/oneOnOneUpdateFrm.do" })
-public class OneOnOneUpdateFrmServlet extends HttpServlet {
+@WebServlet(name = "UploadImage", urlPatterns = { "/uploadImage.do" })
+public class UploadImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public OneOnOneUpdateFrmServlet() {
+    public UploadImageServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,14 +34,20 @@ public class OneOnOneUpdateFrmServlet extends HttpServlet {
 		//1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
-		int oNo = Integer.parseInt(request.getParameter("oNo"));
-		//3. 비즈니스로직
-		OneOnOneService service = new OneOnOneService();
-		OneOnOne o = service.getOneOnOne(oNo);
+		//2-1. 업로드 경로
+		String root = getServletContext().getRealPath("/");
+		String saveDirectory = root+"upload/editor";
+		//2-2. 최대사이즈 지정
+		int maxSize = 10*1024*1024;
+		//2-3. request -> MultipartRequest 로 변환
+		MultipartRequest mRequest = new MultipartRequest(request, saveDirectory, maxSize, "utf-8", new DefaultFileRenamePolicy());
+		String filepath = mRequest.getFilesystemName("file");
+		//3. 비즈니스 로직
 		//4. 결과처리
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/oneOnOne/oneOnOneUpdateFrm.jsp");
-		request.setAttribute("o", o);
-		view.forward(request, response);
+		// -> 업로드 된 파일경로를 되돌려주면 끄읕
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		out.print("/upload/editor/"+filepath);
 	}
 
 	/**

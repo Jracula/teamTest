@@ -42,15 +42,15 @@
 				</tr>
 				<tr class="tr-3">
 					<td class="td-1" colspan="5">
-						<textarea name="qContent" class="input-form"></textarea>
+						<textarea id="qContent" name="qContent" class="input-form"></textarea>
 					</td>
 				</tr>
 			</table>
-			<button type="submit" class="btn bc1 bs4">문의글 작성하기</button>
+			<button type="submit" class="btn bc200 bs4">문의글 작성하기</button>
 		</form>
 	</div>
 	<script>
-		$("#noticeContent").summernote({
+		$("#qContent").summernote({
 			height : 400,
 			lang : "ko-KR",
 			callbacks : {

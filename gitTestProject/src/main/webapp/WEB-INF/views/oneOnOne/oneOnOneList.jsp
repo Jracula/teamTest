@@ -40,7 +40,9 @@
 		height: 50px;
 		
 	}
-
+	.board-tbl{
+		margin: 10px auto;
+	}
 	
 </style>
 <meta charset="UTF-8">
@@ -50,14 +52,13 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 			<div class="page-title">1:1 문의는 여기서</div>
-			
-		<%if(m != null && m.getMemberNo() > 0) {%>
-				<a href="/qnaList.do?reqPage=1" class="btn bc1" >문의게시판</a>
-				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc1">1:1게시판</a></label>
-				<label><a href="#" class="btn bc1">메일보내기</a></label>	
+			<%if(m != null && m.getMemberNo() > 0) {%>
+				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
+				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc200">1:1게시판</a></label>
+				<label><a href="#" class="btn bc200">메일보내기</a></label>	
 			<%}else {%>
-				<label><a href="/signinFrm.do" class="btn bc1">로그인을 해주세요</a></label>
-				<a href="/qnaList.do?reqPage=1" class="btn bc1" >문의게시판</a>
+				<label><a href="/signinFrm.do" class="btn bc200">로그인을 해주세요</a></label>
+				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
 				
 			<%} %>
 		<div class="tbl-divs">
@@ -71,7 +72,6 @@
 						<th style="width:35%">제목</th>
 						<th style="width:10%">작성자</th>
 						<th style="width:15%">작성일</th>
-						<th style="width:20%">조회수</th>
 					</tr>
 					<%for(int i=0; i<list.size(); i++) {%>
 						<% Qna q = list.get(i); %>
@@ -84,7 +84,6 @@
 						</td>
 						<td class="qMemberId"><%=m.getMemberId() %></td>
 						<td><%=q.getqRegDate() %></td>
-						<td><%=q.getqReadCount() %></td>
 					</tr>
 					<%} %> 
 				</table>
@@ -97,10 +96,9 @@
 					</tr>
 					<tr class="tr-3">
 						<th style="width:20%">번호</th>
-						<th style="width:35%">제목</th>
-						<th style="width:10%">작성자</th>
-						<th style="width:15%">작성일</th>
-						<th style="width:20%">조회수</th>
+						<th style="width:40%">제목</th>
+						<th style="width:20%">작성자</th>
+						<th style="width:20%">작성일</th>
 					</tr>
 					
 					<%for(int i=0; i<list1.size(); i++) {%>
@@ -114,7 +112,6 @@
 						</td>
 						<td class="qMemberId"><%=m.getMemberId() %></td>
 						<td><%=o.getoRegDate() %></td>
-						<td><%=o.getoReadCount() %></td>
 					</tr>
 					<%} %> 
 				</table>
@@ -148,7 +145,7 @@
 						<input type=hidden name ="oMemberNo" value="<%= m.getMemberNo() %>">
 					</tr>
 					<tr>
-						<td colspan="6"><button type="submit" class="btn bc1 bs4">문의하기</button></td>					
+						<td colspan="6"><button type="submit" class="btn bc200 bs4">문의하기</button></td>					
 					</tr>
 				</form>
 			</table>
@@ -156,11 +153,6 @@
 	</div>
 	
 	<script>
-		$("[type=radio]").on("click",function(){
-			const flagVal = $(this).val();
-			
-			
-		});
 		
 	
 	</script>

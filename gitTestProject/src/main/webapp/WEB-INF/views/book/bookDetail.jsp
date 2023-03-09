@@ -25,6 +25,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
 <style>
+.coverImage:hover {
+  cursor: zoom-in;
+}
 .page-content>* {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -67,7 +70,7 @@
 	<div class="page-content">
 		<div class="book-cover" style="float: left; width: 300px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
-			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
+			<img class="coverImage" src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
 		<%}else{ %>
 			<img src="/upload/book/cover-image/00000000.jpg" width=100%>
 		<%} %>
@@ -142,7 +145,7 @@
 				<hr style="margin-top: 10px; margin-bottom: 10px;">
 				<div>
 				<%if (b.getBookIntro()!=null){%>
-				<%=b.getBookIntro() %>
+				<%=b.getBookIntro().replaceAll("\r\n","<br>") %>
 				<%}else{ %>
 				작품 소개가 없습니다.
 				<%} %>
@@ -159,7 +162,7 @@
 				<div>
 					<div>
 					<%if (bs.getBookImage()!=null){%>
-						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
+						<img class="coverImage" src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
 					<%}else{ %>
 						<img src="/upload/book/cover-image/00000000.jpg" width=70px>
 					<%} %>
@@ -169,7 +172,6 @@
 						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
-						<p id="bookPrice" style="display: none;"><%=b.getBookPrice() %></p>
 						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 						<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
@@ -242,27 +244,34 @@
          <ul class="posting-comment">
             <li>
                <span class="material-icons">
-               	<%if(rc.getRating() == 1) {%>
-               		<img src="/countingstar/별1개.png">
-                <%} %>
-               <%if(rc.getRating() == 2) {%>
-               		<img src="/countingstar/별2개.png">
-                <%} %>
-                <%if(rc.getRating() == 3) {%>
-               		<img src="/countingstar/별3개.png">
-                <%} %>
-                <%if(rc.getRating() == 4) {%>
-               		<img src="/countingstar/별4개.png">
-                <%} %>
-                <%if(rc.getRating() == 5) {%>
-               		<img src="/countingstar/별5개.png">
-                <%} %>
-               </span>
+               	
             </li>
             <li>
                <p class="comment-info">
-                  <span><%=rc.getRcWriter() %></span>
+                  
                   <span><%=rc.getRecommDate() %></span>
+                  <span><%=rc.getRcWriter() %></span>
+                  <%if(rc.getRating() == 1) {%>
+               		<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별1개.png" style="width: 100px">
+                <%} %>
+               <%if(rc.getRating() == 2) {%>
+               		<span class="commentrash" >님의 평점</span>
+               		<img src="/countingstar/별2개.png" style="width: 100px">
+                <%} %>
+                <%if(rc.getRating() == 3) {%>
+                	<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별3개.png" style="width: 100px">
+                <%} %>
+                <%if(rc.getRating() == 4) {%>
+                	<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별4개.png" style="width: 100px">
+                <%} %>
+                <%if(rc.getRating() == 5) {%>
+                	<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별5개.png" style="width: 100px">
+                <%} %>
+               </span>
                </p>
                <p class="comment-content"><%=rc.getRecommContent() %></p>
                <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
@@ -290,8 +299,8 @@
                </li>
                <li>
                   <p class="comment-info">
-                     <span><%=rcc.getRcWriter() %></span>
                      <span><%=rcc.getRecommDate() %></span>
+                     <span><%=rcc.getRcWriter() %></span>
                   </p>
                   <p class="comment-content"><%=rcc.getRecommContent() %></p>
                   <textarea name="recommContent" class="input-form" style="min-height:96px; display:none; border-radius: 5px; "><%=rcc.getRecommContent() %></textarea>
@@ -318,6 +327,7 @@
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
+                        <input type="hidden" id="insertRating" name="rating" value="0">
                         <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;" placeholder="바르고 고운말 사용 부탁드립니다, Please use sweety wording"></textarea>
                      </li>
                      <li>
@@ -368,7 +378,16 @@
 				if(memberLevel == 2) {
 			
 			const memberNo = $("#memberNo").text();
-			const bookPrice = $("#bookPrice").text();
+
+			const bookPrice = $("#realPrice").text();
+			//console.log("memberNo : " + memberNo);
+			//console.log("bookPrice : " + bookPrice);
+			
+			if(bookPrice < 0) {
+				$("#givenMessage").text("판매중지 상품입니다.");
+				$("#modalButton").click();
+				return;
+			}
 			
 			const d = new Date();
 			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
@@ -379,7 +398,7 @@
 	            pay_method : "card",
 	            merchant_uid : "상품번호_"+date,
 	            name : "결제 테스트",
-	            amount : 100, // price
+	            amount : 100, // bookPrice
 	            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
 	            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
 	            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
@@ -435,8 +454,13 @@
 			error: function(){
 				console.log("알 수 없는 오류가 발생했습니다.");
 			}
-		});
-		
+		});		
+	});
+
+	// 커머이미지 크게 보기
+	$(".coverImage").on("click", function(){
+		const imgUrl = $(this).attr("src");
+		window.open(imgUrl, "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
 	});
 	</script>
 	<script src="/js/recomm.js"></script>
