@@ -217,6 +217,8 @@ public class FaqDao {
 				f.setfRegDate(rset.getString("f_reg_date"));
 				f.setfTitle(rset.getString("f_title"));
 				f.setfWriter(rset.getString("f_writer"));
+				f.setFilepath(rset.getString("filepath"));
+				f.setFilename(rset.getString("filename"));
 				
 			}
 		} catch (SQLException e) {
