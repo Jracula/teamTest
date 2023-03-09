@@ -244,27 +244,34 @@
          <ul class="posting-comment">
             <li>
                <span class="material-icons">
-               	<%if(rc.getRating() == 1) {%>
-               		<img src="/countingstar/별1개.png">
-                <%} %>
-               <%if(rc.getRating() == 2) {%>
-               		<img src="/countingstar/별2개.png">
-                <%} %>
-                <%if(rc.getRating() == 3) {%>
-               		<img src="/countingstar/별3개.png">
-                <%} %>
-                <%if(rc.getRating() == 4) {%>
-               		<img src="/countingstar/별4개.png">
-                <%} %>
-                <%if(rc.getRating() == 5) {%>
-               		<img src="/countingstar/별5개.png">
-                <%} %>
-               </span>
+               	
             </li>
             <li>
                <p class="comment-info">
-                  <span><%=rc.getRcWriter() %></span>
+                  
                   <span><%=rc.getRecommDate() %></span>
+                  <span><%=rc.getRcWriter() %></span>
+                  <%if(rc.getRating() == 1) {%>
+               		<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별1개.png" style="width: 100px">
+                <%} %>
+               <%if(rc.getRating() == 2) {%>
+               		<span class="commentrash" >님의 평점</span>
+               		<img src="/countingstar/별2개.png" style="width: 100px">
+                <%} %>
+                <%if(rc.getRating() == 3) {%>
+                	<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별3개.png" style="width: 100px">
+                <%} %>
+                <%if(rc.getRating() == 4) {%>
+                	<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별4개.png" style="width: 100px">
+                <%} %>
+                <%if(rc.getRating() == 5) {%>
+                	<span class="commentrash">님의 평점</span>
+               		<img src="/countingstar/별5개.png" style="width: 100px">
+                <%} %>
+               </span>
                </p>
                <p class="comment-content"><%=rc.getRecommContent() %></p>
                <textarea name="recommContent" class="input-form" style="min-height:96px;display:none;"><%=rc.getRecommContent() %></textarea>
@@ -292,8 +299,8 @@
                </li>
                <li>
                   <p class="comment-info">
-                     <span><%=rcc.getRcWriter() %></span>
                      <span><%=rcc.getRecommDate() %></span>
+                     <span><%=rcc.getRcWriter() %></span>
                   </p>
                   <p class="comment-content"><%=rcc.getRecommContent() %></p>
                   <textarea name="recommContent" class="input-form" style="min-height:96px; display:none; border-radius: 5px; "><%=rcc.getRecommContent() %></textarea>
@@ -320,6 +327,7 @@
                         <input type="hidden" name="rcWriter" value="<%=m.getMemberId() %>">
                         <input type="hidden" name="bookRef" value="<%=b.getBookNo() %>">
                         <input type="hidden" name="recommRef" value="<%=rc.getRecommNo() %>">
+                        <input type="hidden" id="insertRating" name="rating" value="0">
                         <textarea name="recommContent" class="input-form rerecommbox" style="min-height: 96px; min-width: 1020px;" placeholder="바르고 고운말 사용 부탁드립니다, Please use sweety wording"></textarea>
                      </li>
                      <li>

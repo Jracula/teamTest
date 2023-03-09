@@ -692,6 +692,8 @@ public class BookDao {
 		        pstmt.setString(3, rc.getRecommContent());
 		        pstmt.setString(4, (rc.getRecommRef()==0)?null:String.valueOf(rc.getRecommRef()));
 		        pstmt.setInt(5, rc.getRating());
+		        //pstmt.setString(5, (rc.getRating()==0)?null:String.valueOf(rc.getRating()));
+		        
 		        
 		        result= pstmt.executeUpdate();
 			} catch (SQLException e) {
@@ -815,4 +817,7 @@ public class BookDao {
 				return result;
 			}
 
+
 }
+
+
