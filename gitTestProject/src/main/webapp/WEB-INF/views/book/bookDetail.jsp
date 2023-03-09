@@ -25,6 +25,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
 <style>
+.coverImage:hover {
+  cursor: zoom-in;
+}
 .page-content>* {
 	margin-top: 10px;
 	margin-bottom: 10px;
@@ -67,7 +70,7 @@
 	<div class="page-content">
 		<div class="book-cover" style="float: left; width: 300px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
-			<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
+			<img class="coverImage" src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
 		<%}else{ %>
 			<img src="/upload/book/cover-image/00000000.jpg" width=100%>
 		<%} %>
@@ -90,7 +93,6 @@
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
-			<p id="bookPrice" style="display: none;"><%=b.getBookPrice() %></p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
 			<% if (b.getDiscount()!=0) {%>
@@ -160,7 +162,7 @@
 				<div>
 					<div>
 					<%if (bs.getBookImage()!=null){%>
-						<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
+						<img class="coverImage" src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=70px>
 					<%}else{ %>
 						<img src="/upload/book/cover-image/00000000.jpg" width=70px>
 					<%} %>
@@ -170,7 +172,6 @@
 						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
-						<p id="bookPrice" style="display: none;"><%=b.getBookPrice() %></p>
 						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 						<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
@@ -369,9 +370,16 @@
 				if(memberLevel == 2) {
 			
 			const memberNo = $("#memberNo").text();
-			const bookPrice = $("#bookPrice").text();
+
+			const bookPrice = $("#realPrice").text();
 			//console.log("memberNo : " + memberNo);
 			//console.log("bookPrice : " + bookPrice);
+			
+			if(bookPrice < 0) {
+				$("#givenMessage").text("판매중지 상품입니다.");
+				$("#modalButton").click();
+				return;
+			}
 			
 			const d = new Date();
 			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
@@ -438,8 +446,13 @@
 			error: function(){
 				console.log("알 수 없는 오류가 발생했습니다.");
 			}
-		});
-		
+		});		
+	});
+
+	// 커머이미지 크게 보기
+	$(".coverImage").on("click", function(){
+		const imgUrl = $(this).attr("src");
+		window.open(imgUrl, "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
 	});
 	</script>
 	<script src="/js/recomm.js"></script>

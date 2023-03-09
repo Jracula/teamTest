@@ -9,7 +9,7 @@ Member member = (Member)request.getAttribute("m");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회원 정보</title>
 <link rel="stylesheet" href="css/semi_mypage.css">
 </head>
 <body>
