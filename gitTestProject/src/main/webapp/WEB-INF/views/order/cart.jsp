@@ -32,7 +32,7 @@
 	}
 	
 	.table-content th{
-		border-bottom: 2px solid gray; 
+		border-bottom: 2px solid rgba(57, 62, 70, 0.1); 
 		align-content: center;
 		text-align: left;
 		line-height: 300%;
