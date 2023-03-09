@@ -145,7 +145,7 @@
 				<hr style="margin-top: 10px; margin-bottom: 10px;">
 				<div>
 				<%if (b.getBookIntro()!=null){%>
-				<%=b.getBookIntro() %>
+				<%=b.getBookIntro().replaceAll("\r\n","<br>") %>
 				<%}else{ %>
 				작품 소개가 없습니다.
 				<%} %>
