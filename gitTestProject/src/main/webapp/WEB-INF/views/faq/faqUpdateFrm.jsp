@@ -13,9 +13,10 @@
 	.tbl tr{
 		border: 1px solid #ccc;
 	}
-	.short{
-		height: 30px;
+	.note-editor.note-frame{
+		text-align: left;
 	}
+
 </style>
 </head>
 <body>
@@ -56,7 +57,7 @@
 					<th class="td-3">내용</th>
 					<td>
 						<!-- textarea에서는 엔터가 먹으므로 엔터가 업는 NoticeContent를 사용 -->
-						<textarea class="input-form" name="faqContent"><%=f.getfContent() %></textarea>
+						<textarea style="width:1080px" id="faqContent" class="input-form" name="faqContent"><%=f.getfContent() %></textarea>
 					</td>
 				</tr>
 				<tr class="tr-1">

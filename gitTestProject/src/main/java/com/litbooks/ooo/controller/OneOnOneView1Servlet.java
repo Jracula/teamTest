@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.litbooks.ooo.service.OneOnOneService;
 import com.litbooks.ooo.vo.OneOnOne;
+import com.litbooks.ooo.vo.OneOnOneViewData;
 
 /**
  * Servlet implementation class OneOnOneView1Servlet
@@ -39,6 +40,7 @@ public class OneOnOneView1Servlet extends HttpServlet {
 		//3. 비즈니스로직
 		OneOnOneService service = new OneOnOneService();
 		OneOnOne o = service.selectOneNotice(oNo, memberNo);
+		OneOnOneViewData ovd = service.selectOneNotice(oNo);
 		
 		if(o == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
@@ -49,7 +51,8 @@ public class OneOnOneView1Servlet extends HttpServlet {
 			view.forward(request, response);
 		}else {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/oneOnOne/oneOnOneView.jsp");
-			request.setAttribute("o", o);
+			request.setAttribute("o", ovd.getO());
+			request.setAttribute("commentList", ovd.getCommentList());
 			view.forward(request, response);
 		}
 

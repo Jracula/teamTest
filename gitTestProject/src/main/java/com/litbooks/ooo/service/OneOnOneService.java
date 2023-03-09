@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 import com.litbooks.ooo.dao.OneOnOneDao;
 import com.litbooks.ooo.vo.OneOnOne;
+import com.litbooks.ooo.vo.OneOnOneComment;
 import com.litbooks.ooo.vo.OneOnOnePageData;
-import com.litbooks.qna.model.vo.QnaPageData;
+import com.litbooks.ooo.vo.OneOnOneViewData;
 
 import common.JDBCTemplate;
 
@@ -309,6 +310,29 @@ public class OneOnOneService {
 		return opd;
 	}
 
+	public OneOnOneViewData selectOneNotice(int oNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		//상세보기를 하면 조회수가 1씩 카운트 해줘야함 - connection 닫기전에 해줘야한다.
+		//업데이트가 먼저 발생해야 쿼리문을 읽어올 때 +1된 조회수를 얻을 수 있다.
+		int result = dao.updateReadCount(conn, oNo);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+			OneOnOne o = dao.selectOneNotice(conn, oNo);
+			//1. 일반댓글 조회
+			//여러개일 수 있으므로 ArrayList로 받음
+			ArrayList<OneOnOneComment> commentList = dao.selectNoticeComment(conn, oNo); 
+			//return해줘야할게 notice / arrayList(2개) 이므로 vo를 새로 만든다
+			OneOnOneViewData ovd = new OneOnOneViewData(o, commentList);
+			
+			//return이 둘다 들어가고있으므로 close를 두 경우 다 해줘야한다.
+			JDBCTemplate.close(conn);
+			return ovd;
+		}else {
+			JDBCTemplate.rollback(conn);
+			JDBCTemplate.close(conn);
+			return null;
+		}
+	}
 	
 
 }

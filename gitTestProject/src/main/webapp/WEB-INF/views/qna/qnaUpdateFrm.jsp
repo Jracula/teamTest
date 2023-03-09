@@ -17,7 +17,9 @@
 	.tr-1 {
 		border-bottom: 1px solid #eeeeee;
 	}
-
+	.note-editor.note-frame{
+		text-align: left;
+	}
 
 </style>
 </head>
@@ -58,7 +60,7 @@
 					</tr>
 					<tr class="tr-1">
 						<th class="td-3">내용</th>
-						<th colspan="2">
+						<th class="updateBody" colspan="2">
 							<!-- textarea에서는 엔터가 먹으므로 엔터가 업는 NoticeContent를 사용 -->
 							<textarea style="width:1080px" class="input-form" id="qnaContent" name="qnaContent"><%=q.getqContent() %></textarea>
 						</th>

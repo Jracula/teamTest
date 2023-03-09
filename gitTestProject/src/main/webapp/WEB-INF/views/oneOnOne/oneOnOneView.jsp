@@ -1,8 +1,11 @@
 <%@page import="com.litbooks.ooo.vo.OneOnOne"%>
+<%@page import="com.litbooks.ooo.vo.OneOnOneComment"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
   		OneOnOne o = (OneOnOne)request.getAttribute("o");
+   		ArrayList<OneOnOneComment> commentList = (ArrayList<OneOnOneComment>)request.getAttribute("commentList");
     %>
 <!DOCTYPE html>
 <html>
@@ -70,6 +73,34 @@
 			</tr>
 			<%} %>
 		</table>
+<%-- 댓글		<div class="commentBox">
+				<%for(OneOnOneComment oc : commentList) {%>
+				<ul class="posting-comment">
+					<li>
+						<span class="material-icons">account_box</span>
+					</li>
+					<li>
+						<p class="comment-info">
+							<span><%=oc.getOo_writer() %></span>
+							<span><%=oc.getOo_date() %></span>
+						</p>
+						<p class="comment-content"><%=oc.getOoContentBr() %></p>
+						<textarea name="ncContent" class="input-form" style="min-height:96px;display:none;"><%=oc.getOo_content() %></textarea>
+						<p class="comment-link">
+							<%if(m != null) {%>
+								<%if(m.getMemberId().equals(oc.getOo_writer())) {%>
+									<a href="javascript:void(0)" onclick="modifyComment(this, <%=oc.getOo_no() %>, <%=n.getNoticeNo()%>);">수정</a>
+									<a href="javascript:void(0)" onclick="deleteComment(this, <%=nc.getNcNo()%>, <%=n.getNoticeNo()%>);">삭제</a>
+								<%} //해당댓글 수정조건(댓글작성자가 로그인한 회원인지 확인)%>							
+								<!-- javascipt:void(0) 자바스크립트 따라가겠다느 뜻 a태그는 쓰되, 이동은하지않을 때 사용 -->
+								<a href="javascript:void(0)" class="recShow">답글달기</a>
+							<%}//대댓글 달기 조건문(로그인체크) %>
+						</p>
+					</li>
+				</ul> 
+			</div> --%>
+		</div>
+		
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<script>
@@ -79,6 +110,19 @@
 				//방법1.여기서는 noticeNo가 몇번인지 알 수 없으므로 매개변수로 넘겨줌
 			}
 		}
+		$(".recShow").on("click", function(){
+			//몇번째 댓글의 답글달기 버튼을 클릭한지 index번호를 구하기
+			//답글달기 인덱스와 답글폼의 순번이 같으므로 인덱스대로 display:block;을 해줄것
+			const idx = $(".recShow").index(this);
+			if($(this).text() == "답글달기"){
+				$(this).text("취소");
+			}else{
+				$(this).text("답글달기");
+			}
+			$(".inputRecommentBox").eq(idx).toggle();
+			$(".inputRecommentBox").eq(idx).find("textarea").focus();
+		});
+		
 		
 	</script>
 	

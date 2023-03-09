@@ -11,6 +11,7 @@ public class OneOnOne {
 	private String fileName;
 	private String filepath;
 	private int oflag;
+	
 	public OneOnOne() {
 		super();
 		// TODO Auto-generated constructor stub

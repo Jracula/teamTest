@@ -9,6 +9,9 @@
 	.tbl tr{
 		border: 1px solid #ccc;
 	}
+	.note-editor.note-frame{
+		text-align: left;
+	}
 </style>
 </head>
 <body>

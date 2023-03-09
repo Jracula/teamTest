@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.ooo.vo.OneOnOne;
+import com.litbooks.ooo.vo.OneOnOneComment;
 import com.litbooks.qna.model.vo.Qna;
 
 import common.JDBCTemplate;
@@ -298,6 +299,35 @@ public class OneOnOneDao {
 		}
 		return o;
 		
+	}
+
+	public ArrayList<OneOnOneComment> selectNoticeComment(Connection conn, int memberNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<OneOnOneComment> list = new ArrayList<OneOnOneComment>();
+		String query = "select * from oneonone_comment where oo_ref = ? and oo_ref is null order by 1";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				OneOnOneComment oc = new OneOnOneComment();
+				oc.setOo_content(rset.getString("oo_content"));
+				oc.setOo_date(rset.getString("oo_date"));
+				oc.setOo_no(rset.getInt("oo_no"));
+				oc.setOo_writer(rset.getString("oo_writer"));
+				oc.setOo_ref(rset.getInt("oo_ref"));
+				list.add(oc);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+			JDBCTemplate.close(rset);
+		}		
+		return list;
 	}
 
 }

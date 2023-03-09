@@ -72,7 +72,7 @@ public class OneOnOneUpdateServlet extends HttpServlet {
 		o.setoContent(oneOnOneContent);
 		o.setFileName(filename);
 		o.setFilepath(filepath);
-		o.setoMemberNo(oneOnOneNo);
+		o.setoMemberNo(memberNo);
 	
 		//3.비즈니스로직
 		OneOnOneService service = new OneOnOneService();
