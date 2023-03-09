@@ -90,6 +90,7 @@
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
 			<p>정가 - <%=b.getBookPrice() %>원</p>
+			<p id="bookPrice" style="display: none;"><%=b.getBookPrice() %></p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
 			<% if (b.getDiscount()!=0) {%>
@@ -369,6 +370,8 @@
 			
 			const memberNo = $("#memberNo").text();
 			const bookPrice = $("#bookPrice").text();
+			//console.log("memberNo : " + memberNo);
+			//console.log("bookPrice : " + bookPrice);
 			
 			const d = new Date();
 			const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
@@ -379,7 +382,7 @@
 	            pay_method : "card",
 	            merchant_uid : "상품번호_"+date,
 	            name : "결제 테스트",
-	            amount : 100, // price
+	            amount : 100, // bookPrice
 	            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
 	            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
 	            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
