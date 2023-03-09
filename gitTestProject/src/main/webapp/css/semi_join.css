@@ -5,6 +5,11 @@
 .join-title{
     text-align: center;
 }
+.join-title>h2{
+    margin-top: 80px;
+    color: rgb(32, 90, 167);
+}
+
 
 .join-box{
     margin: 40px auto;
@@ -70,6 +75,7 @@ color: rgb(226, 1, 1);
     color: white;
     font-weight: 500;
     cursor: pointer;
+    margin-bottom: 120px;
 }
 
 .agree-box>label{
@@ -139,7 +145,12 @@ color: rgb(226, 1, 1);
     left: 0;
     justify-content: center;
     align-items: center;
+    z-index : 9000;
     /*display: flex;*/
+}
+
+.agreeModal-title{
+	color: rgb(32, 90, 167);
 }
 
 .agreeModal-1{
@@ -172,7 +183,10 @@ color: rgb(226, 1, 1);
     width: 400;
 }
 
-.resetBtn>#reset{
+.content{
+	font-weight: 400;
+}
+.resetBtn>button{
     display: flex;
     margin: 25px auto;
     border-radius: 5px;

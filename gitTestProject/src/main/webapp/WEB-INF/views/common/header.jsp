@@ -31,29 +31,33 @@
       			<button type="submit" ><span class="material-symbols-outlined search">search</span></button>
 			</div>
       	</form>
-      </nav>
-      <div class="header-link">
+      	<div class="header-link">
       <%if(m == null){%>
    		<!-- 모달 id와 target 이름 맞추기 -->
 
-        <a class="btn bc11" href="/signinFrm.do">로그인</a>
-        <a class="btn bc11" href="/joinFrm.do">회원가입</a>
+        <a class="login-b headerBtn" href="/signinFrm.do"><span class="material-symbols-outlined">face</span></span></a>
+        <a class="join-b headerBtn" href="/joinFrm.do"><span class="material-symbols-outlined">person_add</span></a>
 
       <%}else {%>
       	<!-- 로그인 성공시 회원 이름 출력 -->
       	<!-- 마이페이지1 : /mypage1.do -->
       	<!-- <a class="btn bc11" href="/mypage1.do"><%=m.getMemberName() %></a> --> 
       	<!-- 마이페이지2 : 세션에서 꺼낸 memberId를 키값에넣어 보내줌 -->
-
-      	<a class="btn bc11" href="/cart.do?memberNo=<%=m.getMemberNo()%>">장바구니</a>
-      	<a class="btn bc11" href="/mypage.do?memberId=<%=m.getMemberId()%>"><%=m.getMemberName() %></a>
-
-
-      	<a class="btn bc11" href="/logout.do">LOGOUT</a>
-<!-- memberNo 가져오기용 -->	<span id="memberNo" style="display: none;"><%=m.getMemberNo() %></span>
-<!-- memberLevel 가져오기용 --> <p id="memberLevel" style="display: none;"><%=m.getMemberLevel() %></p>
+		
+			<%if(m.getMemberLevel() ==2 ) {%>
+		      	<a class="headerBtn" href="/cart.do?memberNo=<%=m.getMemberNo()%>"><span class="material-symbols-outlined">shopping_cart</span></a>
+		      	<a class="headerBtn" href="/mypage.do?memberId=<%=m.getMemberId()%>"><span class="material-symbols-outlined">face</span></span></a>
+		      	<a class="headerBtn" href="/logout.do"><span class="material-symbols-outlined">logout</span></a>
+		<!-- memberNo 가져오기용 -->	<span id="memberNo" style="display: none;"><%=m.getMemberNo() %></span>
+		<!-- memberLevel 가져오기용 --> <p id="memberLevel" style="display: none;"><%=m.getMemberLevel() %></p>
+			<%}else{ %>
+				<a class="headerBtn" href="/mypage.do?memberId=<%=m.getMemberId()%>"><span class="material-symbols-outlined">manage_accounts</span></a>
+		      	<a class="headerBtn" href="/logout.do"><span class="material-symbols-outlined">logout</span></a>
+			<%} %>
       <%} %>
       </div>
+      </nav>
+      
       
     </header>
     
