@@ -131,7 +131,7 @@
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
 
-			<a class="btn bc9" id="payOneBtn">구매하기</a>
+			<button class="btn bc9" id="payOneBtn">구매하기</button>
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
 		<div style="clear: both;"></div>
