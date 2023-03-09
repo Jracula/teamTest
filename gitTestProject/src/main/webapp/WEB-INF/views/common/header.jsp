@@ -21,8 +21,16 @@
 
 
     <header>
+    
+        <style>
+    	header *{
+    		box-sizing:border-box;
+    	}
+
+    </style>
+    
       <div class="site-logo">
-        <a href="/"><img alt="logo" src="/mainImage/logo.png"></a>
+        <a href="/"><img alt="logo" src="/mainImage/logo.png" style="vertical-align: middle;"></a>
       </div>
       <nav>
       	<form action="/bookSearchInDetail.do" method="get" onsubmit="return checkKeyword();">
@@ -60,7 +68,7 @@
       
       
     </header>
-    
+
 	<script>
 		function checkKeyword() {	//검색바에서 공백을 제외하고 2자 이상으로 검색 요청 
 			const keywordReg = /\S{2,}/;

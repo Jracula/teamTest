@@ -145,7 +145,7 @@
                                                        		생년, 성별
                                                    		 </div>
                                                     <br>
-                                                    <strong class="agreeModal-title">이용 보유 기</strong>
+                                                    <strong class="agreeModal-title">이용 보유 기간</strong>
                                                     <div class="content">
                                                        		탈퇴시 즉시 파기
                                                     </div>

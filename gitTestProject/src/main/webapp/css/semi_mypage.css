@@ -161,6 +161,7 @@ width: 50%;
     font-weight: 500;
     font-size: 15px;
     cursor: pointer;
+    margin-bottom: 100px;
 }
 
 .btnBox>.admin-btn{

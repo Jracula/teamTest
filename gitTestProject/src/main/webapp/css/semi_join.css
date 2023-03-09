@@ -42,7 +42,10 @@ color: rgb(226, 1, 1);
     box-sizing: border-box;
 }
 
-
+ .comment{
+ 	position: absolute;
+ }
+ 
 
 .join-box>table>tbody>tr>td{ 
     padding: 20px 0px;
@@ -130,8 +133,7 @@ color: rgb(226, 1, 1);
     margin-left: 300px;
 }
  
- 
- 
+
  
  
 /*모달*/

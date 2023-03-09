@@ -17,8 +17,8 @@
           <li><a href="#">개인정보취급방침</a></li>
           <li><a href="#">인재채용</a></li>
           <li><a href="#">제휴문의</a></li>
-          <li style="float: right;"><a href="/qnaList.do?reqPage=1">문의게시판</a></li>
-          <li style="float: right;"><a href="/noticeList.do?reqPage=1">공지사항</a></li>
+          <li style="float: right;"><a calss="bottom" href="/qnaList.do?reqPage=1">문의게시판</a></li>
+          <li style="float: right;"><a calss="bottom" href="/noticeList.do?reqPage=1">공지사항</a></li>
         </ul>
         
       </div>
