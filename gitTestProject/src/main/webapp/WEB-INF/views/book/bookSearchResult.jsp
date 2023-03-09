@@ -47,8 +47,8 @@
 	line-height: 400%;
 }
 .result-wrap>div {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .a-book {
 	float: left;
