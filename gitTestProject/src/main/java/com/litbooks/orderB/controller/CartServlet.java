@@ -38,7 +38,25 @@ public class CartServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		
+
+	//현재 세션의 정보를 일단 받음
+		HttpSession session = request.getSession(false);
+		Member me = (Member) session.getAttribute("m");
+
+	//비로그인자는 접근 거부하는 if문
+		if (me == null) {
+			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("title", "접근 제한");
+			request.setAttribute("msg", "비회원은 접근 불가능합니다.");
+			request.setAttribute("icon", "error");
+			request.setAttribute("loc", "/index.jsp");
+			view.forward(request, response);
+		} else {
+	//본인 것이 맞으면 정상 실행
+			if (me.getMemberNo() == memberNo) {
+//servlet 작성부 시작
+
+
 		BasketService service = new BasketService();
 		
 		// 장바구니에서 책번호 조회
@@ -59,6 +77,19 @@ public class CartServlet extends HttpServlet {
 			request.setAttribute("list", list);
 			request.setAttribute("bask", bask);
 			view.forward(request, response);
+		}
+
+
+//servlet 작성부 끝
+	//본인 것이 아닐 때 거부
+			} else {
+				RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+				request.setAttribute("title", "접근 제한");
+				request.setAttribute("msg", "본인의 계정이 아닙니다.");
+				request.setAttribute("icon", "error");
+				request.setAttribute("loc", "/index.jsp");
+				view.forward(request, response);
+			}
 		}
 	}
 

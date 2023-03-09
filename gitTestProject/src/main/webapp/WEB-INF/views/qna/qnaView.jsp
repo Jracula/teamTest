@@ -60,6 +60,8 @@
 		float: right;
 		margin-bottom : 10px;
 	}
+
+	
 </style>
 </head>
 <body>
@@ -69,50 +71,50 @@
 				<a class="btn bc200" href="/qnaList.do?reqPage=1" id="goList">목록</a>
 			</div>
 			<table class="tbl" id="qnaView">
-			<tr class="tr-3">
-				<th colspan="6"><%=q.getqTitle() %>
+				<tr class="tr-3">
+					<th colspan="6"><%=q.getqTitle() %>
+					
+				</tr>
+				<tr class="tr-1">
+					<th class="td-3">글번호</th>
+					<td><%=q.getqNo() %>
+					<th class="td-3">작성자</th>
+					<td><%=q.getqWriter() %>
+					<th class="td-3">작성일</th>
+					<td><%=q.getqRegDate() %>
+				</tr>
+				<tr class="tr-1">
+					<th class="td-3">첨부파일</th>
+					<td colspan="3">
+					<%if(q.getFileName() != null) {%>
+					<img src="/img/file.png" width="16px">
+					<a href="/qnaFileDown.do?qnaNo=<%=q.getqNo() %>"><%=q.getFileName() %></a>
+					<%} %>
+					<th class="td-3">조회수</th>
+					<td><%=q.getqReadCount() %>
+					</td>
+					
+				</tr>
+				<tr>
+					<td colspan="6">
+						<div id="qnaContent">
+							<%=q.getQnaContentBr() %>
+						</div>
+					</td>
+				</tr>
+				<!-- if(m.getMemberId().equals(n.getNoticeWriter()))
+				 조건을 이렇게만 주면 로그인을 하지 않았을 경우 에러발생 로그인조건을 걸어줘야한다. -->
+				 
 				
-			</tr>
-			<tr class="tr-1">
-				<th class="td-3">글번호</th>
-				<td><%=q.getqNo() %>
-				<th class="td-3">작성자</th>
-				<td><%=q.getqWriter() %>
-				<th class="td-3">작성일</th>
-				<td><%=q.getqRegDate() %>
-			</tr>
-			<tr class="tr-1">
-				<th class="td-3">첨부파일</th>
-				<td colspan="3">
-				<%if(q.getFileName() != null) {%>
-				<img src="/img/file.png" width="16px">
-				<a href="/qnaFileDown.do?qnaNo=<%=q.getqNo() %>"><%=q.getFileName() %></a>
+				<%if( m!=null && m.getMemberId().equals(q.getqWriter()) ) {%>
+				<tr>
+					<th colspan="6">
+						<a class="btn bc200" href="/qnaUpdateFrm.do?qnaNo=<%=q.getqNo() %>">수정</a>
+						<button class="btn bc200" onclick="qnaDelete(<%=q.getqNo()%>);">삭제</button>
+					</th>
+				</tr>
 				<%} %>
-				<th class="td-3">조회수</th>
-				<td><%=q.getqReadCount() %>
-				</td>
-				
-			</tr>
-			<tr>
-				<td colspan="6">
-					<div id="qnaContent">
-						<%=q.getQnaContentBr() %>
-					</div>
-				</td>
-			</tr>
-			<!-- if(m.getMemberId().equals(n.getNoticeWriter()))
-			 조건을 이렇게만 주면 로그인을 하지 않았을 경우 에러발생 로그인조건을 걸어줘야한다. -->
-			 
-			
-			<%if( m!=null && m.getMemberId().equals(q.getqWriter()) ) {%>
-			<tr>
-				<th colspan="6">
-					<a class="btn bc200" href="/qnaUpdateFrm.do?qnaNo=<%=q.getqNo() %>">수정</a>
-					<button class="btn bc200" onclick="qnaDelete(<%=q.getqNo()%>);">삭제</button>
-				</th>
-			</tr>
-			<%} %>
-		</table>
+			</table>
 		<div class="commentBox">
 			<%for(QnaComment qc : commentList) {%>
 			<ul class="posting-comment">

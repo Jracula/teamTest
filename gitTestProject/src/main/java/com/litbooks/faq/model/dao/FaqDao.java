@@ -158,15 +158,16 @@ public class FaqDao {
 		return totalCount;
 	}
 	
-	public int selectQnaCount(Connection conn) {
+	public int selectQnaCount(Connection conn, String qMemberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int totalCount = 0;
 		
-		String query = "select count(*) as cnt from qna";
+		String query = "select count(*) as cnt from qna where q_member_no=?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, qMemberNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				totalCount = rset.getInt("cnt");
@@ -217,6 +218,8 @@ public class FaqDao {
 				f.setfRegDate(rset.getString("f_reg_date"));
 				f.setfTitle(rset.getString("f_title"));
 				f.setfWriter(rset.getString("f_writer"));
+				f.setFilepath(rset.getString("filepath"));
+				f.setFilename(rset.getString("filename"));
 				
 			}
 		} catch (SQLException e) {

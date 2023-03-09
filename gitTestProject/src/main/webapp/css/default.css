@@ -898,9 +898,6 @@ textarea.input-form {
   cursor: pointer;
 }
 
-.b100{
-	background-color: rgb(32, 90, 167);
-}
 
 .bc100{
 	background-color: rgb(32, 90, 167);
@@ -913,14 +910,25 @@ textarea.input-form {
 	color: #fff;
 	
 }
+
 .bc200:hover{
 	background-color: #fff;
 	cursor: pointer;
 	color: rgb(32, 90, 167);
 }
-.tbl .tr-200 {
-  background-color: #EEEEEE;
+
+.bc201{
+	background-color: #fff;
+	color : rgb(32, 90, 167);
+	cursor: pointer;
 }
+
+.bc201:hover{
+	background-color: rgb(32, 90, 167);
+	color: #fff;
+	cursor: pointer;
+}
+
 
 .tbl.tbl-hover .tr-200:hover {
   background-color: #EEEEEE;
@@ -928,6 +936,12 @@ textarea.input-form {
 
 .bc300{
 	background-color:#EEEEEE;
+}
+
+.bc400{
+	background-color: rgb(32, 90, 167);
+	color : #EEEEEE;
+	
 }
 
 

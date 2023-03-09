@@ -1,8 +1,8 @@
-<%@page import="com.litbooks.faq.model.vo.Faq"%>
+<%@page import="com.litbooks.ooo.vo.OneOnOne"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%
-    	Faq f = (Faq)request.getAttribute("f");
+       <%
+    	OneOnOne o = (OneOnOne)request.getAttribute("o");
     %>
 <!DOCTYPE html>
 <html>
@@ -13,10 +13,9 @@
 	.tbl tr{
 		border: 1px solid #ccc;
 	}
-	.note-editor.note-frame{
-		text-align: left;
+	.short{
+		height: 30px;
 	}
-
 </style>
 </head>
 <body>
@@ -25,28 +24,29 @@
 	<script src="/summernote/lang/summernote-ko-KR.js"></script>
 	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 		<div class="page-content">
-		<div class="page-title">문의사항수정</div>
-		<form action="/faqUpdate.do" method="post" enctype="multipart/form-data">
-			<table class="tbl" id="faqUpdateFrm">
+		<div class="page-title">1:1 문의글 수정</div>
+		<form action="/oneOnOneUpdate.do" method="post" enctype="multipart/form-data">
+			<table class="tbl" id="oneOnOneUpdateFrm">
 				<tr class="tr-1">
 					<th class="td-3">제목</th>
 					<td>
-						<input type="text" name="faqTitle" class="input-form" value="<%=f.getfTitle() %>">
+						<input type="text" name="oneOnOneTitle" class="input-form" value="<%=o.getoTitle() %>">
 						<input type="hidden" name="status" value="stay">
-						<input type="hidden" name="faqNo" value="<%=f.getfNo() %>">
+						<input type="hidden" name="oneOnOneNo" value="<%=o.getoNo() %>">
+						<input type="hidden" name="memberNo" value="<%=m.getMemberNo() %>">
 					</td>
 				</tr>
 				<tr class="tr-1">
 					<th class="td-3">첨부파일</th>
 					<td>
-						<%if(f.getFilepath() != null) {%>
+						<%if(o.getFilepath() != null) {%>
 							<!-- 삭제하기를 누르면 한번에 둘다 안보이게 하기위해 같은 class를 주는것 -->
 							<img src="/img/file.png" width="16px" class="delFile">
-							<span class="delFile"><%=f.getFilename()%></span>
+							<span class="delFile"><%=o.getFileName()%></span>
 							<button type="button" class="btn bc200 short delFile">삭제</button>
 							<input type="file" name="upfile" style="display:none;">
-							<input type="hidden" name="oldFilename" value="<%=f.getFilename() %>">
-							<input type="hidden" name="oldFilepath" value="<%=f.getFilepath() %>">
+							<input type="hidden" name="oldFilename" value="<%=o.getFileName() %>">
+							<input type="hidden" name="oldFilepath" value="<%=o.getFilepath() %>">
 						<%}else {%>
 							<input type="file" name="upfile">
 						<%} %>
@@ -57,7 +57,7 @@
 					<th class="td-3">내용</th>
 					<td>
 						<!-- textarea에서는 엔터가 먹으므로 엔터가 업는 NoticeContent를 사용 -->
-						<textarea style="width:1080px" id="faqContent" class="input-form" name="faqContent"><%=f.getfContent() %></textarea>
+						<textarea class="input-form" name="oneOnOneContent"><%=o.getoContent() %></textarea>
 					</td>
 				</tr>
 				<tr class="tr-1">
@@ -76,7 +76,7 @@
 		$("[name=status]").val("delete");
 	});
 	
-	$("#faqContent").summernote({
+	$("#oneOnOneContent").summernote({
 		height : 400,
 		lang : "ko-KR",
 		callbacks : {
@@ -102,5 +102,6 @@
 	}
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
+
 </body>
 </html>
