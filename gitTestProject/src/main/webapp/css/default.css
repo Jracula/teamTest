@@ -879,3 +879,38 @@ textarea.input-form {
 .close-icon:hover {
   cursor: pointer;
 }
+
+.b100{
+	background-color: rgb(32, 90, 167);
+}
+
+.bc100{
+	background-color: rgb(32, 90, 167);
+	cursor: pointer;
+}
+
+.bc200{
+	background-color: rgb(32, 90, 167);
+	cursor: pointer;
+	color: #fff;
+	
+}
+.bc200:hover{
+	background-color: #fff;
+	cursor: pointer;
+	color: rgb(32, 90, 167);
+}
+.tbl .tr-200 {
+  background-color: #EEEEEE;
+}
+
+.tbl.tbl-hover .tr-200:hover {
+  background-color: #EEEEEE;
+}
+
+.bc300{
+	background-color:#EEEEEE;
+}
+
+
+

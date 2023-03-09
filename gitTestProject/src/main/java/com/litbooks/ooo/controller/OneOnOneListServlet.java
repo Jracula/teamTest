@@ -43,9 +43,7 @@ public class OneOnOneListServlet extends HttpServlet {
 		QnaPageData qpd = service.selectQnaList(reqPage,reqPage1,qMemberNo);
 		OneOnOneService service1 = new OneOnOneService();
 		OneOnOnePageData opd = service1.selectOneOnOneList(reqPage,reqPage1,qMemberNo);
-		
-		
-		
+	
 		
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/oneOnOne/oneOnOneList.jsp");
 		request.setAttribute("list", qpd.getList());

@@ -67,7 +67,7 @@ public class OneOnOneDao {
 	public int insertOneOnOne(Connection conn, OneOnOne o) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into oneonone values(ooo_no_seq.nextval, ?, ?, ?, ?, ?, to_char(sysdate, 'yyyy-mm-dd'))";
+		String query = "insert into oneonone values(ooo_no_seq.nextval, ?, ?, ?, ?, ?, 0, to_char(sysdate, 'yyyy-mm-dd'))";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -89,7 +89,7 @@ public class OneOnOneDao {
 	public int updateReadCount(Connection conn, int oNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "update notice set read_count = read_count+1 where notice_no = ?";
+		String query = "update oneonone set o_read_count = o_read_count+1 where o_no = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

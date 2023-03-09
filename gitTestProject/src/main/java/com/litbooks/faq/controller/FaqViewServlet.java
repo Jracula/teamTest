@@ -35,7 +35,6 @@ public class FaqViewServlet extends HttpServlet {
 		int faqNo = Integer.parseInt(request.getParameter("faqNo"));
 		FaqService service = new FaqService();
 		Faq f = service.selectOneFaq(faqNo);
-		System.out.println(f.getfNo());
 		
 		if(f == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
