@@ -16,10 +16,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/css/bootstrap-modal.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
 <style>
 	.page-icon{
 		overflow: hidden;
@@ -87,15 +84,14 @@
 		</div>
 		<div class="mid-navi">
 			
-			<%if(m != null && m.getMemberNo() > 0) {%>
 				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
+				<a href="/faqList.do?reqPage=1&fFlag=1" class="btn bc200" >자주하는 질문</a>				
+			<%if(m != null && m.getMemberNo() > 0) {%>
 				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc200">1:1게시판</a></label>
-				<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>	
 			<%}else {%>
 				<label><a href="/signinFrm.do" class="btn bc200">로그인을 해주세요</a></label>
-				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
-				<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>
 			<%} %>		
+				<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>
 		</div>
 		
 		<!-- Modal 내용 변경 -->
@@ -118,7 +114,7 @@
 		
 		<table class="tbl tbl-hover board-tbl active-tab" id="detail-exp">
 			<tr class="tr-2">
-				<th style = "width:5%">번호1</th>
+				<th style = "width:5%">번호</th>
 				<th style = "width:5%">아이디</th>
 				<th style = "width:20%">문의사항</th>
 				<th style = "width:5%">작성일</th>
@@ -227,10 +223,10 @@
 		const index = '<%=fFlag%>';
 		const Wrap = $(".click-icon-wrap");
 		Wrap.eq(index-1).css("backgroundColor","#BDCDD6");
-		Wrap.eq(index-1).css("border-bottom-left-radius","20px");
-		Wrap.eq(index-1).css("border-bottom-right-radius","20px");
-		Wrap.eq(index-1).css("border-top-left-radius","20px");
-		Wrap.eq(index-1).css("border-top-right-radius","20px");
+		Wrap.eq(index-1).css("border-bottom-left-radius","15px");
+		Wrap.eq(index-1).css("border-bottom-right-radius","15px");
+		Wrap.eq(index-1).css("border-top-left-radius","15px");
+		Wrap.eq(index-1).css("border-top-right-radius","15px");
 		
 
 	

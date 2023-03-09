@@ -41,7 +41,7 @@ public class DeleteQnaServlet extends HttpServlet {
 		if(q != null) {
 			if(q.getFilepath() != null) {
 				String root = getServletContext().getRealPath("/");
-				String deleteFile = root+"upload/notice/"+q.getFilepath();
+				String deleteFile = root+"upload/qna/"+q.getFilepath();
 				File delFile = new File(deleteFile);
 				delFile.delete(); //파일삭제코드			
 		
