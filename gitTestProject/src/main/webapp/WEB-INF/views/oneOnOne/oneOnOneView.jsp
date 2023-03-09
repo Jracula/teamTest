@@ -28,7 +28,9 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
-		<div class="page-title">공지사항</div>
+		<div class="page-title">공지사항
+			<a class="btn bc200" href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" id="goList">목록</a>
+		</div>
 		<table class="tbl" id="oneOnOneView">
 			<tr class="tr-3">
 				<th colspan="6"><%=o.getoTitle() %>

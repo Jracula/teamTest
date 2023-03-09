@@ -14,6 +14,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/css/bootstrap-modal.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
@@ -30,13 +32,13 @@
 		cursor: pointer;
 	}
 	.click-icon>.material-symbols-outlined{
-		font-size : 150px;
+		font-size : 120px;
 	}
 	.click-icon-wrap>div{
 		text-align: center;
 	}
 	.click-icon-wrap>p{
-		font-size : 30px;
+		font-size : 24px;
 	}
 
 	.board-tbl{
@@ -45,11 +47,14 @@
 	.active-tab{
 		display:block;
 	}
-	.orange600 {
-		color: #FB8C00; 
-	}
+
 	.board-tbl{
 		margin: 10px auto;
+		border: 1px solid #eeeeee;
+	}
+
+	.tr-1 {
+		border-bottom: 1px solid #eeeeee;
 	}
 	
 </style>
@@ -75,20 +80,42 @@
 				<div class="click-icon"><span class="material-symbols-outlined">assistant_on_hub</span></div>
 				<p>뷰어 문의</a>	
 			</div>
+			<div class="click-icon-wrap" onclick="location.href='/faqList.do?reqPage=1&reqPage1=1&fFlag=5';">
+				<div class="click-icon"><span class="material-symbols-outlined">add_task</span></div>
+				<p>기타 문의</a>
+			</div>
 		</div>
 		<div class="mid-navi">
 			
 			<%if(m != null && m.getMemberNo() > 0) {%>
 				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
 				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc200">1:1게시판</a></label>
-				<label><a href="#" class="btn bc200">메일보내기</a></label>	
+				<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>	
 			<%}else {%>
 				<label><a href="/signinFrm.do" class="btn bc200">로그인을 해주세요</a></label>
 				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
-				
-			<%} %>
-						
+				<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>
+			<%} %>		
 		</div>
+		
+		<!-- Modal 내용 변경 -->
+			<div class="modal fade" id="myModal" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" style="text-align: center;">알림</h4>
+						</div>
+						<div class="modal-body">
+							<p id="givenMessage" style="text-align: center;">준비중입니다. 다음에 도전하세요</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>
+	<!-- Modal 끝 -->	
+		
 		<table class="tbl tbl-hover board-tbl active-tab" id="detail-exp">
 			<tr class="tr-2">
 				<th style = "width:5%">번호1</th>
@@ -167,10 +194,26 @@
 					</tr>			
 				<%} %>
 			<%} %>
+			
+			<%if(fFlag == 5) {%>
+				<%
+				for(Faq f : list) {
+				%>
+					<tr class="tr-1">
+						<td><%=f.getfNo() %></td>
+						<td><%=f.getfWriter() %></td>
+						<td>
+							<a href="/faqView.do?faqNo=<%=f.getfNo() %>">
+								<%=f.getfTitle() %>
+							</a>
+						</td>
+						<td><%=f.getfRegDate() %></td>
+						<td><%=f.getfReadCount() %></td>
+					</tr>			
+				<%} %>
+			<%} %>
 			</table>
 			
-			
-		
 		<% if(m != null && m.getMemberLevel() == 1){ %>
 			<a class="btn bc200 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
 		
@@ -181,10 +224,14 @@
 	</div>
 	
 	<script>
-	const index = '<%=fFlag%>';
-	const Wrap = $(".click-icon-wrap");
-	Wrap.eq(index-1).css("backgroundColor","#fb8c00");
-	
+		const index = '<%=fFlag%>';
+		const Wrap = $(".click-icon-wrap");
+		Wrap.eq(index-1).css("backgroundColor","#BDCDD6");
+		Wrap.eq(index-1).css("border-bottom-left-radius","20px");
+		Wrap.eq(index-1).css("border-bottom-right-radius","20px");
+		Wrap.eq(index-1).css("border-top-left-radius","20px");
+		Wrap.eq(index-1).css("border-top-right-radius","20px");
+		
 
 	
 	

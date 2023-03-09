@@ -12,6 +12,9 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
+	<script src="/summernote/summernote-lite.js"></script>
+	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 		<div class="page-content">
 		<div class="page-title">문의사항수정</div>
 		<form action="/faqUpdate.do" method="post" enctype="multipart/form-data">
@@ -82,6 +85,31 @@
 		//첨부파일이 있는 경우에 삭제를 누른 경우에만 stay -> delete
 		$("[name=status]").val("delete");
 	});
+	
+	$("#faqContent").summernote({
+		height : 400,
+		lang : "ko-KR",
+		callbacks : {
+			onImageUpload : function(files) {
+				uploadImage(files[0], this);
+			}
+		}	
+	});
+	
+	function uploadImage(file, editor) {
+		const form = new FormData();
+		form.append("file", file);
+		$.ajax({
+			url : "/uploadImage.do",
+			type : "POST",
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				$(editor).summernote("insertImage", data);
+			}
+		});
+	}
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

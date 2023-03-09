@@ -92,12 +92,13 @@
 			<p>출판사 - <%=b.getPublisher() %></p>
 		<%-- 판매중 상태를 확인 후 가격 노출 --%>
 		<%if (b.getOnSale()==1) {%>
-			<p>정가 - <%=b.getBookPrice() %>원</p>
 		<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 			<%int newPrice = b.getBookPrice() * (100 - b.getDiscount()) / 100; %>
 			<% if (b.getDiscount()!=0) {%>
+			<p style="text-decoration: line-through;">정가 - <%=b.getBookPrice() %>원</p>
 			<p>판매가 - <span id="realPrice" style="color: green;"><%=newPrice %></span>원</p>
 			<%}else { %>
+			<p>정가 - <%=b.getBookPrice() %>원</p>
 			<p>&nbsp;<span id="realPrice" style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 			<%} %>
 		<%}else if (b.getOnSale()==0) {%>
@@ -130,7 +131,7 @@
 			</div>
 <!-- 장바구니에 담기 Modal 끝 -->
 
-			<a class="btn bc9" id="payOneBtn">구매하기</a>
+			<button class="btn bc9" id="payOneBtn">구매하기</button>
 			<%-- orderPayOne.do?bookNo=<%=b.getBookNo()%>&bookPrice=<%=b.getBookPrice()%> --%>
 		</div>
 		<div style="clear: both;"></div>
@@ -172,12 +173,13 @@
 						<p><%=bs.getBookTitle() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
-						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 						<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
 						<%if (bs.getDiscount()!=0) {%>
-						<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+						<p><span  style="text-decoration: line-through;"><%=bs.getBookPrice() %>원</span> → <span style="color: green;"><%=newPrice %></span>원</p>
+						<p>&nbsp;</p>
 						<%}else { %>
+						<p><%=bs.getBookPrice() %>원</p>
 						<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 						<%} %>
 					<%}else if (bs.getOnSale()==0) {%>

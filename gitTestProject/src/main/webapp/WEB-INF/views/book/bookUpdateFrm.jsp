@@ -69,7 +69,7 @@
 					</td>
 					<th class="td-3">할인율(%)</th>
 					<td>
-						<input type="number" name="discount" value="0" min="0" max="100" class="input-form" value="<%=b.getDiscount()%>" style="color: #BCBCBC;">
+						<input type="number" name="discount" min="0" max="100" class="input-form" value="<%=b.getDiscount()%>" required style="color: #BCBCBC;">
 					</td>
 					<th class="td-3">무료 감상</th>
 					<td>
@@ -83,7 +83,7 @@
 					</td>
 					<th class="td-3">할인율(%)</th>
 					<td>
-						<input type="number" name="discount" value="0" min="0" max="100" class="input-form" value="<%=b.getDiscount()%>">
+						<input type="number" name="discount" min="0" max="100" class="input-form" value="<%=b.getDiscount()%>" required>
 					</td>
 					<th class="td-3">무료 감상</th>
 					<td>
