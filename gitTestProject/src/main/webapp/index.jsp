@@ -94,7 +94,7 @@
   	</div>
   	<div class="content-list">
   		 <div class="product">
-          <a href="#">
+          <a href="/bookDetail.do?bookNo=141">
             <div class="book-img">
              	<img src="/mainImage/하얼빈.PNG" width="180px" height="280px;" style="border-radius: 10px;">
             </div>
@@ -105,7 +105,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="/bookDetail.do?bookNo=142">
             <div class="book-img">
              	<img src="/mainImage/세이노.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -116,7 +116,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="/bookDetail.do?bookNo=143">
             <div class="book-img">
              	<img src="/mainImage/동급생.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -127,7 +127,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="/bookDetail.do?bookNo=142">
             <div class="book-img">
              	<img src="/mainImage/세이노.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -138,7 +138,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="/bookDetail.do?bookNo=143">
             <div class="book-img">
              	<img src="/mainImage/동급생.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -149,7 +149,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="/bookDetail.do?bookNo=141">
             <div class="book-img">
              	<img src="/mainImage/하얼빈.PNG" width="180px" height="280px;" style="border-radius: 10px;">
             </div>
