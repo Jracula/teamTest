@@ -53,7 +53,7 @@
 					</td>
 					<th class="td-3">할인율(%)</th>
 					<td>
-						<input type="number" name="discount" value="0" min="0" max="100" class="input-form">
+						<input type="number" name="discount" value="0" min="0" max="100" class="input-form" required>
 					</td>
 				</tr>
 				<tr class="tr-1">

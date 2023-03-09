@@ -152,12 +152,13 @@
 						<span><%=bs.getWriter() %> | <%=bs.getPublisher() %></span>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
 					<%if (bs.getOnSale()==1) {%>
-						<p><%=bs.getBookPrice() %>원</p>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
 					<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
 					<% if (bs.getDiscount()!=0) {%>
-					<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
+					<p><span  style="text-decoration: line-through;"><%=bs.getBookPrice() %>원</span> → <span style="color: green;"><%=newPrice %></span>원</p>
+						<p>&nbsp;</p>
 					<%}else { %>
+					<p><%=bs.getBookPrice() %>원</p>
 					<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
 					<%} %>
 					<%}else if (bs.getOnSale()==0) {%>

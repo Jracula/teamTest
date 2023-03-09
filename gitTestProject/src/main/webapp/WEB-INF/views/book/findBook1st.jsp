@@ -157,21 +157,22 @@
 					<p><%=bs.getBookTitle() %></p>
 					<p><%=bs.getBookGenre() %></p>
 					<p><span><%=bs.getWriter() %></span> | <span><%=bs.getPublisher() %></span></p>
+					<p style="display: none;"><%=bs.getBookPrice() %></p>
 			<%-- 판매중 상태를 확인 후 가격 노출 --%>
-					<span style="display:none;"><%=bs.getBookPrice() %></span>
-				<%if (bs.getOnSale()==1) {%>
-					<p><%=bs.getBookPrice() %>원</p>
+					<%if (bs.getOnSale()==1) {%>
 			<%-- 할인율이 0%가 아닐 경우, 할인된 판매가를 노출 --%>
-				<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
-				<% if (bs.getDiscount()!=0) {%>
-				<p>판매가 - <span style="color: green;"><%=newPrice %></span>원</p>
-				<%}else { %>
-				<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
-				<%} %>
-				<%}else if (bs.getOnSale()==0) {%>
-					<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
-					<p>&nbsp;</p>
-				<%} %>
+					<%int newPrice = bs.getBookPrice() * (100 - bs.getDiscount()) / 100; %>
+					<% if (bs.getDiscount()!=0) {%>
+					<p><span  style="text-decoration: line-through;"><%=bs.getBookPrice() %>원</span> → <span style="color: green;"><%=newPrice %></span>원</p>
+						<p>&nbsp;</p>
+					<%}else { %>
+					<p><%=bs.getBookPrice() %>원</p>
+					<p>&nbsp;<span style="display:none;"><%=newPrice %></span></p>	<%-- 할인율이 0%면 display none처리 --%>
+					<%} %>
+					<%}else if (bs.getOnSale()==0) {%>
+						<p style="color: gray;">판매중지된 상품입니다.<span style="display:none;">0</span></p>
+						<p>&nbsp;</p>
+					<%} %>
 				</div>
 			</div>
 			<%} %>
