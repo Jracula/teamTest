@@ -54,7 +54,7 @@
 	}
 	
 	.removeBtn{
-		width: 80px;
+		width: 150px;
 		height: 45px;
 		border: none;
 		background-color: #205AA7;
@@ -72,7 +72,7 @@
         
         <table class="table-content">
             <tr>
-                <th colspan="3" style="width: 25%;">&nbsp;<input type="checkbox" id="allChk">　　<label for="allChk">전체선택</label></th>
+                <th colspan="3" style="width: 25%;">&nbsp;<input type="checkbox" id="allChk"><label for="allChk">　　전체선택</label></th>
                 <th style="width: 50%; text-indent: 10px;">책 이름</th>
                 <th style="width: 18%; text-align: right;">책 가격</th>
                 <th style="width: 5%;"></th>
@@ -97,7 +97,7 @@
     		</tr>
     		<% } %>
         </table>
-        <button type="button" class="removeBtn">선택삭제</button>
+        <button type="button" class="removeBtn">선택된 항목들 삭제</button>
        	<div class="pay-content">
             <span class="material-symbols-outlined" style="margin: 0">check_circle</span>
             <span id="checkCount">O</span>개를 선택하셨습니다.
