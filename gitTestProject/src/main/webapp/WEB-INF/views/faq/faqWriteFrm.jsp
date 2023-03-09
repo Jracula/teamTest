@@ -10,6 +10,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script src="/summernote/summernote-lite.js"></script>
 	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+	<link rel="stylesheet" href="/summernote/summernote-lite.css">
 		<div class="page-content">
 			<div class="page-title">자주하는 질문</div>
 		<form action="/faqWrite.do" method="post" enctype="multipart/form-data">
@@ -51,7 +52,7 @@
 				</tr>
 				<tr class="tr-1">
 					<td colspan="4">
-						<button type="submit" class="btn bc4 bs4">FAQ 작성</button>
+						<button type="submit" class="btn bc200 bs4">FAQ 작성</button>
 					</td>
 				</tr>
 			</table>
@@ -60,9 +61,9 @@
 	<script>
 		
 	</script>
-		<%--
+		
 		<script>
-		$("#faqContent").summernote({
+		/* $("#faqContent").summernote({
 			height : 400,
 			lang : "ko-KR",
 			callbacks : {
@@ -71,8 +72,8 @@
 				}
 			}
 			
-		});
-		
+		}); */
+	/* 	
 		function uploadImage(file, editor){
 			//ajax를 통해서 서버에 이미지를 업로드
 			//업로드 된 이미지의 경로를 받아오는 역할
@@ -102,12 +103,12 @@
 				//-> 파일 전송을 위해서 기본값인 문자열 전송을 제거
 			//contentType : enctype="application/x-www.form-urlencoded;charset=UTF-8" -> 기본값
 				//-> 파일 전송을 위해서 enctype 기본값을 제거
-			
+			 */
 			
 		}
 	</script>
 		
-		 --%>
+		
 	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

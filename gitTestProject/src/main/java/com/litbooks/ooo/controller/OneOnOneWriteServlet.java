@@ -43,7 +43,6 @@ public class OneOnOneWriteServlet extends HttpServlet {
 				int oMemberNo = Integer.parseInt(request.getParameter("oMemberNo"));
 				//파일은 2개를 가져와야함 - 원본파일이름 / 경로에올라가는파일이름
 				//페이지에 내가 첨부한 파일이름(중복처리 전 파일명)
-				System.out.println(oMemberNo);
 				
 				OneOnOne o = new OneOnOne();
 				o.setoTitle(oneOnOneTitle);

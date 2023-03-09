@@ -62,11 +62,11 @@ function modifyCancel(obj, recommNo, bookNo) {
 	$(obj).parent().prev().prev().show();//기존댓글 다시 보여줌
 	//수정완료 -> 수정
 	
-	$(obj).prev().text("edit");
+	$(obj).prev().html("<span class='material-symbols-outlined plusborder'>edit</span>");
 	
 	$(obj).prev().attr("onclick", "modifyComment(this," + recommNo + "," + bookNo + ")");
 	//수정취소 -> 삭제
-	$(obj).text("delete");
+	$(obj).html("<span class='material-symbols-outlined plusborder'>delete</span>");
 	
 	$(obj).attr("onclick", "deleteComment(this," + recommNo + "," + bookNo + ")");
 	//답글달기 버튼 다시 버보여줌
@@ -111,17 +111,17 @@ stars.on("click",function(){
     $("#star-result-right").text("개!");
 });
 
+
 const rating = $("#star-result-number");
 const ratingForm =$("#rating-form");
 const recommbtn = $("#recommbtn");
 recommbtn.on("click", function insertrating(){
 	let ratingNumber = Number(rating.text());
-	console.log(ratingNumber); 
+	
 	$('input[name=rating]').val(ratingNumber); 
 	$('#insertrating').val(ratingNumber); 
 	ratingForm.submit();	
 });
-
 
 
 

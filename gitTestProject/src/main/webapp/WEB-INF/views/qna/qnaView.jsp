@@ -66,7 +66,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="page-title">문의게시판
-				<a class="btn bc44" href="/qnaList.do?reqPage=1" id="goList">목록</a>
+				<a class="btn bc200" href="/qnaList.do?reqPage=1" id="goList">목록</a>
 			</div>
 			<table class="tbl" id="qnaView">
 			<tr class="tr-3">
@@ -107,8 +107,8 @@
 			<%if( m!=null && m.getMemberId().equals(q.getqWriter()) ) {%>
 			<tr>
 				<th colspan="6">
-					<a class="btn bc44" href="/qnaUpdateFrm.do?qnaNo=<%=q.getqNo() %>">수정</a>
-					<button class="btn bc44" onclick="qnaDelete(<%=q.getqNo()%>);">삭제</button>
+					<a class="btn bc200" href="/qnaUpdateFrm.do?qnaNo=<%=q.getqNo() %>">수정</a>
+					<button class="btn bc200" onclick="qnaDelete(<%=q.getqNo()%>);">삭제</button>
 				</th>
 			</tr>
 			<%} %>
@@ -184,7 +184,7 @@
 									<textarea name="qcContent" class="input-form"></textarea>
 								</li>
 								<li>
-									<button type="submit" class="btn bc1 bs4">등록</button>
+									<button type="submit" class="btn bc400 bs4">등록</button>
 								</li>
 							</ul>
 						</form>
@@ -208,7 +208,7 @@
 						<textarea name="qcContent" class="input-form"></textarea>
 					</li>
 					<li>
-						<button type="submit" class="btn bc4 bs4">등록</button>
+						<button type="submit" class="btn bc200 bs4">등록</button>
 					</li>
 				</ul>
 			</form>

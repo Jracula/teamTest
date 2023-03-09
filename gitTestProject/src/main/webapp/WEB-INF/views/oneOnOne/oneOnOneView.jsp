@@ -9,6 +9,21 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	#oneOnOneView th, #oneOnOneView td{
+		border: 1px solid #eee;
+	}
+	#oneOnOneContent{
+		text-align: left;
+		min-height: 300px;
+	}
+	
+	#goList{
+		float: right;
+		margin-bottom : 10px;
+	}
+
+</style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
@@ -37,7 +52,7 @@
 			</tr>
 			<tr>
 				<td colspan="6">
-					<div id="noticeContent">
+					<div id="oneOnOneContent">
 						<%=o.getoContentBr() %>
 					</div>
 				</td>
@@ -50,12 +65,23 @@
 			<%if( m!=null && m.getMemberId().equals(o.getoWriter()) ) {%>
 			<tr>
 				<th colspan="6">
-					<a class="btn bc44" href="/oneOnOneUpdateFrm.do?oNo=<%=o.getoNo() %>">수정</a>
-					<button class="btn bc44" onclick="noticeDelete(<%=o.getoNo()%>);">삭제</button>
+					<a class="btn bc200" href="/oneOnOneUpdateFrm.do?oNo=<%=o.getoNo() %>">수정</a>
+					<button class="btn bc200" onclick="oneOnOneDelete(<%=o.getoNo()%>);">삭제</button>
 				</th>
 			</tr>
 			<%} %>
 		</table>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
+	
+	<script>
+		function oneOnOneDelete(oneOnOneNo){
+			if(confirm("게시글을 삭제하시겠습니까?")){
+				location.href="/deleteFaq.do?oneOnOneNo="+oneOnOneNo;
+				//방법1.여기서는 noticeNo가 몇번인지 알 수 없으므로 매개변수로 넘겨줌
+			}
+		}
+		
+	</script>
+	
 </body>
 </html>

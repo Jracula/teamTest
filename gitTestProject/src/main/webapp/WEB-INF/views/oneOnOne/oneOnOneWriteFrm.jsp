@@ -43,7 +43,7 @@
 				</tr>
 				<tr class="tr-1">
 					<td colspan="4">
-						<button type="submit" class="btn bc4 bs4">1:1 문의사항 작성 완료</button>
+						<button type="submit" class="btn bc200 bs4">1:1 문의사항 작성 완료</button>
 					</td>
 				</tr>
 			</table>
@@ -61,7 +61,7 @@
 			
 		});
 		
-		function uploadImage(file, editor){
+		/* function uploadImage(file, editor){
 			//ajax를 통해서 서버에 이미지를 업로드
 			//업로드 된 이미지의 경로를 받아오는 역할
 			//받아온 이후 -> editor에 이미지 경로를 전달해서 화면에 표현
@@ -92,7 +92,7 @@
 				//-> 파일 전송을 위해서 enctype 기본값을 제거
 			
 			
-		}
+		} */
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
