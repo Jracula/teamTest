@@ -88,6 +88,8 @@
 	  	<a href="/"><img alt="icon" src="/mainImage/main-icon5.png" style="width: 130px;"></a>
 	  </div>
   </div>
+  
+  
   <div class="content-1">
   	<div class="content-title">
   		<h3>숨겨진 lit의 발견</h3>
@@ -381,7 +383,7 @@
   			<img alt="" src="/mainImage/불편한.png" width="120px;"  height="188px;" style="float : left; ">
 	  		</div>
 	  		<div class="count">
-		  		<h3>3</h3>
+		  		<h3>2</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
 		    	<p class="con con-1">불편한 편의점<p>
@@ -394,7 +396,7 @@
 	  			<img alt="" src="/mainImage/헤일메리.png" width="120px;" height="188px;" style="float : left; ">
 	  		</div>
 	  		<div class="count">
-		  		<h3>5</h3>
+		  		<h3>3</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
 		    	<p class="con con-1">프로젝트<br>헤일메리<p>
@@ -407,7 +409,7 @@
 	  			<img alt="" src="/mainImage/원씽.png" width="120px;" height="188px;"  style="float : left; ">
 	  		</div>
 	  		<div class="count">
-		  		<h3>7</h3>
+		  		<h3>4</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
 		    	<p class="con con-1">원씽<p>

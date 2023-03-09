@@ -22,9 +22,8 @@
 					<table>
 						<tr>
 							<td>아이디 <sup>*</sup></td>
-							<td><input type="text" name="memberId" id="memberId"
-								class="inputBox" required> <%--<button type="button" class="double-check" id="double-check">중복체크</button>--%>
-								<div class="comment" id="idCheck">　</div></td>
+							<td><input type="text" name="memberId" id="memberId" class="inputBox" required> <%--<button type="button" class="double-check" id="double-check">중복체크</button>--%>
+								<div class="comment" id="idCheck"></div></td>
 						</tr>
 						<tr>
 							<td>비밀번호 <sup>*</sup></td>
@@ -64,15 +63,14 @@
 								<div class="agree-wrap">
 									<div class="agree-box">
 										<input type="checkbox" onclick="agreeAll();" id="all-agree"
-											class="all-agree"> <label for="all-agree">선택포함
-											전체약관 동의</label>
+											class="all-agree"> <label for="all-agree">선택포함 전체약관 동의</label>
 									</div>
 									<div class="agree-box" id="agreeBox">
 										<input type="checkbox" id="agree-1" class="agreeCheck">
 										<label for="agree-1">이용약관 동의(필수)</label> <span class="modal1">약관보기></span>
 
 										<%--약관 모달 --%>
-                                        <div class="agreeModal-wrap">
+                                        <div class="agreeModal-wrap wrap1">
                                             <div class="agreeModal-1" >
                                                 <div class="agreeModal-top">
                                                     <h3>이용약관 동의(필수)</h3>               
@@ -112,12 +110,11 @@
                                                     </div>
                                                 </div>
                                                 <div class="resetBtn">
-                                                <button type="button" class="reset" id="reset">확인</button>
+                                                <button type="button" class="reset" id="reset1">확인</button>
                                                 <!--<input type="reset" class="reset" id="reset" value="확인">-->
                                             </div>
                                             </div>
                                         </div>
-
 
 
 									</div>
@@ -127,14 +124,88 @@
 									</div>
 									<div class="agree-box" id="agreeBox">
 										<input type="checkbox" id="agree-3" class="agreeCheck">
-										<label for="agree-3">성별,생년 정보 제공 동의(선택)</label> <span
-											class="modal">약관보기></span>
+										<label for="agree-3">성별,생년 정보 제공 동의(선택)</label> <span class="modal2">약관보기></span>
 									</div>
+									
+										<%--약관 모달 --%>
+                                        <div class="agreeModal-wrap wrap2">
+                                            <div class="agreeModal-1" >
+                                                <div class="agreeModal-top">
+                                                    <h3>성별,생년 정보 제공 동의(선택)</h3>               
+                                                </div>
+                                                <div class="agreeModal-content">
+                                                    <br>
+                                                    <strong class="agreeModal-title">개인정보 수집 이용 목적</strong>
+                                                    <div class="content">
+														신규 서비스 개발 및 마케팅에의 활용. 신규 서비스 개발, 통계학적 특성, 이용 형태 등에 따른 맞춤형 서비스 제공, 광고 게재, 이벤트 참여기회 제공, 접속빈도 파악, 회원의 서비스 이용에 대한 통계                                                        
+                                                    </div>
+                                                    <br>
+                                                    <strong class="agreeModal-title">선택 수집 항목 </strong>
+                                                    <div class="content">
+                                                       		생년, 성별
+                                                   		 </div>
+                                                    <br>
+                                                    <strong class="agreeModal-title">이용 보유 기</strong>
+                                                    <div class="content">
+                                                       		탈퇴시 즉시 파기
+                                                    </div>
+  														<br>
+  														자세한 내용은 개인정보 처리방침을 참고하시기 바랍니다.
+                                                </div>
+                                                <div class="resetBtn">
+                                                <button type="button" class="reset" id="reset2">확인</button>
+                                                <!--<input type="reset" class="reset" id="reset" value="확인">-->
+                                            </div>
+                                            </div>
+                                        </div>
+									
+									
+									
+									
 									<div class="agree-box" id="agreeBox">
 										<input type="checkbox" id="agree-4" class="agreeCheck">
-										<label for="agree-3">개인 정보 수집 및 이용 동의(필수)</label> <span
-											class="modal">약관보기></span>
+										<label for="agree-3">개인 정보 수집 및 이용 동의(필수)</label> <span class="modal3">약관보기></span>
 									</div>
+									
+										<%--약관 모달 --%>
+                                        <div class="agreeModal-wrap wrap3">
+                                            <div class="agreeModal-1" >
+                                                <div class="agreeModal-top">
+                                                    <h3>개인정보 수집 및 이용 동의 (필수)</h3>               
+                                                </div>
+                                                <div class="agreeModal-content">
+                                                    <br>
+                                                    <strong class="agreeModal-title">수집 목적</strong>
+                                                    <div class="content">
+														회원 가입의사 확인, 이용자 식별 및 본인여부, 회원자격 유지·관리, 계약 이행 및 약관변경 등의 고지를 위한 연락, 본인의사 확인 및 민원 등의 고객 고충 처리, 부정이용 방지, 비인가 사용방지 및 서비스 제공 및 계약의 이행, 서비스 이용 및 상담, 문의, 후기 등 원활한 의사소통 경로 확보, 맞춤형 회원 서비스 제공, 거점 기반 서비스 제공                                                        
+                                                   <br>
+                                                   		서비스방문 및 이용기록 분석, 부정이용 방지 등을 위한 기록 관리
+                                                    </div>
+                                                    <br>
+                                                    <strong class="agreeModal-title">수집 항목</strong>
+                                                    <div class="content">
+                 									 - 이름, 아이디, 비밀번호, 휴대폰번호, 이메일, 주소
+                 									 - 서비스 이용기록, IP주소, 쿠키, MAC주소, 모바일 기기정보(앱 버전, OS 버전), ADID/IDFA(광고식별자)
+                                                    </div>
+                                                    <br>
+                                                    <strong class="agreeModal-title">보유 기간</strong>
+                                                    <div class="content">
+                                                      - 회원탈퇴 시 즉시 파기
+                                                      - 부정이용 방지를 위하여 30일 동안 보관 (아이디, 휴대폰 번호) 후 파기 
+                                                      - 회원 탈퇴 즉시 또는 이용 목적 달성 즉시 파기
+                                                    </div>
+                                                    <br>
+													※ 단, 회원 탈퇴와 별개로 분쟁 조정, 고객문의 대응 및 법령 준수 이력 증빙을 위하여 이메일, 문자, 알림톡 발송이력은 발송일로부터 6개월 보관(이름, 아이디, 휴대폰 번호, 이메일) 후 파기합니다.
+                                                    <br>
+                                                    ※ 서비스 제공을 위해서 필요한 최소한의 개인정보입니다. 동의를 해 주셔야 서비스를 이용하실 수 있으며, 동의하지 않으실 경우 서비스에 제한이 있을 수 있습니다.
+                                                </div>
+                                                <div class="resetBtn">
+                                                <button type="button" class="reset" id="reset3">확인</button>
+                                                <!--<input type="reset" class="reset" id="reset" value="확인">-->
+                                            </div>
+                                            </div>
+                                        </div>
+									
 								</div>
 							</td>
 						</tr>
@@ -297,7 +368,7 @@
 				}
 			});
 
-			//약관동의 체크
+			//전체 약관동의 체크
 			function agreeAll() {
 				if ($(".all-agree").is(':checked')) {
 					$("input[type=checkbox]").prop("checked", true);
@@ -305,33 +376,36 @@
 					$("input[type=checkbox]").prop("checked", false);
 				}
 			}
-			<%--
-			$("#agree-1").on("change",function(){
-				console.log(result);
-				if($(this).prop("checked")){
-					result[4] = true;
-				}else{
-					result[4] = false;
-				}	
-			});
-			
-			$("#agree-4").on("change",function(){
-				if($(this).prop("checked")){
-					result[5] = true;
-				}else{
-					result[5] = false;
-				}	
-			});--%>
+
 				
 			//약관보기 모달
 			$(".modal1").on("click", function(){
-			    $(".agreeModal-wrap").css("display","flex");
+			    $(".wrap1").css("display","flex");
 			});
 		
-			
-			$("#reset").on("click", function(){
-			    $(".agreeModal-wrap").css("display","none");
+			$("#reset1").on("click", function(){
+			    $(".wrap1").css("display","none");
 			});
+			
+			
+			$(".modal2").on("click", function(){
+			    $(".wrap2").css("display","flex");
+			});
+			
+			$("#reset2").on("click", function(){
+			    $(".wrap2").css("display","none");
+			});
+			
+			
+			$(".modal3").on("click", function(){
+			    $(".wrap3").css("display","flex");
+			});
+			
+			$("#reset3").on("click", function(){
+			    $(".wrap3").css("display","none");
+			});
+			
+			
 			
 			
 			//submit
