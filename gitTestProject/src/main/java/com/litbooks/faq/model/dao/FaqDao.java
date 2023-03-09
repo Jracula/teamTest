@@ -158,15 +158,16 @@ public class FaqDao {
 		return totalCount;
 	}
 	
-	public int selectQnaCount(Connection conn) {
+	public int selectQnaCount(Connection conn, String qMemberNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int totalCount = 0;
 		
-		String query = "select count(*) as cnt from qna";
+		String query = "select count(*) as cnt from qna where q_member_no=?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, qMemberNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				totalCount = rset.getInt("cnt");
