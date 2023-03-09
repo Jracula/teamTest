@@ -21,6 +21,9 @@
 <meta charset="UTF-8">
 <title>책 검색 결과</title>
 <style>
+.coverImage:hover {
+  cursor: zoom-in;
+}
 .searchEngine {
 	background-color: #EEEEEE;
 	padding: 20px;
@@ -138,7 +141,7 @@
 			<%Book bs = books.get(i); %>
 				<div style="float: left;">
 				<%if (bs.getBookImage()!=null){%>
-					<img src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=100px>
+					<img class="coverImage" src="/upload/book/cover-image/<%=bs.getBookImage() %>" width=100px>
 				<%}else{ %>
 					<img src="/upload/book/cover-image/00000000.jpg" width=100px>
 				<%} %>
@@ -193,6 +196,13 @@
 			const reqPage = $(this).children().first().text();
 			$("[name=reqPage]").val(reqPage);
 			$("#submitButton").click();
+		});
+		
+
+		// 커머이미지 크게 보기
+		$(".coverImage").on("click", function(){
+			const imgUrl = $(this).attr("src");
+			window.open(imgUrl, "reading", "toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes");
 		});
 	</script> 
 </body>

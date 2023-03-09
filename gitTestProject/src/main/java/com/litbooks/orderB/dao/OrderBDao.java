@@ -132,6 +132,7 @@ public class OrderBDao {
 				}else {
 					o.setBook_title(rset.getString("book_title"));
 				}
+				o.setStatus(rset.getString("status"));
 				o.setBookPrice(rset.getInt("book_price"));
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setOrderRegDate(rset.getString("order_reg_date"));
@@ -319,7 +320,7 @@ public class OrderBDao {
 				o.setBook_title(rset.getString("book_title"));
 				o.setOrderPay(rset.getString("order_pay"));
 				o.setBookPrice(rset.getInt("book_price"));
-				o.setStatus(rset.getString("status"));
+				o.setStatus(rset.getString("status").trim());
 				list.add(o);
 			}
 		} catch (SQLException e) {
