@@ -51,17 +51,23 @@
         <br>
         <table class="tbl table-content">
         	<tr class="tr-2">
-        		<th></th>
-        		<th>책제목</th>
-        		<th>출판사</th>
-        		<th>가격</th>
+        		<th style="width: 25%;"></th>
+        		<th style="width: 35%;">책제목</th>
+        		<th style="width: 25%;">출판사</th>
+        		<th style="width: 15%;">가격</th>
         	</tr>
         
         	<% for(int i=0; i<list.size(); i++) { %>
         	<% Book b = list.get(i); %>
 	        	
         	<tr class="tr-1 point">
-        		<td><img src="/upload/book/cover-image/00000000.jpg" width="200px" ></td>        		
+        		<td>
+        	<%if(b.getBookImage()!=null){ %>
+        		<img src="/upload/book/cover-image/<%=b.getBookImage() %>" width="150px" >
+        	<%}else{ %>
+        		<img src="/upload/book/cover-image/00000000.jpg" width="150px" >
+        	<%} %>
+        		</td>        		
         		<td><%=b.getBookTitle() %><span class="bookNo" style="display:none;"><%=b.getBookNo() %></span></td>
         		<td><%=b.getPublisher() %></td>
         		<td><%=b.getBookPrice() %></td>

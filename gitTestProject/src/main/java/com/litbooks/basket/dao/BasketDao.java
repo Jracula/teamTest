@@ -125,7 +125,7 @@ public class BasketDao {
 		ResultSet rset = null;
 		ArrayList<Book> bask = new ArrayList<>();
 		
-		String query = "select b.book_no, b.book_title, b.book_price from basket ba left join book b on (b.book_no = ba.book_no) where member_no=?";
+		String query = "select b.book_no, b.book_title, b.book_price, b.book_image from basket ba left join book b on (b.book_no = ba.book_no) where member_no=?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, memberNo);
@@ -135,6 +135,7 @@ public class BasketDao {
 				ba.setBookNo(rset.getInt("book_no"));
 				ba.setBookTitle(rset.getString("book_title"));
 				ba.setBookPrice(rset.getInt("book_price"));
+				ba.setBookImage(rset.getString("book_image"));
 				bask.add(ba);
 			}
 		} catch (SQLException e) {
