@@ -29,12 +29,13 @@
 	<div class="page-content">
 		<div class="page-title">문의게시판</div>
 			<div class="navi">
-				<a href="/faqList.do?reqPage=1&fFlag=1" class="btn bc200" >FAQ</a>
+				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
+				<a href="/faqList.do?reqPage=1&fFlag=1" class="btn bc200" >자주하는 질문</a>
 				<%if(m != null && m.getMemberNo() > 0) {%>
 					<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc200">1:1게시판</a></label>
 					<%-- <label><a href="/oneOnOneWrite.do?reqPage=1&memberNo=<%=m.getMemberNo() %>" class="btn bc200">메일보내기</a></label> --%>
 					<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>
-				
+					
 				<%}else { %>
 					<button type="button" class="btn bc200" data-toggle="modal" data-target="#myModal">메일보내기</button>
 				<%} %>
@@ -93,8 +94,6 @@
 			<div id="pageNavi"><%=pageNavi %></div>		
 		</div>
 		
-		
-	
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

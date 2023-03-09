@@ -28,7 +28,7 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
-		<div class="page-title">공지사항
+		<div class="page-title">1:1 문의사항
 			<a class="btn bc200" href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" id="goList">목록</a>
 		</div>
 		<table class="tbl" id="oneOnOneView">
@@ -58,9 +58,6 @@
 						<%=o.getoContentBr() %>
 					</div>
 				</td>
-			</tr>
-			<tr>
-				<th></th>
 			</tr>
 			<!-- if(m.getMemberId().equals(n.getNoticeWriter()))
 			 조건을 이렇게만 주면 로그인을 하지 않았을 경우 에러발생 로그인조건을 걸어줘야한다. -->

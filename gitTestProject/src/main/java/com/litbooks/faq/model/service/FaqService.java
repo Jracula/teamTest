@@ -182,7 +182,7 @@ public class FaqService {
 		int start = end-numPerPage+1;
 		
 		ArrayList<Qna> list = dao.selectQnaList(conn,start,end,qMemberNo);
-		int totalCount = dao.selectQnaCount(conn);
+		int totalCount = dao.selectQnaCount(conn,qMemberNo);
 		
 		int totalPage = 0;
 		if(totalCount%numPerPage == 0) {
@@ -245,7 +245,7 @@ public class FaqService {
 		int start = end-numPerPage+1;
 		
 		ArrayList<Qna> list = dao.selectQnaList(conn,start,end,qMemberNo);
-		int totalCount = dao.selectQnaCount(conn);
+		int totalCount = dao.selectQnaCount(conn,qMemberNo);
 		
 		int totalPage = 0;
 		if(totalCount%numPerPage == 0) {
