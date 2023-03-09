@@ -38,7 +38,7 @@ public class LogoutServlet extends HttpServlet {
 		//결과 처리
 		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 		request.setAttribute("title", "로그아웃");
-		request.setAttribute("msg", "로그아웃 되었습니다!");
+		request.setAttribute("msg", "로그아웃 되었습니다");
 		request.setAttribute("icon", "info");
 		request.setAttribute("loc", "/");
 		view.forward(request, response);
