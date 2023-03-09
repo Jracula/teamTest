@@ -38,9 +38,7 @@
 	.click-icon-wrap>p{
 		font-size : 30px;
 	}
-	.mid-navi{
-		margin-bottom: 30px;
-	}
+
 	.board-tbl{
 		display:none;
 	}
@@ -49,6 +47,9 @@
 	}
 	.orange600 {
 		color: #FB8C00; 
+	}
+	.board-tbl{
+		margin: 10px auto;
 	}
 	
 </style>
@@ -78,12 +79,12 @@
 		<div class="mid-navi">
 			
 			<%if(m != null && m.getMemberNo() > 0) {%>
-				<a href="/qnaList.do?reqPage=1" class="btn bc1" >문의게시판</a>
-				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc1">1:1게시판</a></label>
-				<label><a href="#" class="btn bc1">메일보내기</a></label>	
+				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
+				<label><a href="/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=<%=m.getMemberNo() %>" class="btn bc200">1:1게시판</a></label>
+				<label><a href="#" class="btn bc200">메일보내기</a></label>	
 			<%}else {%>
-				<label><a href="/signinFrm.do" class="btn bc1">로그인을 해주세요</a></label>
-				<a href="/qnaList.do?reqPage=1" class="btn bc1" >문의게시판</a>
+				<label><a href="/signinFrm.do" class="btn bc200">로그인을 해주세요</a></label>
+				<a href="/qnaList.do?reqPage=1" class="btn bc200" >문의게시판</a>
 				
 			<%} %>
 						
@@ -171,7 +172,7 @@
 			
 		
 		<% if(m != null && m.getMemberLevel() == 1){ %>
-			<a class="btn bc2 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
+			<a class="btn bc200 writeBtn" href="/faqWriteFrm.do">글쓰기</a>
 		
 		<%}else {%>
 		

@@ -50,7 +50,7 @@
 							<!-- 삭제하기를 누르면 한번에 둘다 안보이게 하기위해 같은 class를 주는것 -->
 							<img src="/img/file.png" width="16px" class="delFile">
 							<span class="delFile"><%=f.getFilename()%></span>
-							<button type="button" class="btn bc1 delFile">삭제</button>
+							<button type="button" class="btn bc200 delFile">삭제</button>
 							<input type="file" name="upfile" style="display:none;">
 							<input type="hidden" name="oldFilename" value="<%=f.getFilename() %>">
 							<input type="hidden" name="oldFilepath" value="<%=f.getFilepath() %>">
@@ -69,7 +69,7 @@
 				</tr>
 				<tr class="tr-1">
 					<th colspan="2">	
-						<button type="submit" class="btn bc4 bs4">수정완료</button>
+						<button type="submit" class="btn bc200 bs4">수정완료</button>
 					</th>
 				</tr>
 			</table>

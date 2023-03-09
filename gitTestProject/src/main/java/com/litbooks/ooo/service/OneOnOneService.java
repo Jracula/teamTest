@@ -115,7 +115,6 @@ public class OneOnOneService {
 	public OneOnOne selectOneOnOne(int oNo) {
 		Connection conn = JDBCTemplate.getConnection();
 		int result = dao.updateReadCount(conn, oNo);
-		System.out.println(result);
 		if(result > 0) {
 			OneOnOne o = dao.selectOneNotice(conn, oNo);
 			JDBCTemplate.commit(conn);
