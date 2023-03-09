@@ -49,7 +49,7 @@
 					
 					<tr class="tr-1">
 						<th class="td-3">내용</th>
-						<td>
+						<td colspan="4" style="text-align: left;">
 							<textarea class="input-form" name="noticeContent" id="noticeContent"><%=n.getNoticeContent()%></textarea>
 						</td>
 					</tr>

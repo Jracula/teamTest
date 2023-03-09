@@ -58,7 +58,7 @@
 					<% }%>
 					<td><%=rc.getRcWriter() %></td>
 					
-					<td><%=rc.getRecommContent() %></td>
+					<td><a href="/bookDetail.do?bookNo=<%=rc.getBookRef()%>"><%=rc.getRecommContent() %></a></td>
 					<%if(rc.getRecommRef() > 0) {%>
 						<td>대댓글</td>
 					<% }%>
@@ -66,7 +66,9 @@
 						<td>댓글</td>
 					<% }%>
 					<td><%=rc.getRecommDate()%></td>
-					<td><%=rc.getBookRef()%></td>
+					<td>
+					<a href="/bookDetail.do?bookNo=<%=rc.getBookRef()%>">
+					<%=rc.getBookRef()%></a></td>
 				</tr>
 			<%} %>
 		</table>

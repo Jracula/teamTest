@@ -14,31 +14,38 @@
 <title>장바구니(카트)</title>
 <link rel="stylesheet" href="/css/bootstrap-modal.css" />
 <style>
+	button:hover {
+		cursor: pointer;
+	}
 	#buyBook{
         border: none;
 		color: #fff;
         background-color: #205AA7;
-        width: 500px;
+        width: 600px;
         height: 50px;
         font-size: 24px;            
 	}
 	
 	.table-content{
 		border: 1px solid black;
-		width: 50%;
+		width: 600px;
 	}
 	
 	.table-content th{
+		border-bottom: 2px solid rgba(57, 62, 70, 0.1); 
 		align-content: center;
+		text-align: left;
+		line-height: 300%;
 	}
 	
 	#check{
 		width: 15px;
 		height: 15px;
 	}
-
+	
 	.pay-content{
-		margin: 30px 50px;
+		margin-top: 30px;
+		margin-bottom: 30px;
 	}
 	
 	#allChk{
@@ -47,7 +54,7 @@
 	}
 	
 	.removeBtn{
-		width: 80px;
+		width: 150px;
 		height: 45px;
 		border: none;
 		background-color: #205AA7;
@@ -59,25 +66,24 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
     <div class="page-content">
+     <div style="width: 600px; margin:0 auto;">
         <% if(m != null && m.getMemberLevel() != 1) { %>
         <div class="page-title">장바구니(카트)</div>
         
         <table class="table-content">
             <tr>
-                <th colspan="2"><input type="checkbox" id="allChk"><label for="allChk">전체선택</label></th>
-                <th></th>
-                <th>책 이름</th>
-                <th>책 가격</th>
-                <th></th>
-                <th><button type="button" class="removeBtn">선택삭제</button></th>
+                <th colspan="3" style="width: 25%;">&nbsp;<input type="checkbox" id="allChk"><label for="allChk">　　전체선택</label></th>
+                <th style="width: 50%; text-indent: 10px;">책 이름</th>
+                <th style="width: 18%; text-align: right;">책 가격</th>
+                <th style="width: 5%;"></th>
             </tr>
             
             <% for(int i=0; i<list.size(); i++) { %> <!-- 장바구니 테이블 -->
             <% Basket ba = list.get(i); %> 			
        		<% Book detail = bask.get(i); %>
             <tr>
-                <td><input type="checkbox" class="chk" id="check" value=<%=ba.getBasketNo() %>></td>
-                <td>
+                <td>&nbsp;<input type="checkbox" class="chk" id="check" value=<%=ba.getBasketNo() %>></td>
+                <td style="text-align: center;">
 		        <%if (detail.getBookImage()!=null){%>
 					<img src="/upload/book/cover-image/<%=detail.getBookImage() %>" height="150px">
 				<%}else{ %>
@@ -85,12 +91,13 @@
 				<%} %>
                 </td>
                 <td><span style="display: none;" id="bookNo" class="bkn"><%=detail.getBookNo() %></span></td> 
-				<td><%=detail.getBookTitle() %></td> <!-- 책 이름 -->
-                <td class="amountPrice"><%=detail.getBookPrice() %></td>
+				<td style="text-indent: 10px;"><%=detail.getBookTitle() %></td> <!-- 책 이름 -->
+                <td class="amountPrice" style="text-align: right;"><%=detail.getBookPrice() %></td>
+                <td> 원</td>
     		</tr>
     		<% } %>
         </table>
-        
+        <button type="button" class="removeBtn">선택된 항목들 삭제</button>
        	<div class="pay-content">
             <span class="material-symbols-outlined" style="margin: 0">check_circle</span>
             <span id="checkCount">O</span>개를 선택하셨습니다.
@@ -120,6 +127,7 @@
             <button id="buyBook">구매하기</button>
         </div>
         <% } %>
+     </div>
 	</div>
 
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
@@ -142,6 +150,11 @@
 		$(".chk").on("click", function() {
 			$(this).prop("checked");
 			const checkCount = $(".chk:checked").length;
+			if($(".chk:checked").length==$(".chk").length){
+				$("#allChk").prop("checked", true);
+			}else{
+				$("#allChk").prop("checked", false);
+			}
 			$("#checkCount").text(checkCount);
 			
 			totalPrice();
@@ -173,6 +186,8 @@
 							$(item).parent().parent().remove();
 							totalPrice()
 						});
+						const checkCount = $(".chk:checked").length;
+						$("#checkCount").text(checkCount);
 					}else{
 
 					}
