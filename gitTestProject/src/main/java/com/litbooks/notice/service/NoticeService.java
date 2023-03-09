@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import com.litbooks.notice.dao.NoticeDao;
 import com.litbooks.notice.vo.Notice;
 import com.litbooks.notice.vo.NoticePageData;
+import com.litbooks.notice.vo.NoticeViewData;
 
 import common.JDBCTemplate;
 
@@ -86,20 +87,20 @@ public class NoticeService {
 	}
 
 	// 공지사항 게시물 조회수 증가
-	public Notice selectOneNotice(int noticeNo) {
+	public NoticeViewData selectOneNotice(int noticeNo) {
 		Connection conn = JDBCTemplate.getConnection();
-		Notice n = dao.selectOneNotice(conn, noticeNo);
-		if(n != null) {
-			int result = dao.updateReadCount(conn, noticeNo);
-			if(result > 0) {
-				JDBCTemplate.commit(conn);
-			} else {
-				JDBCTemplate.rollback(conn);
-			}
+		int result = dao.updateReadCount(conn, noticeNo);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+			Notice n = dao.selectOneNotice(conn, noticeNo);
+			
+			NoticeViewData nvd = new NoticeViewData(n);
+			return nvd;
 		} else {
+			JDBCTemplate.rollback(conn);
 			JDBCTemplate.close(conn);
+			return null;
 		}
-		return n;
 	}
 	
 	// 공지사항 글 쓰기 등록
