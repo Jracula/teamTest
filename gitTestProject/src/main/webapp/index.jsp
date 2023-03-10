@@ -102,7 +102,7 @@
   	</div>
   	<div class="content-list">
   		 <div class="product">
-          <a href="/bookDetail.do?bookNo=141">
+          <a href="/bookDetail.do?bookNo=141" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/하얼빈.PNG" width="180px" height="280px;" style="border-radius: 10px;">
             </div>
@@ -113,7 +113,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="/bookDetail.do?bookNo=142">
+          <a href="/bookDetail.do?bookNo=142" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/세이노.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -124,7 +124,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="/bookDetail.do?bookNo=143">
+          <a href="/bookDetail.do?bookNo=143" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/동급생.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -135,7 +135,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="/bookDetail.do?bookNo=150">
+          <a href="/bookDetail.do?bookNo=150" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/아침점심저녁.jpg" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -146,7 +146,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="/bookDetail.do?bookNo=159">
+          <a href="/bookDetail.do?bookNo=159" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/너가좋아했으면.PNG" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -157,7 +157,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="/bookDetail.do?bookNo=154">
+          <a href="/bookDetail.do?bookNo=154" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/원씽.png" width="180px" height="280px;" style="border-radius: 10px;">
             </div>
@@ -183,12 +183,12 @@
 		  		<h3>1</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=142" class="con con-1">세이노의<br> 가르침</a>
+		    	<a href="/bookDetail.do?bookNo=142" class="con con-1" style="text-decoration: none; color: #252A34">세이노의<br> 가르침</a>
 		    	<p class="con con-2">세이노<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.3</span></p>
 		    </div>
 	  	</div>
-	  	<div class="book-list" style="width: 280px;" >
+	  	<div class="book-list" style="width: 280px;">
 	  		<div class="img" >
   			<img alt="" src="/mainImage/불편한.png" width="120px;"  height="188px;" style="float : left; ">
 	  		</div>
@@ -196,7 +196,7 @@
 		  		<h3>3</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=151" class="con con-1">불편한 편의점</a>
+		    	<a href="/bookDetail.do?bookNo=151" class="con con-1" style="text-decoration: none; color: #252A34">불편한 편의점</a>
 		    	<p class="con con-2">김호연<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.5</span></p>
 		    </div>
@@ -209,7 +209,7 @@
 		  		<h3>5</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=153" class="con con-1">프로젝트<br>헤일메리</a>
+		    	<a href="/bookDetail.do?bookNo=153" class="con con-1" style="text-decoration: none; color: #252A34">프로젝트<br>헤일메리</a>
 		    	<p class="con con-2">앤디 위어<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.8</span></p>
 		    </div>
@@ -222,7 +222,7 @@
 		  		<h3>7</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=154" class="con con-1">원씽</a>
+		    	<a href="/bookDetail.do?bookNo=154" class="con con-1" style="text-decoration: none; color: #252A34">원씽</a>
 		    	<p class="con con-2">게리 켈러,<br>제이 파파산<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.3</span></p>
 		    </div>
@@ -240,7 +240,7 @@
 		  		<h3>2</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=155" class="con con-1">악인론</a>
+		    	<a href="/bookDetail.do?bookNo=155" class="con con-1" style="text-decoration: none; color: #252A34">악인론</a>
 		    	<p class="con con-2">손수현<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.3</span></p>
 		    </div>
@@ -253,7 +253,7 @@
 		  		<h3>4</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=156" class="con con-1">희망의 끈</a>
+		    	<a href="/bookDetail.do?bookNo=156" class="con con-1" style="text-decoration: none; color: #252A34">희망의 끈</a>
 		    	<p class="con con-2">히가시노 게이고<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.5</span></p>
 		    </div>
@@ -266,7 +266,7 @@
 		  		<h3>6</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=157" class="con con-1">돈의 속성</a>
+		    	<a href="/bookDetail.do?bookNo=157" class="con con-1" style="text-decoration: none; color: #252A34">돈의 속성</a>
 		    	<p class="con con-2">김승호<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.8</span></p>
 		    </div>
@@ -279,7 +279,7 @@
 		  		<h3>4</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=158" class="con con-1">슈퍼 해빗</a>
+		    	<a href="/bookDetail.do?bookNo=158" class="con con-1" style="text-decoration: none; color: #252A34">슈퍼 해빗</a>
 		    	<p class="con con-2">케이티 밀크먼<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.3</span></p>
 		    </div>
@@ -297,7 +297,7 @@
   	</div>
   	<div class="content-list">
   		 <div class="product">
-          <a href="#">
+          <a href="#" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/트러스트.png" width="180px" height="280px;" style="border-radius: 10px;">
             </div>
@@ -308,7 +308,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="#" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/러브몬스터.png" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -319,7 +319,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="#" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/심연.png" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -330,7 +330,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="#" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/월.png" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -341,7 +341,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="#" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/몸.png" width="180px"  height="280px;" style="border-radius: 10px;">
             </div>
@@ -352,7 +352,7 @@
            </a>
           </div>
           <div class="product">
-          <a href="#">
+          <a href="#" style="text-decoration: none; color: #252A34">
             <div class="book-img">
              	<img src="/mainImage/연결된고통.png" width="180px" height="280px;" style="border-radius: 10px;">
             </div>
@@ -379,7 +379,7 @@
 		  		<h3>1</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=142" class="con con-1">세이노의<br>가르침</a>
+		    	<a href="/bookDetail.do?bookNo=142" class="con con-1" style="text-decoration: none; color: #252A34">세이노의<br>가르침</a>
 		    	<p class="con con-2">세이노<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.3</span></p>
 		    </div>
@@ -392,7 +392,7 @@
 		  		<h3>2</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=151" class="con con-1">불편한 편의점</a>
+		    	<a href="/bookDetail.do?bookNo=151" class="con con-1" style="text-decoration: none; color: #252A34">불편한 편의점</a>
 		    	<p class="con con-2">김호연<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.5</span></p>
 		    </div>
@@ -405,7 +405,7 @@
 		  		<h3>3</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=153" class="con con-1">프로젝트<br>헤일메리</a>
+		    	<a href="/bookDetail.do?bookNo=153" class="con con-1" style="text-decoration: none; color: #252A34">프로젝트<br>헤일메리</a>
 		    	<p class="con con-2">앤디 위어<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.8</span></p>
 		    </div>
@@ -418,7 +418,7 @@
 		  		<h3>4</h3>
 		  	</div>
 		  	<div class="list-con" style="float : left; ">
-		    	<a href="/bookDetail.do?bookNo=154" class="con con-1">원씽</a>
+		    	<a href="/bookDetail.do?bookNo=154" class="con con-1" style="text-decoration: none; color: #252A34">원씽</a>
 		    	<p class="con con-2">게리 켈러,<br>제이 파파산<p>
 		    	<p><span class="material-symbols-outlined star">grade</span><span class="score"> 4.3</span></p>
 		    </div>
