@@ -80,6 +80,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 	<div class="page-content">
+		<span id="bookName" style="display: none"><%=b.getBookTitle() %></span>
 		<div class="book-cover" style="float: left; width: 300px; margin-right: 40px;">
 		<%if (b.getBookImage()!=null){%>
 			<img class="coverImage" src="/upload/book/cover-image/<%=b.getBookImage() %>" width=100%;>
@@ -397,6 +398,8 @@
 			//console.log("memberNo : " + memberNo);
 			//console.log("bookPrice : " + bookPrice);
 			
+			const bookName = $("#bookName").text();
+			
 			if(bookPrice < 0) {
 				$("#givenMessage").text("판매중지 상품입니다.");
 				$("#modalButton").click();
@@ -411,8 +414,8 @@
 	            pg: "html5_inicis",
 	            pay_method : "card",
 	            merchant_uid : "상품번호_"+date,
-	            name : "결제 테스트",
-	            amount : 100, // bookPrice
+	            name : bookName, // "결제테스트"(테스트용)
+	            amount : bookPrice, // bookPrice, 100(테스트용)
 	            buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
 	            buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
 	            buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
