@@ -18,38 +18,39 @@ import com.litbooks.ooo.vo.OneOnOne;
 @WebServlet(name = "OneOnOneView", urlPatterns = { "/oneOnOneView.do" })
 public class OneOnOneViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public OneOnOneViewServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1. 인코딩
+	public OneOnOneViewServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 1. 인코딩
 		request.setCharacterEncoding("utf-8");
-		//2. 값추출
+		// 2. 값추출
 		int oNo = Integer.parseInt(request.getParameter("oNo"));
 		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
-		//3. 비즈니스로직
+		// 3. 비즈니스로직
 		OneOnOneService service = new OneOnOneService();
 		OneOnOne o = service.selectOneOnOne(oNo);
 
-		
-		//4. 결과처리
-		if(o == null) {
+		// 4. 결과처리
+		if (o == null) {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 			request.setAttribute("title", "조회 실패");
 			request.setAttribute("msg", "게시글이 존재하지 않습니다.");
 			request.setAttribute("icon", "info");
-			request.setAttribute("loc", "/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo="+memberNo);
+			request.setAttribute("loc", "/oneOnOneList.do?reqPage=1&reqPage1=1&memberNo=" + memberNo);
 			view.forward(request, response);
-		}else {
+		} else {
 			RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/views/oneOnOne/oneOnOneView.jsp");
 			request.setAttribute("o", o);
 			view.forward(request, response);
@@ -58,9 +59,11 @@ public class OneOnOneViewServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

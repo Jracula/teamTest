@@ -333,7 +333,7 @@ public class OneOnOneDao {
 	public int insertOneOnOneCommnet(Connection conn, OneOnOneComment oc) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "insert into oneonone_comment values(oc_no_seq.nextval, ?, ?, ?,to_char(sysdate, 'yyyy-mm-dd'))";
+		String query = "insert into oneonone_comment values(oc_no_seq.nextval, ?, ?, ?, to_char(sysdate, 'yyyy-mm-dd'))";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -353,6 +353,24 @@ public class OneOnOneDao {
 			
 			result = pstmt.executeUpdate();
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int delectOneOnOne(Connection conn, int oNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from oneonone where o_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, oNo);
+			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
