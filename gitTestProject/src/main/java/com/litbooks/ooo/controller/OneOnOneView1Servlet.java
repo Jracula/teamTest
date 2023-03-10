@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.litbooks.member.vo.Member;
 import com.litbooks.ooo.service.OneOnOneService;
 import com.litbooks.ooo.vo.OneOnOne;
 import com.litbooks.ooo.vo.OneOnOneViewData;
@@ -36,7 +38,14 @@ public class OneOnOneView1Servlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		//2. 값추출
 		int oNo = Integer.parseInt(request.getParameter("oNo"));
-		int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+		
+		HttpSession session = request.getSession(false);
+		Member me = (Member) session.getAttribute("m");
+		
+		int memberNo = me.getMemberNo();
+		
+		/* int memberNo = Integer.parseInt(request.getParameter("memberNo")); */
+		
 		//3. 비즈니스로직
 		OneOnOneService service = new OneOnOneService();
 		OneOnOne o = service.selectOneNotice(oNo, memberNo);

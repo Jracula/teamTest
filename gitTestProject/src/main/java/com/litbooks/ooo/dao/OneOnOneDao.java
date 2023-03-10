@@ -330,4 +330,36 @@ public class OneOnOneDao {
 		return list;
 	}
 
+	public int insertOneOnOneCommnet(Connection conn, OneOnOneComment oc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into oneonone_comment values(oc_no_seq.nextval, ?, ?, ?,to_char(sysdate, 'yyyy-mm-dd'))";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, oc.getOo_writer());
+			pstmt.setString(2, oc.getOo_content());
+			pstmt.setInt(3, oc.getOo_ref());
+			
+			//NcRef에 0을 넣어줬는데 insert될 때 references조건을 만족하지X
+			//댓글의 경우 nc_no == 0에 해당하는 값이 없으므로 에러발생
+			//댓글일 경우 null / 대댓글의경우 해당번호를 넣어줘야함
+			/*
+			 * if(oc.getOo_ref() == 0) { pstmt.setString(4, null); }else { pstmt.setInt(4,
+			 * oc.getNcRef()); }
+			 */
+			//3항연산자
+			//pstmt.setString(4, (nc.getNcRef()==0)?null:String.valueOf(nc.getNcRef()));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 }

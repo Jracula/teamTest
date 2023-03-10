@@ -8,6 +8,7 @@ import com.litbooks.notice.dao.NoticeDao;
 import com.litbooks.notice.vo.Notice;
 import com.litbooks.notice.vo.NoticePageData;
 import com.litbooks.notice.vo.NoticeViewData;
+import com.litbooks.ooo.vo.OneOnOneComment;
 
 import common.JDBCTemplate;
 
@@ -146,6 +147,18 @@ public class NoticeService {
 		if(result > 0) {
 			JDBCTemplate.commit(conn);
 		} else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updateOneOnOneComment(OneOnOneComment oc) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = dao.updateOneOnOneComment(conn, oc);
+		if(result > 0) {
+			JDBCTemplate.commit(conn);
+		}else {
 			JDBCTemplate.rollback(conn);
 		}
 		JDBCTemplate.close(conn);
