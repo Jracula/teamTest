@@ -22,7 +22,6 @@
 <title><%=b.getBookTitle() %> - LiTBOOKS</title>
 <link rel="stylesheet" href="/css/recomm.css">
 <link rel="stylesheet" href="/css/bootstrap-modal.css" />
-<link rel="stylesheet" href=https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200 />
 <style>
 .coverImage:hover {
   cursor: zoom-in;
@@ -60,6 +59,20 @@
 	margin-bottom: 12px;
 	margin-left: 12px;
 	float: left;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+.star {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
 }
 </style>
 </head>

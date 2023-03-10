@@ -32,7 +32,7 @@ public class MailSender {
 		// 인증정보 설정(로그인)
 		Session session = Session.getDefaultInstance(prop, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				PasswordAuthentication pa = new PasswordAuthentication("hsb050505", "mctrduemkcmyhwlb");
+				PasswordAuthentication pa = new PasswordAuthentication("useformailing", "wscfztptkaddsukc");
 				return pa;
 			}
 		});

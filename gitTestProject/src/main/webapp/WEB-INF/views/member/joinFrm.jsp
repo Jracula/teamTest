@@ -164,7 +164,7 @@
 									
 									<div class="agree-box" id="agreeBox">
 										<input type="checkbox" id="agree-4" class="agreeCheck">
-										<label for="agree-3">개인 정보 수집 및 이용 동의(필수)</label> <span class="modal3">약관보기></span>
+										<label for="agree-4">개인 정보 수집 및 이용 동의(필수)</label> <span class="modal3">약관보기></span>
 									</div>
 									
 										<%--약관 모달 --%>
@@ -251,7 +251,7 @@
 					}
 				});		
 				}else{
-						$("#idCheck").text("아이디는 영어 소문자/숫자로 4~12글자");
+						$("#idCheck").text("아이디는 영어 소문자/숫자로 5~12글자");
 						$("#idCheck").css("color", "red");
 						result[0] = false;
 			}
@@ -309,7 +309,7 @@
 						}
 					},
 					error : function(){
-						consol.log("에러발생");
+						console.log("에러발생");
 					}
 				});
 			});
