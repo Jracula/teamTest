@@ -251,7 +251,7 @@
 					}
 				});		
 				}else{
-						$("#idCheck").text("아이디는 영어 소문자/숫자로 4~12글자");
+						$("#idCheck").text("아이디는 영어 소문자/숫자로 5~12글자");
 						$("#idCheck").css("color", "red");
 						result[0] = false;
 			}
@@ -309,7 +309,7 @@
 						}
 					},
 					error : function(){
-						consol.log("에러발생");
+						console.log("에러발생");
 					}
 				});
 			});
