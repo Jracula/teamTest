@@ -74,6 +74,9 @@
   'GRAD' 0,
   'opsz' 48
 }
+.star:hover {
+	cursor: default;
+}
 </style>
 </head>
 <body>

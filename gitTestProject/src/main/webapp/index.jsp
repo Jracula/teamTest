@@ -60,15 +60,15 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
-      <div class="item active">
+      <div class="item active" onclick="location.href='/bookDetail.do?bookNo=167'">
         <img src="/mainImage/main-banner1.jpg" alt="banner1" style="width:100%;">
       </div>
 
-      <div class="item">
+      <div class="item" onclick="location.href='/bookDetail.do?bookNo=143'">
         <img src="/mainImage/main-banner2.jpg" alt="banner2" style="width:100%;">
       </div>
     
-      <div class="item">
+      <div class="item" onclick="location.href='/bookDetail.do?bookNo=168'">
         <img src="/mainImage/main-banner3.jpg" alt="banner3" style="width:100%;">
       </div>
     </div>
