@@ -95,7 +95,7 @@
 			<div class="tbl-div">
 				<table class="tbl tbl-hover notice-tbl">
 					<tr class="tr-3">
-						<td class="oneTblTitle" colspan="5">고객님이 1:1 게시판에 질문한 내용이야</td>
+						<td class="oneTblTitle" colspan="5">호객님이 1:1 게시판에 질문한 내용이야</td>
 					</tr>
 					<tr class="tr-3">
 						<th style="width:20%">번호</th>

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.litbooks.notice.vo.Notice;
+import com.litbooks.ooo.vo.OneOnOneComment;
 import com.litbooks.qna.model.vo.QnaComment;
 
 import common.JDBCTemplate;
@@ -176,6 +177,25 @@ public class NoticeDao {
 			pstmt.setString(3, n.getFilename());
 			pstmt.setString(4, n.getFilepath());
 			pstmt.setInt(5, n.getNoticeNo());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateOneOnOneComment(Connection conn, OneOnOneComment oc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update oneonone_comment set oo_content = ? where oo_no = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, oc.getOo_content());
+			pstmt.setInt(2, oc.getOo_no());
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
