@@ -20,11 +20,46 @@
 		text-align: left;
 		min-height: 300px;
 	}
+	.inputCommentBox{
+		margin: 50px;
+	}
+	.inputCommentBox>form>ul{
+		list-style-type: none;
+		display: flex;
+	}
+	.inputCommentBox>form>ul>li:first-child{
+		width: 15%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.inputCommentBox>form>ul>li:first-child>span{
+		font-size: 80px;
+		color: #ccc;
+	}
+	.inputCommentBox>form>ul>li:nth-child(2){
+		width: 75%;
+	}
+	.inputCommentBox>form>ul>li:nth-child(2)>textarea{
+		height: 96px;
+		min-height: 96px;
+	}
+	.inputCommentBox>form>ul>li:last-child{
+		width: 10%;
+	}
+	.commentBox{
+		margin: 50px;
+	}
+	.inputRecommentBox{
+		margin: 30px 0px;
+		display: none;
+	}
 	
 	#goList{
 		float: right;
 		margin-bottom : 10px;
 	}
+	
 
 </style>
 </head>
@@ -62,7 +97,7 @@
 					</div>
 				</td>
 			</tr>
-			<%if( m!=null && m.getMemberId().equals(o.getoWriter()) ) {%>
+			<%if( m!=null && m.getMemberId().equals(o.getoWriter()) || m.getMemberLevel() == 1 ) {%>
 			<tr>
 				<th colspan="6">
 					<a class="btn bc200" href="/oneOnOneUpdateFrm.do?oNo=<%=o.getoNo() %>">수정</a>
@@ -71,113 +106,111 @@
 			</tr>
 			<%} %>
 		</table>
-		<div class="commentBox">
+		<%-- <div class="commentBox">
 			<%for(OneOnOneComment oc : commentList) {%>
-			<ul class="posting-comment">
-				<li>
-					<span class="material-icons">account_box</span>
-				</li>
-				<li>
-					<p class="comment-info">
-						<span><%=oc.getOo_writer() %></span>
-						<span><%=oc.getOo_date() %></span>
-					</p>
-					<p class="comment-content"><%=oc.getOoContentBr() %></p>
-					<textarea name="ocContent" class="input-form" style="min-height:96px;display:none;"><%=oc.getOo_content() %></textarea>
-					<p class="comment-link">
-						<%if(m != null) {%>
-							<%if(m.getMemberId().equals(oc.getOo_writer())) {%>
-								<a href="javascript:void(0)" onclick="modifyComment(this, <%=oc.getOo_no()%>, <%=o.getoNo()%>);">수정</a>
-								<a href="javascript:void(0)" onclick="deleteComment(this, <%=oc.getOo_no()%>, <%=o.getoNo()%>);">삭제</a>
-							<%} //해당댓글 수정조건(댓글작성자가 로그인한 회원인지 확인)%>							
-							<!-- javascipt:void(0) 자바스크립트 따라가겠다느 뜻 a태그는 쓰되, 이동은하지않을 때 사용 -->
-							<a href="javascript:void(0)" class="recShow">답글달기</a>
-						<%}//대댓글 달기 조건문(로그인체크) %>
-					</p>
-				</li>
-			</ul>
-			<%-- <%for(NoticeComment ncc : reCommentList ) {%>
-				<%if(ncc.getNcRef() == nc.getNcNo()) {%>
-				<ul class="posting-comment reply">
+				<ul class="posting-comment">
 					<li>
-						<span class="material-icons">subdirectory_arrow_right</span>
 						<span class="material-icons">account_box</span>
 					</li>
-					<li>	
+					<li>
 						<p class="comment-info">
-							<span><%=ncc.getNcWriter() %></span>
-							<span><%=ncc.getNcDate() %></span>
+							<span><%=oc.getOo_writer() %></span>
+							<span><%=oc.getOo_date() %></span>
 						</p>
-						<p class="comment-content"><%=ncc.getNcContentBr() %></p>
-						<textarea name="ncContent" class="input-form" style="min-height:96px;display:none;"><%=ncc.getNcContent() %></textarea>
+						<p class="comment-content"><%=oc.getOoContentBr() %></p>
+						<textarea name="ocContent" class="input-form" style="min-height:96px;display:none;"><%=oc.getOo_content() %></textarea>
 						<p class="comment-link">
-							<%if(m!=null && m.getMemberId().equals(ncc.getNcWriter())) {%>
-								<a href="javascript:void(0)" onclick="modifyComment(this, <%=ncc.getNcNo()%>, <%=o.getoNo()%>);">수정</a>
-								<a href="javascript:void(0)" onclick="deleteComment(this, <%=ncc.getNcNo()%>, <%=o.getoNo()%>);">삭제</a>
-							<%} %>
+							<%if(m != null) {%>
+								<%if(m.getMemberId().equals(oc.getOo_writer())) {%>
+									<a href="javascript:void(0)" onclick="modifyComment(this, <%=oc.getOo_no()%>, <%=o.getoNo()%>);">수정</a>
+									<a href="javascript:void(0)" onclick="deleteComment(this, <%=oc.getOo_no()%>, <%=o.getoNo()%>);">삭제</a>
+								<%} //해당댓글 수정조건(댓글작성자가 로그인한 회원인지 확인)%>							
+								<!-- javascipt:void(0) 자바스크립트 따라가겠다느 뜻 a태그는 쓰되, 이동은하지않을 때 사용 -->
+								<a href="javascript:void(0)" class="recShow">답글달기</a>
+							<%}//대댓글 달기 조건문(로그인체크) %>
 						</p>
 					</li>
 				</ul>
-				<%} //댓글번호 체크 if문 종료 %>
-			<%} //대댓글 출력 for문 종료%> --%>
-				<!-- 댓글에 대한 대댓글 입력양식 -->
-				<%if(m != null) {%>
-					<div class="inputCommentBox inputRecommentBox">
-						<form action="/insertOneOnOneComment.do" method="post">
-						<!-- 댓글작성 시 사용했던 서블릿을 또 이용 아래댓글과 차이점 ncRef값이 존재 -->
-							<ul>
-								<li>
-									<span class="material-icons">subdirectory_arrow_right</span>
-								</li>
-								<li>
-									<input type="hidden" name="ocWriter" value="<%=m.getMemberId() %>">
-									<input type="hidden" name="oRef" value="<%=o.getoNo() %>">
-									<!-- 현재 출력하고 있는 댓글의 번호를 ncRef로 받아온다 -->
-									<input type="hidden" name="ncRef" value="<%=oc.getOo_no() %>">
-									<textarea name="ocContent" class="input-form"></textarea>
-								</li>
-								<li>
-									<button type="submit" class="btn bc1 bs4">등록</button>
-								</li>
-							</ul>
-						</form>
-					</div>
-				<%} %>
-			
-			<%}//댓글 출력 for문 끝나는위치 %>
-		</div>
+				<%for(NoticeComment ncc : reCommentList ) {%>
+					<%if(ncc.getNcRef() == nc.getNcNo()) {%>
+					<ul class="posting-comment reply">
+						<li>
+							<span class="material-icons">subdirectory_arrow_right</span>
+							<span class="material-icons">account_box</span>
+						</li>
+						<li>	
+							<p class="comment-info">
+								<span><%=ncc.getNcWriter() %></span>
+								<span><%=ncc.getNcDate() %></span>
+							</p>
+							<p class="comment-content"><%=ncc.getNcContentBr() %></p>
+							<textarea name="ncContent" class="input-form" style="min-height:96px;display:none;"><%=ncc.getNcContent() %></textarea>
+							<p class="comment-link">
+								<%if(m!=null && m.getMemberId().equals(ncc.getNcWriter())) {%>
+									<a href="javascript:void(0)" onclick="modifyComment(this, <%=ncc.getNcNo()%>, <%=o.getoNo()%>);">수정</a>
+									<a href="javascript:void(0)" onclick="deleteComment(this, <%=ncc.getNcNo()%>, <%=o.getoNo()%>);">삭제</a>
+								<%} %>
+							</p>
+						</li>
+					</ul>
+					<%} //댓글번호 체크 if문 종료 %>
+				<%} //대댓글 출력 for문 종료%>
+					<!-- 댓글에 대한 대댓글 입력양식 -->
+					<%if(m != null) {%>
+						<div class="inputCommentBox inputRecommentBox">
+							<form action="/insertOneOnOneComment.do" method="post">
+							<!-- 댓글작성 시 사용했던 서블릿을 또 이용 아래댓글과 차이점 ncRef값이 존재 -->
+								<ul>
+									<li>
+										<span class="material-icons">subdirectory_arrow_right</span>
+									</li>
+									<li>
+										<input type="hidden" name="ocWriter" value="<%=m.getMemberId() %>">
+										<input type="hidden" name="oRef" value="<%=o.getoNo() %>">
+										<!-- 현재 출력하고 있는 댓글의 번호를 ncRef로 받아온다 -->
+										<input type="hidden" name="ncRef" value="<%=oc.getOo_no() %>">
+										<textarea name="ocContent" class="input-form"></textarea>
+									</li>
+									<li>
+										<button type="submit" class="btn bc1 bs4">등록</button>
+									</li>
+								</ul>
+							</form>
+						</div>
+					<%} %>
+				<%}//댓글 출력 for문 끝나는위치 %>
+			</div>
 		<!-- 로그인이 되어있는 경우에만 댓글 작성 화면을 띄움 --
 		<!-- 여기가 댓글 -->
-		<%if(m != null) {%>
-		<div class="inputCommentBox">
-			<form action="/insertOneOnOneComment.do?memberNo=<%=m.getMemberNo() %>" method="post">
-				<ul>
-					<li>
-						<span class="material-icons">account_box</span>
-					</li>
-					<li>
-						<input type="hidden" name="ocWriter" value="<%=m.getMemberId() %>">
-						<%-- <input type="hidden" id="memberNo" value="<%=m.getMemberNo() %>"> --%>
-						<input type="hidden" name="oRef" value="<%=o.getoNo() %>">
-						<input type="hidden" name="ncRef" value="0">
-						<textarea name="ocContent" class="input-form"></textarea>
-					</li>
-					<li>
-						<button type="submit" class="btn bc4 bs4">등록</button>
-					</li>
-				</ul>
-			</form>
+			<%if(m != null) {%>
+			<div class="inputCommentBox">
+				<form action="/insertOneOnOneComment.do?memberNo=<%=m.getMemberNo() %>" method="post">
+					<ul>
+						<li>
+							<span class="material-icons">account_box</span>
+						</li>
+						<li>
+							<input type="hidden" name="ocWriter" value="<%=m.getMemberId() %>">
+							<input type="hidden" name="oRef" value="<%=o.getoNo() %>">
+							<input type="hidden" name="ncRef" value="0">
+							<textarea name="ocContent" class="input-form"></textarea>
+						</li>
+						<li>
+							<button type="submit" class="btn bc4 bs4">등록</button>
+						</li>
+					</ul>
+				</form>
+			</div>
+			<%} %>
 		</div>
-		<%} %>
-	</div>
-		</div>
+	</div> --%>
 		
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 	
 	<script>
 		function oneOnOneDelete(oneOnOneNo){
 			if(confirm("게시글을 삭제하시겠습니까?")){
-				location.href="/deleteFaq.do?oneOnOneNo="+oneOnOneNo;
+				location.href="/deleteOneOnOne.do?oneOnOneNo="+oneOnOneNo;
 				//방법1.여기서는 noticeNo가 몇번인지 알 수 없으므로 매개변수로 넘겨줌
 			}
 		}

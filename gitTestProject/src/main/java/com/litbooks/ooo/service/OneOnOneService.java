@@ -3,6 +3,7 @@ package com.litbooks.ooo.service;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import com.litbooks.notice.vo.Notice;
 import com.litbooks.ooo.dao.OneOnOneDao;
 import com.litbooks.ooo.vo.OneOnOne;
 import com.litbooks.ooo.vo.OneOnOneComment;
@@ -345,6 +346,21 @@ public class OneOnOneService {
 		JDBCTemplate.close(conn);
 		return result;
 	}
-	
+
+	public OneOnOne deleteOneOnOne(int oNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		OneOnOne o = dao.selectOneNotice(conn, oNo);
+		int result = dao.delectOneOnOne(conn, oNo);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+			o = null;
+		}
+		JDBCTemplate.close(conn);
+		return o;
+	}
+
+		
 
 }
