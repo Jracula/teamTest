@@ -59,7 +59,6 @@
         
         	<% for(int i=0; i<list.size(); i++) { %>
         	<% Book b = list.get(i); %>
-	        	
         	<tr class="tr-1 point">
         		<td>
         	<%if(b.getBookImage()!=null){ %>
@@ -71,7 +70,9 @@
         		<td><%=b.getBookTitle() %><span class="bookNo" style="display:none;"><%=b.getBookNo() %></span></td>
         		<td><%=b.getPublisher() %></td>
         		<td><%=b.getBookPrice() %></td>
+        		<td style="display: none;" id="bookName"><%=b.getBookTitle() %></td>
         	</tr>
+        	
         	<% } %>
         </table>
         <span class="material-symbols-outlined" style="margin: 0">alarm</span>대여기간 : 3일 <br>        	
@@ -145,6 +146,9 @@
                 		bookPrice.push(bookPrice1);
                 	});
                     
+                 	const bookName = $("#bookName").text();
+                 	console.log(bookName);
+                 	
                     const d = new Date();
                     const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""+d.getHours()+""+d.getMinutes()+""+d.getSeconds();
                     const basketNo = $("#basketNo").text();
@@ -156,8 +160,8 @@
                         pg: "html5_inicis",
                         pay_method : "card",
                         merchant_uid : "상품번호_"+date,
-                        name : "결제 테스트",
-                        amount : 100, // price
+                        name : bookName, // bookName // "결제 테스트"(테스트용)
+                        amount : price, // price, 100(테스트용)
                         buyer_email : "jjune41@naver.com", <%-- <%m.getMemberEmail();%>, --%> // //로그인한 회원의 이메일
                         buyer_name : "홍길동", <%-- <%m.getMemberName();%>, --%> // 로그인 한 회원의 이름
                         buyer_tel : "010-1111-1111", <%-- <%m.getMemberPhone();%>, --%> // 로그인 한 회원의 전화번호
