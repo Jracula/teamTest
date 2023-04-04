@@ -268,25 +268,25 @@
                <p class="comment-info">
                   
                   <span><%=rc.getRecommDate() %></span>
-                  <span><%=rc.getRcWriter() %></span>
+                  <span style="border-right: none; padding-right: 0px;"><%=rc.getRcWriter() %></span>
                   <%if(rc.getRating() == 1) {%>
-               		<span class="commentrash">님의 평점</span>
+               		<span class="commentrash" style="border-left: none; padding-left: 0px;">님의 평점</span>
                		<img src="/countingstar/별1개.png" style="width: 100px">
                 <%} %>
                <%if(rc.getRating() == 2) {%>
-               		<span class="commentrash" >님의 평점</span>
+               		<span class="commentrash" style="border-left: none; padding-left: 0px;">님의 평점</span>
                		<img src="/countingstar/별2개.png" style="width: 100px">
                 <%} %>
                 <%if(rc.getRating() == 3) {%>
-                	<span class="commentrash">님의 평점</span>
+                	<span class="commentrash" style="border-left: none; padding-left: 0px;">님의 평점</span>
                		<img src="/countingstar/별3개.png" style="width: 100px">
                 <%} %>
                 <%if(rc.getRating() == 4) {%>
-                	<span class="commentrash">님의 평점</span>
+                	<span class="commentrash" style="border-left: none; padding-left: 0px;">님의 평점</span>
                		<img src="/countingstar/별4개.png" style="width: 100px">
                 <%} %>
                 <%if(rc.getRating() == 5) {%>
-                	<span class="commentrash">님의 평점</span>
+                	<span class="commentrash" style="border-left: none; padding-left: 0px;">님의 평점</span>
                		<img src="/countingstar/별5개.png" style="width: 100px">
                 <%} %>
                </span>
